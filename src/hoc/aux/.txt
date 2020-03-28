@@ -1,0 +1,2 @@
+store things like a popup window
+that contain multiple mega components
