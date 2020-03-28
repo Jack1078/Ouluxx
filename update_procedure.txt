@@ -1,0 +1,10 @@
+# pulling from remote
+git checkout master
+git pull
+git checkout [local branch]
+git merge origin/[local branch]
+
+# when ready to merge back into master
+git checkout master
+git merge test
+git push origin [remote branch]
