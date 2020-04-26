@@ -1,0 +1,113 @@
+h3 {
+    font-size: 30px;
+    font-weight: 400;
+    font-family: inherit;
+    color: #363636;
+}
+
+div {
+    display: block;
+}
+
+.grid {
+    display: grid;
+    overflow: hidden;
+    grid-auto-rows: 1fr;
+    grid-column-gap: 5px;
+    grid-row-gap: 2px;
+    max-width: 1440px;
+    padding: 20px;
+    margin: auto;
+    background-color: #fff;
+}
+
+.grid h3 {
+    margin-bottom: 20px;
+}
+
+.grid span {
+    font-size: 20px;
+    color: #808080;
+}
+
+.three_per_row {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: [row1-start] auto [row1-end] 70px [third-line] auto [last-line];
+}
+
+.two_per_row {
+    padding-top: 100px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+}
+
+.grid_item {
+    background-color: #fff;
+    padding: 0.5em;
+    justify-self: center;
+}
+
+.button_box {
+    margin-top: 30px;
+    width: 160px;
+}
+
+.box {
+    height: 420px;
+    width: 100%;
+    text-align: left;
+    background-color: #fff;
+}
+
+.box div {
+    width: 60%;
+}
+
+.img {
+    background-image: url("../../assets/images/pickle_rick.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.flex_column {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    max-width: 1440px;
+    padding: 20px;
+    margin: auto;
+}
+
+.flex_column span {
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    margin-bottom: 20px;
+}
+
+.flex_column h3 {
+    margin-top: 30px;
+    color: #474747;
+}
+
+.icons {
+    align-self: center;
+    background-image: url("../../assets/images/delivery_icons.png");
+    width: 50%;
+    height: 160px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.button_delivery_row {
+    max-width: 1440px;
+    padding: 20px;
+    margin: auto;
+    background-color: #fff;
+}
+
+.button_delivery_box {
+    width: 210px;
+    margin: auto;
+    background-color: #fff;
+}
