@@ -3,7 +3,7 @@
     flex-direction: column;
     margin: 0px auto 20px;
     width: 540px;
-    box-shadow: rgb(136, 136, 136) 2px 1px 20px;
+    box-shadow: #000 2px 1px 20px;
     min-height: 350px;
     background-color: #FFF;
 }
