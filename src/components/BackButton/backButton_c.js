@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import classes from './BackButton.module.css'
+import classes from './backButton_c.module.css'
+
+/**
+ * Go back to the previous page
+ * @param {onClick} props 
+ */
 
 function BackButton(props) {
     const {onClick} = props

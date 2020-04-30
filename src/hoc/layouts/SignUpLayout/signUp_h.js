@@ -1,11 +1,15 @@
 import React from 'react';
-import SignUpContainer from '../../../containers/SignUp/SignUpContainer'
-import AboutContainer from '../../../containers/About/About';
-import StoresNearbyContainer from '../../../containers/StoresNearby/StoresNearby'
-import Button from '../../../components/Button'
-import './SignUpLayout.css'
+import SignUpContainer from '../../../containers/SignUp/signUp_k'
+import AboutContainer from '../../../containers/About/about_k';
+import StoresNearbyContainer from '../../../containers/StoresNearby/storesNearby_k'
+import Button from '../../../components/button_c'
+import './signUp_h.css'
 
-function SignUpLayout() {
+/**
+ * Layout for the email sign up page
+ */
+
+function SignUp() {
     return (
         <div>
             <section className="SignUp">
@@ -32,4 +36,4 @@ function SignUpLayout() {
     );
 }
   
-export default SignUpLayout;
+export default SignUp;

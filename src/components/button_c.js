@@ -3,22 +3,16 @@ import PropTypes from 'prop-types'
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-// Button Customized with CSS
+/**
+ * Button with customized css
+ * @param {id, text, color, fontColor} CustomizedButton
+ */
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: "flex",
         flexWrap: "wrap"
     },
-    margin: {
-        margin: theme.spacing(1)
-    },
-    input: {
-        color: "white",
-    },
-    label: {
-        color: theme.palette.secondary.main
-    }
 }));
 
 function CustomizedButton(props) {

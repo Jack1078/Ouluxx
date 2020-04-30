@@ -1,17 +1,23 @@
 import React from 'react';
-import Button from '../../components/Button'
-import classes from './About.module.css';
-import touch_img from '../../assets/images/touch_app.jpg';
-import shop_img from '../../assets/images/shop_car.jpg';
+import Button from '../../components/button_c'
+import classes from './about_k.module.css';
+import touch_img from '../../assets/images/touchApp.jpg';
+import shop_img from '../../assets/images/shopCar.jpg';
 import bag_img from '../../assets/images/bag.jpg';
 
-function AboutContainer() {
+/**
+ * Ouluxx service description container
+ */
+
+function Description() {
     return(
         <div>
+
+            {/* Short description */}
             <div className={[classes.grid, classes.three_per_row].join(' ')}>
-                <img src={touch_img} alt="touch" className={classes.grid_item}/>
-                <img src={shop_img} alt="shop" className={classes.grid_item}/>
-                <img src={bag_img} alt="bag" className={classes.grid_item}/>
+                <img src={touch_img} alt="touching app" className={classes.grid_item}/>
+                <img src={shop_img} alt="shopping car" className={classes.grid_item}/>
+                <img src={bag_img} alt="a bag" className={classes.grid_item}/>
                 <h3 className={classes.grid_item}>Products you love</h3>
                 <h3 className={classes.grid_item}>Same-day delivery</h3>
                 <h3 className={classes.grid_item}>Save time & money</h3>
@@ -31,6 +37,8 @@ function AboutContainer() {
                     &mdash; delivered to your front door!
                 </span>
             </div>
+
+            {/* Description with buttons */}
             <div className={[classes.grid, classes.two_per_row].join(' ')}>
                 
                 <div className={[classes.grid_item, classes.box, classes.img].join(' ')}></div>
@@ -78,6 +86,8 @@ function AboutContainer() {
                     </div>
                 </div>
             </div>
+
+            {/* Popularity on media */}
             <div className={classes.flex_column}>
                 <span>AS SEEN ON</span>
                 <div className={classes.icons}></div>
@@ -97,4 +107,4 @@ function AboutContainer() {
     );
 }
 
-export default AboutContainer
+export default Description

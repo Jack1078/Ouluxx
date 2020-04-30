@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
-// Textfield Customized with CSS
+/**
+ * Textfield Customized with CSS
+ * @param {id, label} CustomizedTextField
+ */
 
 const useStyles = makeStyles(theme => ({
     root: {

@@ -64,7 +64,7 @@ div {
 }
 
 .img {
-    background-image: url("../../assets/images/pickle_rick.png");
+    background-image: url("../../assets/images/pickleRick.png");
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -92,7 +92,7 @@ div {
 
 .icons {
     align-self: center;
-    background-image: url("../../assets/images/delivery_icons.png");
+    background-image: url("../../assets/images/delivery.png");
     width: 50%;
     height: 160px;
     background-size: contain;

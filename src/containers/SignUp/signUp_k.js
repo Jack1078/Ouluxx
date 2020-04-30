@@ -7,13 +7,17 @@ Contains: email signup textfield, sign up button,
 import React from 'react';
 import {createMuiTheme} from '@material-ui/core/styles';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import Textfield from '../../components/Textfield';
-import Button from '../../components/Button';
+import Textfield from '../../components/textfield_c';
+import Button from '../../components/button_c';
 import FacebookIcon from '@material-ui/icons/Facebook';
-import BackButton from '../../components/BackButton/BackButton';
+import BackButton from '../../components/BackButton/backButton_c';
 import {FaGoogle} from 'react-icons/fa';
-import logo from '../../assets/images/OULUXX_LOGOi_sm.png';
-import classes from './SignUpContainer.module.css';
+import logo from '../../assets/images/logo.png';
+import classes from './signUp_k.module.css';
+
+/**
+ * Email sign up container
+ */
 
 const button_theme = createMuiTheme({
     palette: {
@@ -22,7 +26,7 @@ const button_theme = createMuiTheme({
     }
 })
   
-function SignUpContainer() {
+function SignUp() {
     return (
         <div className={classes.SignUpContainer}>
             {/* back to zip code page */}
@@ -38,7 +42,7 @@ function SignUpContainer() {
                     <img
                         className={classes.Logo}
                         src={logo}
-                        alt="logo"/>
+                        alt="a logo"/>
                 </span>
 
                 {/* Location changes based on zip code */}
@@ -98,4 +102,4 @@ function SignUpContainer() {
     );
 }
   
-export default SignUpContainer;
+export default SignUp;
