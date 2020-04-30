@@ -1,8 +1,8 @@
 import React from 'react';
-import SignUpContainer from '../../../containers/SignUp/signUp_k'
-import AboutContainer from '../../../containers/About/about_k';
-import StoresNearbyContainer from '../../../containers/StoresNearby/storesNearby_k'
-import Button from '../../../components/button_c'
+import SignUpContainer from '../../containers/SignUp/signUp_k'
+import AboutContainer from '../../containers/About/about_k';
+import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k'
+import Button from '../../components/button_c'
 import './signUp_h.css'
 
 /**

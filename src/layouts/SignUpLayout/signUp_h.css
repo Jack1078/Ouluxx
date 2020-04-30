@@ -31,7 +31,7 @@ a {
 
 .SignUp {
     padding-top: 20px;
-    background-image: url("../../../assets/images/hero.png");
+    background-image: url("../../assets/images/hero.png");
     background-size: cover;
     background-attachment: fixed;
 }
