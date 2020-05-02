@@ -2,7 +2,7 @@ import React from 'react';
 import {createMuiTheme} from '@material-ui/core/styles'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import './App.css';
-import LandingPage from './hoc/layouts/landingpage'
+import LandingPage from './hoc/layouts/landingpage_h'
 
 const theme = createMuiTheme({
   palette: {
