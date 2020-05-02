@@ -1,4 +1,4 @@
-.SignUpContainer {
+.signup_container {
     display: flex;
     flex-direction: column;
     margin: 0px auto 20px;
@@ -8,24 +8,28 @@
     background-color: #FFF;
 }
 
-.SignUpForm {
+.signup_form {
     width: 389px;
     margin: auto;
 }
 
-.SignUpTitle {
+.signup_title {
     display: block;
     margin: 16px 0px 24px;
     text-align: center;
 }
 
-.Block {
+.block {
     width: 100%;
     cursor: auto;
     margin: 12px 0px 0px;
 }
 
-.OrBlock {
+.block p {
+    color: #999999;
+}
+
+.or_block {
     margin: 8px 0px;
     line-height: 20px;
     height: 20px;
@@ -33,7 +37,7 @@
     position: relative;
 }
 
-.Or {
+.or {
     display: inline-block;
     height: 20px;
     line-height: 20px;
@@ -43,7 +47,7 @@
     color: #c4c2c2;
 }
 
-.Line {
+.line {
     position: absolute;
     top: 55%;
     height: 0px;
@@ -51,7 +55,7 @@
     width: 45%;
 }
 
-.LogIn {
+.login {
     font-size: 14px;
     font-weight: 400;
     margin: 16px 0px;

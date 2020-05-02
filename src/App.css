@@ -1,3 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Lato;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #4b4b4b;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(117,117,117);
+  line-height: 1.3em;
+}
+
+h3 {
+  font-size: 30px;
+  font-weight: 400;
+  font-family: inherit;
+  color: #363636;
+}
+
+p {
+  font-size: 12px;
+  text-align: center;
+  color: #4b4b4b;
+}
+
+a {
+  color: #f1c40f;
+  text-decoration: none;
+}
+
 .App {
   text-align: center;
   background-color: #ffffff;

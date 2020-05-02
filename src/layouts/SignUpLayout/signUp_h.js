@@ -1,9 +1,9 @@
 import React from 'react';
-import SignUpContainer from '../../containers/SignUp/signUp_k'
+import SignUpContainer from '../../containers/Signup/signup_k';
 import AboutContainer from '../../containers/About/about_k';
-import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k'
-import Button from '../../components/button_c'
-import './signUp_h.css'
+import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k';
+import Button from '../../components/button_c';
+import classes from './signup_h.module.css';
 
 /**
  * Layout for the email sign up page
@@ -12,25 +12,21 @@ import './signUp_h.css'
 function SignUp() {
     return (
         <div>
-            <section className="SignUp">
-                <div className="login_bar">
-                    <div className="login_div">
-                        <Button
-                            id="login_button"
-                            text="Log in"
-                            color="primary"
-                            fontColor="white"
-                        />
-                    </div>
-                    
-                </div>
+            <section className={classes.background_image}>
+                <div className={classes.margin_left}>
+                    <Button
+                        className={classes.small_button}
+                        id="login_button"
+                        text="Log in"
+                        color="primary"
+                        fontColor="white"
+                    />
+                </div>  
                 <SignUpContainer/>
                 <StoresNearbyContainer/>
             </section>
-            <section className="About">
-                <div className="Inner">
-                    <AboutContainer/>
-                </div>
+            <section className={[classes.background_white,classes.full_width].join(' ')}>
+                <AboutContainer/>
             </section>
         </div>
     );

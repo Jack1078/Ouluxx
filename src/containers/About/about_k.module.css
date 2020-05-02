@@ -1,33 +1,16 @@
-h3 {
-    font-size: 30px;
-    font-weight: 400;
-    font-family: inherit;
-    color: #363636;
-}
-
-div {
-    display: block;
-}
+/* ---------- 
+Grid CSS
+----------*/
 
 .grid {
     display: grid;
     overflow: hidden;
     grid-auto-rows: 1fr;
     grid-column-gap: 5px;
-    grid-row-gap: 2px;
     max-width: 1440px;
-    padding: 20px;
     margin: auto;
     background-color: #fff;
-}
-
-.grid h3 {
-    margin-bottom: 20px;
-}
-
-.grid span {
-    font-size: 20px;
-    color: #808080;
+    box-sizing: border-box;
 }
 
 .three_per_row {
@@ -41,41 +24,47 @@ div {
     grid-template-rows: auto;
 }
 
-.grid_item {
-    background-color: #fff;
-    padding: 0.5em;
-    justify-self: center;
+/* grid item */
+
+.grid .text {
+    font-size: 20px;
+    color: #808080;
 }
 
-.button_box {
-    margin-top: 30px;
-    width: 160px;
+.grid img {
+    margin: auto;
 }
 
-.box {
-    height: 420px;
+.three_per_row h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.two_per_row h3 {
+    margin: 40px auto 40px 40px;
+}
+
+.two_per_row .text {
+    margin-left: 40px;
+}
+
+.two_per_row img {
     width: 100%;
-    text-align: left;
-    background-color: #fff;
+    height: 100%;
 }
 
-.box div {
-    width: 60%;
-}
-
-.img {
-    background-image: url("../../assets/images/pickleRick.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-}
+/* ---------- 
+Flex column
+----------*/
 
 .flex_column {
     display: flex;
     flex-direction: column;
     background-color: #fff;
     max-width: 1440px;
-    padding: 20px;
     margin: auto;
+    box-sizing: border-box;
+    padding: 20px;
 }
 
 .flex_column span {
@@ -90,24 +79,70 @@ div {
     color: #474747;
 }
 
-.icons {
-    align-self: center;
-    background-image: url("../../assets/images/delivery.png");
-    width: 50%;
-    height: 160px;
+/* ---------- 
+Divs
+----------*/
+
+.box {
+    height: 420px;
+    width: 100%;
+    text-align: left;
+    background-color: #fff;
+}
+
+.box div {
+    width: 60%;
+}
+
+.row {
+    max-width: 1440px;
+    background-color: #fff;
+    margin: 0 auto;
+    align-items: center;
+}
+
+
+/* ---------- 
+Image
+----------*/
+.img {
+    background-image: url("../../assets/images/pickleRick.png");
     background-size: contain;
     background-repeat: no-repeat;
 }
 
-.button_delivery_row {
-    max-width: 1440px;
-    padding: 20px;
-    margin: auto;
-    background-color: #fff;
+/* ---------- 
+Buttons
+----------*/
+
+.button_delivery {
+    max-width: 210px;
 }
 
-.button_delivery_box {
-    width: 210px;
-    margin: auto;
-    background-color: #fff;
+.button {
+    max-width: 160px;
+}
+
+/* ---------- 
+Margin and Paddings
+----------*/
+
+.margin_top {
+    margin-top: 20px;
+}
+
+.margin_left {
+    margin-left: 40px;
+}
+
+.margin_auto {
+    margin: 0 auto;
+}
+
+.padding_top {
+    padding-top: 40px;
+}
+
+.padding_bottom {
+    padding-bottom: 40px;
 }

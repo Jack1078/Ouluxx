@@ -2,7 +2,7 @@ import React from 'react';
 import {createMuiTheme} from '@material-ui/core/styles'
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import './App.css';
-import SignUpLayout from './layouts/SignUpLayout/signUp_h'
+import SignUpLayout from './layouts/SignupLayout/signup_h'
 
 // default theme
 const theme = createMuiTheme({
