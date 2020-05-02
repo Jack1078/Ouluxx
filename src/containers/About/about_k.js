@@ -41,9 +41,7 @@ function Description() {
             {/* Description with buttons */}
             <div className={[classes.grid, classes.two_per_row].join(' ')}>
                 
-                <div className={classes.box}>
-                    <img src={deliveryGuy_img} alt="delivery guy"/>
-                </div>
+                <div className={[classes.box, classes.img, classes.deliveryGuy_img].join(' ')}></div>
                 <div className={classes.box}>
                     <h3>The Best Brands Instantly Delivered to you </h3>
                     <div className={classes.text}>Saving money on Ouluxx is easy. Find exclusive coupons on hundreds of items</div>
@@ -69,9 +67,7 @@ function Description() {
                             fontColor="white"/>
                     </div>
                 </div>
-                <div className={classes.box}>
-                    <img src={browseReal_img} alt="touching app"/>
-                </div>
+                <div className={[classes.box, classes.img, classes.browse_img].join(' ')}></div>
             </div>
 
             {/* Popularity on media */}
