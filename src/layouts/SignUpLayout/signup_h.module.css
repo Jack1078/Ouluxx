@@ -1,6 +1,6 @@
 .background_image {
     padding-top: 20px;
-    background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0, 0, 0, 0.2)), url("../../assets/images/hero.png");;
+    background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0, 0, 0, 0.2)), url("../../assets/images/hero.png");
     background-size: cover;
     background-attachment: fixed;
 }
