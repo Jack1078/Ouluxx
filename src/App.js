@@ -2,8 +2,8 @@ import React from 'react';
 import {createMuiTheme} from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import './App.css';
-import LandingPage from './layouts/landingpage_h';
-import SignupPage from './layouts/SignupLayout/signup_h';
+import LandingPage from './layouts/LandingPage/landingpage_h';
+import SignupPage from './layouts/SignupPage/signup_h'
 
 // default theme
 const theme = createMuiTheme({
