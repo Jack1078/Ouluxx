@@ -1,8 +1,9 @@
 import React from 'react';
-import {createMuiTheme} from '@material-ui/core/styles'
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import {createMuiTheme} from '@material-ui/core/styles';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import './App.css';
-import SignUpLayout from './layouts/SignupLayout/signup_h'
+import LandingPage from './hoc/layouts/landingpage_h';
+import SignupPage from './layouts/SignupLayout/signup_h';
 
 // default theme
 const theme = createMuiTheme({
@@ -19,7 +20,7 @@ function App() {
 
         <LandingPage/>
 
-       {/*<SignUpLayout/>*/}
+       {/*<SignupPage/>*/}
 
       </MuiThemeProvider>
     </div>
