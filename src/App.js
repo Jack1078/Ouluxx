@@ -1,6 +1,6 @@
 import React from 'react';
 import {createMuiTheme} from '@material-ui/core/styles'
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import './App.css';
 import SignUpLayout from './layouts/SignupLayout/signup_h'
 
@@ -16,7 +16,11 @@ function App() {
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
-        <SignUpLayout/>
+
+        <LandingPage/>
+
+       {/*<SignUpLayout/>*/}
+
       </MuiThemeProvider>
     </div>
   );
