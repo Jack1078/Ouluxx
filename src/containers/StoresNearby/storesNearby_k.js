@@ -12,7 +12,7 @@ import petco_img from '../../assets/images/stores/petco.png'
 function StoresNearbyContainer() {
     return (
         <div className={classes.stores_nearby}>
-            <h3>Shop these great stores in NYC</h3>
+            <h3>Shop these great retail stores in NYC</h3>
             <img src={fairway_img} alt="Fairway logo"/>
             <img src={cvs_img} alt="CVS logo"/>
             <img src={hmart_img} alt="HMart logo"/>

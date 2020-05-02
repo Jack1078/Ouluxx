@@ -17,6 +17,10 @@
 Container elements
 ----------*/
 
+.logo {
+    max-width: 200px;;
+}
+
 .title {
     display: block;
     margin: 16px 0px 24px;

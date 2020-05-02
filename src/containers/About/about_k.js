@@ -1,11 +1,12 @@
 import React from 'react';
-import Button from '../../components/button_c'
+import Button from '../../components/button_c';
 import classes from './about_k.module.css';
 import browse_img from '../../assets/images/browse.png';
 import shop_img from '../../assets/images/shopping.png';
 import bag_img from '../../assets/images/bag.png';
 
-import browseReal_img from '../../assets/images/browseReal.jpg'
+import browseReal_img from '../../assets/images/browseReal.jpg';
+import deliveryGuy_img from '../../assets/images/deliveryGuy.jpg'
 
 /**
  * Ouluxx service description container
@@ -20,7 +21,7 @@ function Description() {
                 <img src={browse_img} alt="touching app"/>
                 <img src={shop_img} alt="shopping car"/>
                 <img src={bag_img} alt="a bag"/>
-                <h3>Find Products You Love</h3>
+                <h3>Brands you love</h3>
                 <h3>Same day delivery</h3>
                 <h3>Save time and money</h3>
                 <div className={classes.text}>
@@ -40,9 +41,11 @@ function Description() {
             {/* Description with buttons */}
             <div className={[classes.grid, classes.two_per_row].join(' ')}>
                 
-                <div className={[classes.box, classes.img].join(' ')}></div>
                 <div className={classes.box}>
-                    <h3>Deals that delight</h3>
+                    <img src={deliveryGuy_img} alt="delivery guy"/>
+                </div>
+                <div className={classes.box}>
+                    <h3>The Best Brands Instantly Delivered to you </h3>
                     <div className={classes.text}>Saving money on Ouluxx is easy. Find exclusive coupons on hundreds of items</div>
                     <div className={[classes.margin_top, classes.margin_left].join(' ')}>
                         <Button
@@ -68,20 +71,6 @@ function Description() {
                 </div>
                 <div className={classes.box}>
                     <img src={browseReal_img} alt="touching app"/>
-                </div>
-
-                <div className={[classes.box, classes.img].join(' ')}></div>
-                <div className={classes.box}>
-                    <h3>Fresh produce picked perfectly</h3>
-                    <div className={classes.text}>We know how to pick the freshest produce with the perfect ripeness. And we'll keep your eggs safe too.</div>
-                    <div className={[classes.margin_top, classes.margin_left].join(' ')}>
-                        <Button
-                            className={classes.button}
-                            id="started_button"
-                            text="Get started"
-                            color="primary"
-                            fontColor="white"/>
-                    </div>
                 </div>
             </div>
 
