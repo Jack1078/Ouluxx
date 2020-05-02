@@ -1,4 +1,4 @@
-.signup_container {
+.container {
     display: flex;
     flex-direction: column;
     margin: 0px auto 20px;
@@ -8,12 +8,16 @@
     background-color: #FFF;
 }
 
-.signup_form {
+.form {
     width: 389px;
     margin: auto;
 }
 
-.signup_title {
+/* ---------- 
+Container elements
+----------*/
+
+.title {
     display: block;
     margin: 16px 0px 24px;
     text-align: center;
@@ -29,6 +33,7 @@
     color: #999999;
 }
 
+/* --- or --- */
 .or_block {
     margin: 8px 0px;
     line-height: 20px;
@@ -54,6 +59,7 @@
     border-top: 1px solid #c4c2c2;
     width: 45%;
 }
+/* --------- */
 
 .login {
     font-size: 14px;

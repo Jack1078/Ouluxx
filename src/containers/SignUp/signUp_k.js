@@ -27,17 +27,17 @@ const button_theme = createMuiTheme({
   
 function SignUp() {
     return (
-        <div className={classes.signup_container}>
+        <div className={classes.container}>
             {/* back to zip code page */}
             <div>
                 <BackButton/>
             </div>
 
             {/* Email Sign up */}
-            <form className={classes.signup_form}>
+            <form className={classes.form}>
 
                 {/* Logo */}
-                <span className={classes.signup_title}>
+                <span className={classes.title}>
                     <img
                         className={classes.logo}
                         src={logo}
