@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto 20px;
+    width: 540px;
+    box-shadow: #000 2px 1px 20px;
+    min-height: 350px;
+    background-color: #FFF;
+}
+
+.form {
+    width: 389px;
+    margin: auto;
+}
+
+/* ---------- 
+Container elements
+----------*/
+
+.logo {
+    max-width: 200px;;
+}
+
+.title {
+    display: block;
+    margin: 16px 0px 24px;
+    text-align: center;
+}
+
+.block {
+    width: 100%;
+    cursor: auto;
+    margin: 12px 0px 0px;
+}
+
+.block p {
+    color: #999999;
+}
+
+/* --- or --- */
+.or_block {
+    margin: 8px 0px;
+    line-height: 20px;
+    height: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.or {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding: 0px 14px;
+    z-index: 2;
+    font-size: 12px;
+    color: #c4c2c2;
+}
+
+.line {
+    position: absolute;
+    top: 55%;
+    height: 0px;
+    border-top: 1px solid #c4c2c2;
+    width: 45%;
+}
+/* --------- */
+
+.login {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 16px 0px;
+    text-align: center;
+    color: #c4c2c2;
+    font-weight: 600;
+}
