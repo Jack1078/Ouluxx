@@ -1,5 +1,0 @@
-git checkout [test]
-git pull origin master
-git push origin [test]
-git checkout master
-git pull origin [test] 
