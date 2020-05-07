@@ -59,7 +59,7 @@ const pages = {
     padding: 0,
 };
 
-// realative positioning, offset to center, text aligned left
+// relative positioning, offset to center, text aligned left
 const pagesCol = {
     position: "relative",
     float: "left",
