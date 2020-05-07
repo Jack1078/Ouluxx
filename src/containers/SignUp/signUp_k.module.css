@@ -27,6 +27,10 @@ Container elements
     text-align: center;
 }
 
+.form h1 {
+    margin-bottom: 10px;
+}
+
 .block {
     width: 100%;
     cursor: auto;
