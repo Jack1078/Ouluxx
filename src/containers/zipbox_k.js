@@ -1,6 +1,8 @@
 import React from 'react'
 import ZipCodeForm from '../components/zipcodeForm_c'
 import CompanyName from '../components/companyName_c'
+import './../hoc/layouts/landingpage.module.css'
+
 
 // centered, thin border with shadow, text centered
 const zipbox = {
@@ -9,7 +11,11 @@ const zipbox = {
     textAlign: "center",
     color: "#282C33",
     border: "0px solid #282C33",
-    boxShadow: "0px 0px 10px"
+    boxShadow: "0px 0px 10px",
+    padding: 20,
+    marginTop: 50,
+    marginBottom: 50
+
 };
 
 
@@ -19,15 +25,28 @@ const hyperlink = {
     fontWeight: "bold"
 };
 
+const fontA = {
+    fontFamily: "Verdana",
+    fontSize: 20,
+    marginBottom: 10,
+}
+
+const fontB = {
+    fontFamily: "Verdana",
+    textAlign: "center",
+    marginBottom: 10,
+}
+
+
 function zipBox() {
     return (
         <div style={zipbox}>
 
             <CompanyName />
-            <h3>Delivery made classy.</h3>
+            <h3 style={fontA}>Delivery made classy.</h3>
             <ZipCodeForm />
 
-            <p>Already Have an account? <span style={hyperlink}> Log In</span> </p>
+            <p style={fontB}>Already have an account? <span style={hyperlink}> Log In</span> </p>
 
         </div>
     );

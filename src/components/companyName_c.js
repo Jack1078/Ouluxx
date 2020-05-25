@@ -10,10 +10,15 @@ const black = {
     color: "#282C33"
 };
 
+const spacing = {
+    padding: 10,
+    fontSize: "50px"
+}
+
 function CompanyName() {
     return (
         <>
-            <h1 style={black}>Oulu<span style={yellow}>x</span>x</h1>
+            <h1 style={black, spacing}>Oulu<span style={yellow}>x</span>x</h1>
         </>
     );
 }

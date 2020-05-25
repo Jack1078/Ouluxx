@@ -5,8 +5,8 @@ import browse_img from '../../assets/images/browse.png';
 import shop_img from '../../assets/images/shopping.png';
 import bag_img from '../../assets/images/bag.png';
 
-import browseReal_img from '../../assets/images/browseReal.jpg';
-import deliveryGuy_img from '../../assets/images/deliveryGuy.jpg'
+// import browseReal_img from '../../assets/images/browseReal.jpg';
+// import deliveryGuy_img from '../../assets/images/deliveryGuy.jpg'
 
 /**
  * Ouluxx service description container

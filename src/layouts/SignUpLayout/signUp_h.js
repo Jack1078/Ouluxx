@@ -1,9 +1,10 @@
 import React from 'react';
-import SignUpContainer from '../../containers/Signup/signup_k';
+import SignUpContainer from '../../containers/SignUp/signUp_k';
 import AboutContainer from '../../containers/About/about_k';
 import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k';
 import Button from '../../components/button_c';
-import classes from './signup_h.module.css';
+import classes from './signUp_h.module.css';
+import Footer from './../../containers/footer_k'
 
 /**
  * Layout for the email sign up page
@@ -21,15 +22,18 @@ function SignUp() {
                         color="primary"
                         fontColor="white"
                     />
-                </div>  
-                <SignUpContainer/>
-                <StoresNearbyContainer/>
+                </div>
+                <SignUpContainer />
+                <StoresNearbyContainer />
             </section>
-            <section className={[classes.background_white,classes.full_width].join(' ')}>
-                <AboutContainer/>
+            <section className={[classes.background_white, classes.full_width].join(' ')}>
+                <AboutContainer />
             </section>
+
+            <Footer />
+
         </div>
     );
 }
-  
+
 export default SignUp;

@@ -12,7 +12,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import BackButton from '../../components/BackButton/backButton_c';
 import {FaGoogle} from 'react-icons/fa';
 import logo from '../../assets/images/logo.png';
-import classes from './signup_k.module.css';
+import classes from './signUp_k.module.css';
 
 /**
  * Email sign up container
@@ -58,7 +58,7 @@ function SignUp() {
 
                 {/* Email textfield: enter email to sign up */}
                 <div className={classes.block}>
-                    <p>By signing up, you agree to our <a href=".">Terms of Service</a> & <a href=".">Privacy Policy</a></p>
+                    <p style={{textAlign: "center"}}>By signing up, you agree to our <a href=".">Terms of Service</a> & <a href=".">Privacy Policy</a></p>
                 </div>
                 <div className={classes.block}>
                     <Button
