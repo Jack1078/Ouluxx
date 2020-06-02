@@ -1,12 +1,9 @@
 import React from 'react';
 import Button from '../../components/button_c';
 import classes from './about_k.module.css';
-import browse_img from '../../assets/images/browse.png';
-import shop_img from '../../assets/images/shopping.png';
-import bag_img from '../../assets/images/bag.png';
-
-// import browseReal_img from '../../assets/images/browseReal.jpg';
-// import deliveryGuy_img from '../../assets/images/deliveryGuy.jpg'
+import browse_img from '../../images/browse.png';
+import shop_img from '../../images/shopping.png';
+import bag_img from '../../images/bag.png';
 
 /**
  * Ouluxx service description container
@@ -25,16 +22,16 @@ function Description() {
                 <h3>Same day delivery</h3>
                 <h3>Save time and money</h3>
                 <div className={classes.text}>
-                    Browse and find our next favorite product from stores you already shop from<br/>
+                    Browse and find our next favorite product from stores you already shop from
                     our mobile app and website
                 </div>
                 <div className={classes.text}>
-                    We make deliveries to cities like Washington, DC,<br/>
+                    We make deliveries to cities like Washington, DC,
                     Silver Spring, College Park and many more.
                 </div>
                 <div className={classes.text}>
-                    Find absolute deals on popular products and brands<br/>
-                    --delivered right to your door
+                    Find deals on popular products and brands<br/>
+                    &mdash; delivered right to your door
                 </div>
             </div>
 
@@ -43,8 +40,8 @@ function Description() {
                 
                 <div className={[classes.box, classes.img, classes.deliveryGuy_img].join(' ')}></div>
                 <div className={classes.box}>
-                    <h3>The Best Brands Instantly Delivered to you </h3>
-                    <div className={classes.text}>Saving money on Ouluxx is easy. Find exclusive coupons on hundreds of items</div>
+                    <h3>The Best Brands Instantly Delivered to You </h3>
+                    <div className={classes.text}>The Brand you love, we bring to you when you need them the most.</div>
                     <div className={[classes.margin_top, classes.margin_left].join(' ')}>
                         <Button
                             className={classes.button}

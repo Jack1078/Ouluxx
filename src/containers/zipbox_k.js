@@ -1,7 +1,7 @@
 import React from 'react'
 import ZipCodeForm from '../components/zipcodeForm_c'
 import CompanyName from '../components/companyName_c'
-import './../hoc/layouts/landingpage.module.css'
+import '../../layouts/landingpage.module.css'
 
 
 // centered, thin border with shadow, text centered

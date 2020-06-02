@@ -1,8 +1,7 @@
 import React from 'react';
-import Logo from '../photos/icons/ouluxxLogo.png';
-import location_icon from '../photos/icons/locationPin.png';
-import help_icon from '../photos/icons/questionMark.png';
-import './../hoc/layouts/landingpage.module.css'
+import Logo from '../images/ouluxxLogo.png';
+import location_icon from '../images/locationPin.png';
+import help_icon from '../images/questionmark.png';
 
 // Yellow background, aligned to bottom
 const footerBox = {
@@ -62,7 +61,7 @@ const pages = {
     padding: 0,
 };
 
-// realative positioning, offset to center, text aligned left
+// relative positioning, offset to center, text aligned left
 const pagesCol = {
     position: "relative",
     float: "left",
