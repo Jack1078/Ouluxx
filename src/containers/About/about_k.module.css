@@ -116,11 +116,11 @@ Image
 }
 
 .deliveryGuy_img {
-    background-image: linear-gradient(to right,rgba(255, 255, 255, 0.0) 30%,rgba(255, 255, 255, 1.0)), url("../../assets/images/deliveryGuy.jpg");
+    background-image: linear-gradient(to right,rgba(255, 255, 255, 0.0) 30%,rgba(255, 255, 255, 1.0)), url("../../images/deliveryGuy.jpg");
 }
 
 .browse_img {
-    background-image: linear-gradient(to left,rgba(255, 255, 255, 0.0) 30%,rgba(255, 255, 255, 1.0)), url("../../assets/images/browseReal.jpg");
+    background-image: linear-gradient(to left,rgba(255, 255, 255, 0.0) 30%,rgba(255, 255, 255, 1.0)), url("../../images/browseReal.jpg");
 }
 
 /* ---------- 

@@ -1,9 +1,9 @@
 import React from 'react';
 import classes from './storesNearby_k.module.css'
-import fairway_img from '../../assets/images/stores/fairway.png'
-import cvs_img from '../../assets/images/stores/cvs.png'
-import hmart_img from '../../assets/images/stores/hmart.png'
-import petco_img from '../../assets/images/stores/petco.png'
+import fairway_img from '../../images/stores/fairway.png'
+import cvs_img from '../../images/stores/cvs.png'
+import hmart_img from '../../images/stores/hmart.png'
+import petco_img from '../../images/stores/petco.png'
 
 /**
  * Display stores near region (by zipcode)

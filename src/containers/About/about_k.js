@@ -1,12 +1,9 @@
 import React from 'react';
 import Button from '../../components/button_c';
 import classes from './about_k.module.css';
-import browse_img from '../../assets/images/browse.png';
-import shop_img from '../../assets/images/shopping.png';
-import bag_img from '../../assets/images/bag.png';
-
-import browseReal_img from '../../assets/images/browseReal.jpg';
-import deliveryGuy_img from '../../assets/images/deliveryGuy.jpg'
+import browse_img from '../../images/browse.png';
+import shop_img from '../../images/shopping.png';
+import bag_img from '../../images/bag.png';
 
 /**
  * Ouluxx service description container

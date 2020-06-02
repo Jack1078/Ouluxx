@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../photos/icons/ouluxxLogo.png';
-import location_icon from '../photos/icons/locationPin.png';
-import help_icon from '../photos/icons/questionMark.png';
+import location_icon from '../images/locationPin.png';
+import help_icon from '../images/questionmark.png';
 
 // Yellow background, aligned to bottom
 const footerBox = {
