@@ -58,7 +58,7 @@ function SignUp() {
 
                 {/* Email textfield: enter email to sign up */}
                 <div className={classes.block}>
-                    <p>By signing up, you agree to our <a href=".">Terms of Service</a> & <a href=".">Privacy Policy</a></p>
+                    <p style={{textAlign: "center"}}>By signing up, you agree to our <a href=".">Terms of Service</a> & <a href=".">Privacy Policy</a></p>
                 </div>
                 <div className={classes.block}>
                     <Button

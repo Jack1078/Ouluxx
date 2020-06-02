@@ -8,8 +8,8 @@ import SignupPage from './layouts/SignupPage/signup_h'
 // default theme
 const theme = createMuiTheme({
   palette: {
-    primary: {main: '#fed330'},
-    secondary: {main: '#4b4b4b'}
+    primary: { main: '#fed330' },
+    secondary: { main: '#4b4b4b' }
   }
 });
 
@@ -17,11 +17,8 @@ function App() {
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
-
         <LandingPage/>
-
-       {/*<SignupPage/>*/}
-
+        {/*<SignupPage/>*/}
       </MuiThemeProvider>
     </div>
   );

@@ -6,11 +6,12 @@ import help_icon from '../images/questionmark.png';
 // Yellow background, aligned to bottom
 const footerBox = {
     backgroundColor: "#FFF552",
-    position: "absolute",
+    position: "relative",
     left: 0,
     right: 0,
-    bottom: 0,
+    // bottom: 0,
     padding: 2,
+    height: 250
 };
 
 // bold text
@@ -37,7 +38,8 @@ const footerLogo = {
     float: "left",
     padding: 0,
     paddingLeft: 60,
-    paddingTop: 10
+    paddingTop: 10,
+    paddingBottom: 3
 };
 
 // yellow background, black border, rounded edges, black text, auto margins
@@ -63,29 +65,34 @@ const pages = {
 const pagesCol = {
     position: "relative",
     float: "left",
-    right: "16vh",
-    textAlign: "left"
+    right: "12.5vh",
+    textAlign: "left",
 };
 
 // relative positioning, offset to center
 const employment = {
     position: "relative",
-    right: 70
+    right: 70,
+    padding: 20,
+    paddingBottom: 50
+
 };
 
 function Footer() {
     return (
         <div style={footerBox}>
-            {/* Ouluxx logo in the footer */}
-            <div style={footerLogo}>
-                <img src={Logo} alt="The circle Ouluxx logo" width="120" height="121" padding="0" />
-            </div>
+            <div>
+                {/* Ouluxx logo in the footer */}
+                <div style={footerLogo}>
+                    <img src={Logo} alt="The circle Ouluxx logo" width="120" height="121" padding="0" />
+                </div>
 
-            {/* This section contains the button for becoming a shopper and the text next to it */}
-            <div style={employment}>
-                <p>Interested in a great way to make money?</p>
-                <input type="submit" value="Become a Shopper"
-                    style={shopperButton} />
+                {/* This section contains the button for becoming a shopper and the text next to it */}
+                <div style={employment}>
+                    <p style={{ textAlign: "center" }}>Interested in a great way to make money?</p>
+                    <input type="submit" value="Become a Shopper"
+                        style={shopperButton} />
+                </div>
             </div>
 
             {/* This section modifies the left aligned div containing the Enter location and help links */}
@@ -94,7 +101,7 @@ function Footer() {
                     <img src={location_icon} alt="" width="17" height="17" />
                     <span> Enter your location</span></p>
                 <p style={boldLeft}>
-                    <img src={help_icon} alt="" width="13" height="16" />
+                    <img src={help_icon} alt="" width="14" height="17" />
                     <span> Help</span></p>
             </div>
 
