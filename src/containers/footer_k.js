@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '../photos/icons/ouluxxLogo.png';
+import Logo from '../images/ouluxxLogo.png';
 import location_icon from '../images/locationPin.png';
 import help_icon from '../images/questionmark.png';
 
