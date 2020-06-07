@@ -4,8 +4,7 @@ import {ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles';
 import './App.css';
 import LandingPage from './layouts/LandingPage/landingpage_h';
 import SignupPage from './layouts/SignupPage/signup_h';
-
-import StoreIcon from './components/storeIcon_c';
+import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 
 // default theme
 const theme = createMuiTheme({
@@ -21,12 +20,7 @@ function App() {
       <MuiThemeProvider theme={theme}>
         {/*<LandingPage/>*/}
         {/*<SignupPage/>*/}
-        <StoreIcon 
-        name="Safeway" 
-        categories={["Groceries","Produce","Organic"]}
-        img_url="fairway.png"
-        alt="cvs icon"
-        onClick={()=>console.log('Store Icon clicked')}/>
+        <SelectionPage/>
       </MuiThemeProvider>
     </div>
   );

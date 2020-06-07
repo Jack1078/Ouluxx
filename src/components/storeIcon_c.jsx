@@ -16,7 +16,6 @@ const useStyles = makeStyles(() => ({
         margin: 'auto',
     },
     flex_vertical: {
-        width: '200px',
         display: 'flex',
         flexDirection: 'column',
         flexWrap: 'wrap',
