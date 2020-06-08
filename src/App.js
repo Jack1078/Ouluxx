@@ -1,9 +1,10 @@
 import React from 'react';
 import {createMuiTheme} from '@material-ui/core/styles';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import {ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles';
 import './App.css';
 import LandingPage from './layouts/LandingPage/landingpage_h';
-import SignupPage from './layouts/SignupPage/signup_h'
+import SignupPage from './layouts/SignupPage/signup_h';
+import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 
 // default theme
 const theme = createMuiTheme({
@@ -17,8 +18,9 @@ function App() {
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
-        <LandingPage/>
+        {/*<LandingPage/>*/}
         {/*<SignupPage/>*/}
+        <SelectionPage/>
       </MuiThemeProvider>
     </div>
   );
