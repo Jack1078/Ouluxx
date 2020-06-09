@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import StoreIcon from '../../components/storeIcon_c';
 import classes from './storeSelectionPage_h.module.css';
+import Filter from '../../containers/Filter/filter_k';
 /**
  * Layout for the Store Selection page
  */
@@ -24,8 +25,11 @@ const stores = [{name: "fairway",
             categories: ["Personal Care","Drugstore","Groceries"],
             img_url: "cvs.png"},];
 
-const filteredStores = (filter) => {
-    return stores.filter(store => containsAll(filter,store.categories)).map(filtered_store => (
+const filters = ["All","Drugstore","Groceries","Pet Supplies", "Meals"];
+
+const filteredStores = (stores, filter) => {
+    return stores.filter(store => filter==="All"?true:store.categories.includes(filter))
+    .map(filtered_store => (
         <StoreIcon
         key={filtered_store.name}
         name={filtered_store.name}
@@ -36,19 +40,28 @@ const filteredStores = (filter) => {
     ))
 }
 
-function containsAll(needles, haystack){ 
-    for(var i = 0; i < needles.length; i++){
-        if(!haystack.includes(needles[i])) return false
-    }
-    return true;
-}
-
 function StoreSelect() {
+    const [active, setActive] = useState('All');
     return (
-        <div className={classes.container}>
-            {filteredStores([])}
-        </div>
+       <div>
+            <Filter
+                active={active}
+                onChange={active=>setActive(active)}
+            >
+                {filters.map((filter)=>{
+                    return(
+                        <div key={filter}>
+                            {filter}
+                        </div>
+                    );
+                })}
+            </Filter>
+            <div className={classes.container}>
+                {filteredStores(stores, active)}
+            </div>
+       </div>
     );
+
 }
 
 export default StoreSelect;

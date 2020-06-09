@@ -34,6 +34,9 @@ const useStyles = makeStyles(() => ({
     margin_bottom: {
         marginBottom: '10px',
     },
+    margin_top: {
+        marginTop: '10px',
+    },
     font_heavy: {
         fontSize: '20px',
         fontWeight: 'bold',
@@ -49,7 +52,7 @@ const StoreIcon = (props) => {
 
     return (
         <div className={[classes.flex_vertical, classes.clickable].join(' ')} onClick={()=>onClick()} {...other}>
-            <img className={[classes.round_img, classes.margin_bottom].join(' ')} src={require( `../images/stores/${ img_url }` )} alt={alt}></img>
+            <img className={[classes.round_img, classes.margin_bottom, classes.margin_top].join(' ')} src={require( `../images/stores/${ img_url }` )} alt={alt}></img>
             <span className={[classes.font_heavy, classes.margin_bottom].join(' ')}>{name}</span>
             <span className={classes.font_light}>{categories.join(' · ')}</span>
         </div>
