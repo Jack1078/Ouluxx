@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import StoreIcon from '../../components/storeIcon_c';
 import classes from './storeSelectionPage_h.module.css';
+import Filter from '../../containers/Filter/filter_k';
+import Logo from '../../images/logo.png';
 /**
  * Layout for the Store Selection page
  */
@@ -24,8 +26,11 @@ const stores = [{name: "fairway",
             categories: ["Personal Care","Drugstore","Groceries"],
             img_url: "cvs.png"},];
 
-const filteredStores = (filter) => {
-    return stores.filter(store => containsAll(filter,store.categories)).map(filtered_store => (
+const filters = ["All","Drugstore","Groceries","Pet Supplies", "Meals"];
+
+const filteredStores = (stores, filter) => {
+    return stores.filter(store => filter==="All"?true:store.categories.includes(filter))
+    .map(filtered_store => (
         <StoreIcon
         key={filtered_store.name}
         name={filtered_store.name}
@@ -36,19 +41,42 @@ const filteredStores = (filter) => {
     ))
 }
 
-function containsAll(needles, haystack){ 
-    for(var i = 0; i < needles.length; i++){
-        if(!haystack.includes(needles[i])) return false
-    }
-    return true;
-}
+const StoreSelect = () => {
+    const [active, setActive] = useState('All');
+    const [zipcode, setZipcode] = useState('11791');
 
-function StoreSelect() {
     return (
-        <div className={classes.container}>
-            {filteredStores([])}
+        <div className={classes.background}>
+            <div className={classes.logo_container}>
+                <img src={Logo} alt='Ouluxx logo' height="30px"/>
+            </div>
+            <div className={classes.zipcode_container}>
+                Select Store for Delivery in&nbsp;<span style={{fontWeight: 'bold'}}>{zipcode}</span>
+            </div>
+            <div className={classes.filter_container}>
+                <Filter
+                    active={active}
+                    onChange={active=>setActive(active)}
+                >
+                    {filters.map((filter)=>{
+                        return(
+                            <div key={filter}>
+                                {filter}
+                            </div>
+                        );
+                    })}
+                </Filter> 
+            </div>
+            
+            <div className={classes.recommend_container}>
+                Recommend Stores
+            </div>
+            <div className={classes.stores_container}>
+                {filteredStores(stores, active)}
+            </div>
         </div>
     );
+
 }
 
 export default StoreSelect;
