@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import StoreIcon from '../../components/storeIcon_c';
 import classes from './storeSelectionPage_h.module.css';
 import Filter from '../../containers/Filter/filter_k';
+import Logo from '../../images/logo.png';
 /**
  * Layout for the Store Selection page
  */
@@ -40,26 +41,40 @@ const filteredStores = (stores, filter) => {
     ))
 }
 
-function StoreSelect() {
+const StoreSelect = () => {
     const [active, setActive] = useState('All');
+    const [zipcode, setZipcode] = useState('11791');
+
     return (
-       <div>
-            <Filter
-                active={active}
-                onChange={active=>setActive(active)}
-            >
-                {filters.map((filter)=>{
-                    return(
-                        <div key={filter}>
-                            {filter}
-                        </div>
-                    );
-                })}
-            </Filter>
-            <div className={classes.container}>
+        <div className={classes.background}>
+            <div className={classes.logo_container}>
+                <img src={Logo} alt='Ouluxx logo' height="30px"/>
+            </div>
+            <div className={classes.zipcode_container}>
+                Select Store for Delivery in&nbsp;<span style={{fontWeight: 'bold'}}>{zipcode}</span>
+            </div>
+            <div className={classes.filter_container}>
+                <Filter
+                    active={active}
+                    onChange={active=>setActive(active)}
+                >
+                    {filters.map((filter)=>{
+                        return(
+                            <div key={filter}>
+                                {filter}
+                            </div>
+                        );
+                    })}
+                </Filter> 
+            </div>
+            
+            <div className={classes.recommend_container}>
+                Recommend Stores
+            </div>
+            <div className={classes.stores_container}>
                 {filteredStores(stores, active)}
             </div>
-       </div>
+        </div>
     );
 
 }

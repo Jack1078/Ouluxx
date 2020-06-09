@@ -25,10 +25,10 @@ const useStyles = makeStyles(() => ({
     },
     clickable: {
         cursor: 'pointer',
-        backgroundColor: '#f7f7f7',
+        backgroundColor: '#fff',
         transition: 'background-color .15s ease-in',
         '&:hover': {
-            backgroundColor: '#d4d4d4'
+            backgroundColor: '#f7f7f7'
         }
     },
     margin_bottom: {
