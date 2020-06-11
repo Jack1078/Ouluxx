@@ -1,6 +1,6 @@
 # How to use: 
 
-## FRONTENT
+## FRONTEND
 
 To send a request, use the fetch function (for basic example, see Frontend/src/components/zipcodeForm_c.js)
 
