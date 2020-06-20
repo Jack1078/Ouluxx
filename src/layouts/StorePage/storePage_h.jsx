@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import classes from './storePage_h.module.css';
 import ProductsDisplay from '../../containers/productsDisplay_k';
 import NavBar from '../../containers/navBar_k';
+import Textfield from '../../components/textfield_c';
+import { MdKeyboardArrowDown } from 'react-icons/md';
 
 /**
  * Layout for the Store page
@@ -166,6 +168,19 @@ const StorePage = () => {
             setCurrPage(currPage - 1);
     }
 
+    const logoClickHandler = () => {
+        console.log('logo clicked...')
+    }
+    const storeClickHandler = () => {
+        console.log('store clicked...')
+    }
+    const accountClickHandler = () => {
+        console.log('account clicked...')
+    }
+    const cartClickHandler = () => {
+        console.log('cart clicked...')
+    }
+
     useEffect(() => {
         setCurrPage(1);
     }, [currProducts]);
@@ -173,7 +188,12 @@ const StorePage = () => {
     return (
         <div>
 
-            <NavBar />
+            <NavBar
+                logoOnClick={() => logoClickHandler()}
+                storeOnClick={() => storeClickHandler()}
+                accountOnClick={() => accountClickHandler()}
+                cartOnClick={() => cartClickHandler()}
+            />
 
             {/* ----------------------------- */}
             {/* -------- Store title -------- */}
@@ -183,16 +203,32 @@ const StorePage = () => {
                 <div className={classes.store_name}>{storeName}</div>
                 <div className={classes.store_rating}>
                     {[...Array(storeRating)].map((_, i) => (
-                        <span>&#9733;</span>
+                        <span key={i}>&#9733;</span>
                     ))}
                     {[...Array(5 - storeRating)].map((_, i) => (
-                        <span>&#9734;</span>
+                        <span key={5 + i}>&#9734;</span>
                     ))}
                 </div>
             </div>
 
+            {/* ----------------------------- */}
+            {/* -------- Function bar ------- */}
+            {/* ----------------------------- */}
+            <div className={classes.function_bar}>
+                <div>Categories</div>
 
-            {/* TODO: add bar */}
+                <div className={classes.fn_btn}>Sort by<MdKeyboardArrowDown /></div>
+                <div></div>
+                <div>Delivery to <span className={classes.fn_btn}>11791</span></div>
+            </div>
+
+            <div className={classes.search_bar}>
+                <Textfield
+                    id='product_search'
+                    label={`Search ${storeName}...`}
+                />
+            </div>
+
 
             {/* ----------------------------- */}
             {/* ------ product display ------ */}
@@ -216,7 +252,7 @@ const StorePage = () => {
                 />
                 <div>In Cart</div>
             </div>
-        </div>
+        </div >
     );
 };
 

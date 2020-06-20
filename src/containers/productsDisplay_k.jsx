@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classes from './productsDisplay.module.css';
 import PropTypes from 'prop-types';
 import ProductIcon from '../components/productIcon_c';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 /**
  * The product carousel in the store page
@@ -39,14 +40,14 @@ const ProductsDisplay = (props) => {
                     <div
                         onClick={() => changePageHandler(false)}
                         className={classes.btn}>
-                        {'<'}</div>
+                        <MdKeyboardArrowLeft /></div>
                 }
                 <div className={classes.page_text}>{`${currPage} of ${totalPages}`}</div>
                 {currPage !== totalPages &&
                     <div
                         onClick={() => changePageHandler(true)}
                         className={classes.btn}>
-                        {'>'}</div>
+                        <MdKeyboardArrowRight /></div>
                 }
             </div>
         </div >

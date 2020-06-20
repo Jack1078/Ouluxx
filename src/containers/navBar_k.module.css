@@ -1,3 +1,54 @@
+.gradient_border {
+    height: 6px;
+    width: 100%;
+    background: linear-gradient(to right, #FFDD00, #FF8904);
+}
+
+.grid_5c {
+    display: grid;
+    grid-template-columns: 200px 150px auto 125px 100px 20px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    justify-items: center;
+}
+
 .nav_bar {
-    height: 93px;
+    height: 60px;
+    border-top: 2px;
+    position: relative;
+    background-color: #000000;
+    color: #fff;
+}
+
+.logo {
+    text-transform: uppercase;
+    font-family: Neusa Next Std;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.store_btn {
+    background-color: #FFDD00;
+    color: #000000;
+    width: 100px;
+}
+
+.btn {
+    height: 30px;
+    border-radius: 20px;
+    width: 100px;
+    cursor: pointer;
+}
+
+.btn_icon {
+    display: inline-block;
+    transform: translateY(25%);
+}
+
+.btn_txt {
+    display: inline-block;
+    margin-left: 5px;
+    transform: translateY(15%);
 }
