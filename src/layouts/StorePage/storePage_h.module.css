@@ -1,0 +1,52 @@
+* {
+    font-family: Neusa Next Std;
+}
+
+.store_container {
+    width: 100%;
+    text-align: center;
+    background-color: #2c2c2c;
+    height: 405px;
+}
+
+.store_img {
+    width: 217px;
+    height: 198px;
+    background-color: #fff;
+    border-radius: 5%;
+    margin-top: 42px;
+}
+
+.store_name {
+    font-size: 24px;
+    color: #fff;
+    margin-top: 12px;
+}
+
+.store_rating {
+    margin-top: 25px;
+    color: #FFDD00;
+}
+
+.grid_3c {
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    margin-top: 120px;
+}
+
+.categories {
+    margin: 40px;
+    list-style-type: none;
+}
+
+.category {
+    cursor: pointer;
+    padding: 20px;
+    border-bottom: 2px solid #ddd;
+    text-transform: capitalize;
+    color: #696969;
+}
+
+.category:hover {
+    background-color: rgb(230, 230, 230);
+}
