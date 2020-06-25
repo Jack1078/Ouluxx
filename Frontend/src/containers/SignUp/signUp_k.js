@@ -12,7 +12,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import BackButton from '../../components/BackButton/backButton_c';
 import {FaGoogle} from 'react-icons/fa';
 import logo from '../../images/logo.png';
-import classes from './signup_k.module.css';
+import classes from './signUp_k.module.css';
 
 /**
  * Email sign up container

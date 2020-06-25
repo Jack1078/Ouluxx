@@ -1,7 +1,7 @@
 // https://blog.cloudboost.io/react-express-the-nodejs-way-of-reacting-and-expressing-7a518e4da3
 // https://medium.com/@avanthikameenakshi/crud-react-express-99025f03f06e
 // https://github.com/sidorares/node-mysql2
-const mysql = require('mysql2');
+const mongoose = require('mongoose')
 var http = require('http');
 
 
@@ -20,23 +20,28 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+const port = process.env.PORT || 4000;
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
 //create connection to DB
 
-const connection = mysql.createConnection({
-	host     : 'localhost',
-	user     : 'root',
-	password : 'Ebullient_Ben98',
-	database : 'mydb',
-	insecureAuth : true
-});
+const url = 'mongodb://127.0.0.1:27017/Ouluxx'
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+const db = mongoose.connection
+db.once('open', _ => {
+  console.log('Database connected:', url)
+})
 
-
+db.on('error', err => {
+  console.error('connection error:', err)
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -59,5 +64,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 module.exports = app;
-var server = http.createServer(app);
-server.listen(4000);
+//var server = http.createServer(app);
+//server.listen(4000);
