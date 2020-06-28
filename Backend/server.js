@@ -13,6 +13,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var storeRouter = require('./routes/store');
+var inventoryRouter = require('./routes/inventory');
 
 var app = express();
 
@@ -42,8 +44,13 @@ db.once('open', _ => {
 db.on('error', err => {
   console.error('connection error:', err)
 })
+db.close();
 
 app.use('/', indexRouter);
+
+app.use('/store', storeRouter);
+app.use('/inventory', inventoryRouter);
+
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

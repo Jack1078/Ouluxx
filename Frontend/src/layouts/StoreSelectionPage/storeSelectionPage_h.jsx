@@ -14,11 +14,11 @@ var data = {
     }
 
 //return the fetch to return the promise
-const Get_Stores = () => {
+const Get_Stores = (json_data) => {
     return fetch("/users/test", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(json_data)
     }).then((response) => {
         if (response.status >= 400) {
             throw new Error("Bad response from server");
@@ -35,7 +35,7 @@ const Get_Stores = () => {
 
 //create the promise, then work on the promise
 //all working on the response must occur in an async function like this. 
-testing = Get_Stores();
+testing = Get_Stores(data);
 testing.then((response)=>
 {
     console.log(response);
