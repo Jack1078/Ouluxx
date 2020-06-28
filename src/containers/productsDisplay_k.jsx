@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classes from './productsDisplay.module.css';
 import PropTypes from 'prop-types';
 import ProductIcon from '../components/productIcon_c';

@@ -6,7 +6,7 @@
     width: 100%;
     text-align: center;
     background-color: #2c2c2c;
-    height: 405px;
+    height: 370px;
 }
 
 .store_img {
@@ -54,7 +54,6 @@
 .grid_3c {
     display: grid;
     grid-template-columns: 20% 60% 20%;
-    margin-top: 80px;
 }
 
 .categories {
@@ -72,4 +71,9 @@
 
 .category:hover {
     background-color: rgb(230, 230, 230);
+}
+
+.grid_2r {
+    display: grid;
+    grid-template-rows: 20% 55% 25%;
 }
