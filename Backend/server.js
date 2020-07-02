@@ -1,6 +1,3 @@
-// https://blog.cloudboost.io/react-express-the-nodejs-way-of-reacting-and-expressing-7a518e4da3
-// https://medium.com/@avanthikameenakshi/crud-react-express-99025f03f06e
-// https://github.com/sidorares/node-mysql2
 const mongoose = require('mongoose')
 var http = require('http');
 

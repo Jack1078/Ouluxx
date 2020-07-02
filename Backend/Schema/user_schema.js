@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 
 const User = new mongoose.Schema({
 	Schema_Type : {type : String, default: "USER"}, // Identifies this as a store item. 
-	UserID: Uint32Array,
+	//UserID: String, // use the _id value
 	Username : String, 
 	Password : String, 
 	FirstName: String,
@@ -20,14 +20,14 @@ const User = new mongoose.Schema({
 	Address: String,
 	City: String,
 	State: String,
-	Zipcode: Uint32Array,   //This does not verify if the zipcode is strictly XXXXX format
+	Zipcode: Number,   //This does not verify if the zipcode is strictly XXXXX format
 	Cart: {
 		type: [{
-			ItemID: Uint32Array,
+			ItemID: String, // uses the _id property of the item
 			ItemName: String,
 			Description: String,
-			Quantity: Uint16Array,
-			Price: Float32Array,
+			Quantity: Number,
+			Price: Number,
 			Date_Ordered: {
 				type: Date,
 				default: Date.now
