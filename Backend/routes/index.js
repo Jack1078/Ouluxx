@@ -3,18 +3,18 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-  console.log(req.body);
-  console.log("Hello");
+	res.render('index', { title: 'Express' });
+	console.log(req.body);
+	console.log("Hello");
 });
 
 router.post('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-  console.log(req.body);
-  console.log("Hello_POST");
-	var obj = new Object();
-	obj.hello = "World";
-	console.log(JSON.stringify(obj));
+	res.render('index', { title: 'Express' });
+	console.log(req.body);
+	console.log("Hello_POST");
+		var obj = new Object();
+		obj.hello = "World";
+		console.log(JSON.stringify(obj));
 });
 
 router.post('/test', function(req, res, next) {

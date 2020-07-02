@@ -10,7 +10,6 @@ router.get('/', function(req, res, next) {
 	res.send("Hello World");
 });
 
-
 router.post('/', function(req, res, next) {
 	//this processes the POST request. 
 	//this needs to be converted to sanitize the inputs.
@@ -29,12 +28,5 @@ router.post('/test', function(req, res, next) {
 	obj.hello = "World";
 	res.json(JSON.stringify(obj));
 });
-
-
-
-
-
-/**/
-
 
 module.exports = router;
