@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
 var http = require('http');
-
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
