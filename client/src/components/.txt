@@ -1,0 +1,2 @@
+stores small components like
+buttons, textfields, etc.
