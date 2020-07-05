@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classes from './storePage_h.module.css';
 import ProductsDisplay from '../../containers/productsDisplay_k';
+import MiniCart from '../../containers/miniCart_k';
 import NavBar from '../../containers/navBar_k';
 import Textfield from '../../components/textfield_c';
 import { MdKeyboardArrowDown } from 'react-icons/md';
@@ -144,7 +145,46 @@ const products = [
         price: 13.5,
     }];
 
-const categories = ['shirt', 't-shirt', 'clothing', 'plant'];
+const orders = [
+    {
+        num: 1,
+        name: "red T-shirt",
+        price: 100.32,
+        img_url: "t-shirt.jpeg",
+    },
+    {
+        num: 2,
+        name: "red T-shirt",
+        price: 100.32,
+        img_url: "t-shirt.jpeg",
+    },
+    {
+        num: 3,
+        name: "red T-shirt",
+        price: 100.32,
+        img_url: "t-shirt.jpeg",
+    },
+    {
+        num: 4,
+        name: "red T-shirt",
+        price: 100.32,
+        img_url: "t-shirt.jpeg",
+    },
+    {
+        num: 5,
+        name: "red T-shirt",
+        price: 100.32,
+        img_url: "t-shirt.jpeg",
+    },
+    {
+        num: 6,
+        name: "red T-shirt",
+        price: 100.32,
+        img_url: "t-shirt.jpeg",
+    }
+];
+
+const categories = ['All', 'shirt', 't-shirt', 'clothing', 'plant'];
 
 const StorePage = () => {
     const storeName = 'CornHub';
@@ -199,7 +239,7 @@ const StorePage = () => {
             {/* -------- Store title -------- */}
             {/* ----------------------------- */}
             <div className={classes.store_container}>
-                <img src={require(`../../images/stores/${storeImgUrl}`)} className={classes.store_img} />
+                <img src={require(`../../images/stores/${storeImgUrl}`)} className={classes.store_img} alt={storeName} />
                 <div className={classes.store_name}>{storeName}</div>
                 <div className={classes.store_rating}>
                     {[...Array(storeRating)].map((_, i) => (
@@ -222,14 +262,6 @@ const StorePage = () => {
                 <div>Delivery to <span className={classes.fn_btn}>11791</span></div>
             </div>
 
-            <div className={classes.search_bar}>
-                <Textfield
-                    id='product_search'
-                    label={`Search ${storeName}...`}
-                />
-            </div>
-
-
             {/* ----------------------------- */}
             {/* ------ product display ------ */}
             {/* ----------------------------- */}
@@ -245,12 +277,27 @@ const StorePage = () => {
                         ))}
                     </ul>
                 </div>
-                <ProductsDisplay
-                    products={currProducts}
-                    currPage={currPage}
-                    changePageHandler={changePageHandler}
-                />
-                <div>In Cart</div>
+                <div>
+                    <div className={classes.search_bar}>
+                        <Textfield
+                            id='product_search'
+                            label={`Search ${storeName}...`}
+                        />
+                    </div>
+                    <ProductsDisplay
+                        products={currProducts}
+                        currPage={currPage}
+                        changePageHandler={changePageHandler}
+                    />
+                </div>
+
+                <div className={classes.grid_2r}>
+                    <div></div>
+                    <MiniCart
+                        orders={orders}
+                    />
+                    <div></div>
+                </div>
             </div>
         </div >
     );
