@@ -21,6 +21,7 @@ const User = new mongoose.Schema({
 	City: String,
 	State: String,
 	Zipcode: Number,   //This does not verify if the zipcode is strictly XXXXX format
+	UserType: String, // This is either user or store. 
 	Cart: {
 		type: [{
 			ItemID: String, // uses the _id property of the item
