@@ -29,6 +29,8 @@ An item JSON is structured as this:
 	"inventory" : <Integer> // this is an optional parameter
 }
 
+Add a single item to the DB. 
+
 */
 
 router.post('/add', async function(req, res, next) {// add an item to the db, and add it to the store. 
@@ -87,6 +89,8 @@ A list of many items to be added looks like this
 	...
 }
 
+Adds many entries to the database. Is designed for information to be parsed on the frontend.  
+
 */
 
 router.post('/addmany', async function(req, res, next) {// add an item to the db, and add it to the store. 
@@ -134,6 +138,8 @@ A delete payload is as such:
 	"itemid" : "<itemid>" // this is stored on the page as the item id
 }
 
+Removes item from database. 
+
 */
 
 router.post('/delete', async function(req, res, next) {// add an item to the db, and add it to the store. 
@@ -165,6 +171,8 @@ This appears as such, all params except the id are optional:
 	"Remove_Category_2" : "<Category>", 
 	"Remove_Category_..." : "<Category>"
 }
+
+Updates entries in the MongoDB database. 
 
 */
 

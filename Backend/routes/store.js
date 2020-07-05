@@ -30,6 +30,8 @@ The JSON looks like:
 	"description" : "<description>"
 }
 
+Add a store. 
+
 */
 
 router.post('/add', async function(req, res, next) {
@@ -58,6 +60,8 @@ A delete payload is as such:
 {
 	"storeid" : "<storeid>" // this is stored on the store's page as the store id
 }
+
+Remove a store. 
 
 */
 
