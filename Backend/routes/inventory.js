@@ -66,6 +66,39 @@ router.post('/add', async function(req, res, next) {// add an item to the db, an
 
 /*
 
+An add comment JSON is structured as this: 
+
+{ 
+	"itemid" : "<The ID of the item>", // This should be stored on the page. 
+	"comment" : "<comment string>", 
+	"userid" : "The users id, from logged in cookie"
+	"username" : "The users username, from logged in cookie"
+}
+
+Add a comment to an item. 
+
+*/
+
+router.post('/add_comment', async function(req, res, next) {// add an item to the db, and add it to the store. 
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	var commentitem = { // create inventory item to add to inventory array
+		Body: req.body.comment, 
+		userID: req.body.userid,
+		Username: req.body.username
+	};
+	await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
+		{_id:mongoose.Types.ObjectId(req.body.itemid)}, 
+		{ $push: { Comments: commentitem } }
+	); 
+	var obj = new Object();
+	obj.status = "Success";
+	res.json(JSON.stringify(obj));
+	mongoose.connection.close();
+});
+
+/*
+
 A list of many items to be added looks like this
 
 {
@@ -315,7 +348,7 @@ router.post('/get_item_with_property', async function(req, res, next) {
 /*router.post('/testadd', async function(req, res, next) {
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-	var newitem = new InventoryItemAddModel({
+	var newitem = new InventoryItemModel({
 				name : req.body.itemname, 
 				price : req.body.itemprice, 
 				storename : req.body.itemstore, 

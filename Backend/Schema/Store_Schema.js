@@ -26,7 +26,7 @@ const Store_Schema = new mongoose.Schema({
 	}, 
 	Comments : { // if we want to add comments to the store. 
 		type: [{
-		 Body: String, Date: Date, UserID: String, Username: String
+		 Body: String, Date: { type: Date, default: Date.now }, UserID: String, Username: String
 		}], 
 		default : [] // starts as an empty list
 	},

@@ -141,4 +141,37 @@ router.post('/get_store_with_property', async function(req, res, next) {
 	mongoose.connection.close();
 });
 
+/*
+
+An add comment JSON is structured as this: 
+
+{ 
+	"storeid" : "<The ID of the store>", // This should be stored on the page. 
+	"comment" : "<comment string>", 
+	"userid" : "The users id, from logged in cookie"
+	"username" : "The users username, from logged in cookie"
+}
+
+Add a comment to an item. 
+
+*/
+
+router.post('/add_comment', async function(req, res, next) {// add an item to the db, and add it to the store. 
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	var commentitem = { // create inventory item to add to inventory array
+		Body: req.body.comment, 
+		userID: req.body.userid,
+		Username: req.body.username
+	};
+	await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
+		{_id:mongoose.Types.ObjectId(req.body.storeid)}, 
+		{ $push: { Comments: commentitem } }
+	); 
+	var obj = new Object();
+	obj.status = "Success";
+	res.json(JSON.stringify(obj));
+	mongoose.connection.close();
+});
+
 module.exports = router;
