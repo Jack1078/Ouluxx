@@ -80,33 +80,37 @@ A get store payload is as such:
 	"storeid" : "<storeid>" // this is stored on the store's page as the store id
 }
 
+This returns a single store based on the id and all of the information that is held within the store object. 
+If there is no store with the given id, it returns null.  
+
 */
 
 router.post('/get_store', async function(req, res, next) {
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	
 	await StoreModel.findOne({_id: mongoose.Types.ObjectId(req.body.storeid)}, 
 		function(err, StoreModel) {
 			res.json(JSON.stringify(StoreModel))
 		});
-	/*var obj = new Object();
-	obj.status = "Success";*/
-	//res.json(JSON.stringify(obj));
 	mongoose.connection.close();
 });
+
+/*
+
+There is no payload for this route. 
+
+This returns a list of all stores. 
+If there are no stores, it returns null. 
+
+*/
 
 router.post('/all_stores', async function(req, res, next) {
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	
 	await StoreModel.find({},
 		function(err, StoreModel) {
 			res.json(JSON.stringify(StoreModel))
 		});
-	/*var obj = new Object();
-	obj.status = "Success";*/
-	//res.json(JSON.stringify(obj));
 	mongoose.connection.close();
 });
 

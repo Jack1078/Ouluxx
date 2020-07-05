@@ -216,6 +216,70 @@ router.post('/update', async function(req, res, next) {// add an item to the db,
 	mongoose.connection.close();
 });
 
+/*
+
+A get item payload is as such: 
+
+{
+	"itemid" : "<itemid>" // this is stored on the item's page as the item id
+}
+
+This returns a single item based on the id and all of the information that is held within the item object. 
+If there is no item with the given id, it returns null.  
+
+*/
+
+router.post('/get_item', async function(req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	await InventoryItemModel.findOne({_id: mongoose.Types.ObjectId(req.body.itemid)}, 
+		function(err, InventoryItemModel) {
+			res.json(JSON.stringify(InventoryItemModel))
+		});
+	mongoose.connection.close();
+});
+
+/*
+
+A get store items is as such: 
+
+{
+	"storeid" : "<storeid>" // this is stored on the item's page as the item id
+}
+
+This returns a list of items based on the id of the store and all of the information that is held within the item objects. 
+If there are no items with the given id, it returns null.  
+
+*/
+
+router.post('/get_store_items', async function(req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	await InventoryItemModel.find({storeid: req.body.storeid}, 
+		function(err, InventoryItemModel) {
+			res.json(JSON.stringify(InventoryItemModel))
+		});
+	mongoose.connection.close();
+});
+
+/*
+
+A get all items request has no payload.  
+
+This returns a list of all items and all of the information that is held within the item objects. 
+If there are no items, it returns null. 
+
+*/
+
+router.post('/get_all_items', async function(req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	await InventoryItemModel.find({}, 
+		function(err, InventoryItemModel) {
+			res.json(JSON.stringify(InventoryItemModel))
+		});
+	mongoose.connection.close();
+});
 
 /*router.post('/testadd', async function(req, res, next) {
 	console.log(req.body);
