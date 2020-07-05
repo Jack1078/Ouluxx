@@ -54,7 +54,7 @@ router.post('/add', async function (req, res, next) { // add a user to the db
 	mongoose.connection.close();
 });
 
-router.post('/testadd', function (req, res, next) {
+router.post('/testadd', async function (req, res, next) {
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 	var newuser = new UserModel({

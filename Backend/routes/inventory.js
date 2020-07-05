@@ -9,13 +9,27 @@ const url = 'mongodb://127.0.0.1:27017/Ouluxx'
 const InventoryItemModel = mongoose.model('InventoryItemModel', Item_Schema);
 const StoreModel = mongoose.model('StoreModel', Store_Schema);
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
   console.log(req.body);
   console.log("Hello");
 });
+
+/*
+
+An item JSON is structured as this: 
+
+{
+	"itemname" : "<Item's Name>", 
+	"itemprice" : "<Item's Price>", 
+	"itemstore" : "<The name of the store the item belongs to>", 
+	"storeid" : "The ID of the store the item belongs to", // This should be stored on the cookie of the logged in store. 
+	"categories" : ["<catagory 1>", "<category 2>", ...], 
+	"inventory" : <Integer> // this is an optional parameter
+}
+
+*/
 
 router.post('/add', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	console.log(req.body);
@@ -48,6 +62,80 @@ router.post('/add', async function(req, res, next) {// add an item to the db, an
 	mongoose.connection.close();
 });
 
+/*
+
+A list of many items to be added looks like this
+
+{
+	"storeid" : "The ID of the store the item belongs to", // This should be stored on the cookie of the logged in store. 
+	"Item_1" : 
+	{
+		"itemname" : "<Item's Name>", 
+		"itemprice" : "<Item's Price>", 
+		"itemstore" : "<The name of the store the item belongs to>", 
+		"categories" : ["<catagory 1>", "<category 2>", ...], 
+		"inventory" : <Integer> // this is an optional parameter
+	}, 
+	"Item_2" : 
+	{
+		"itemname" : "<Item's Name>", 
+		"itemprice" : "<Item's Price>", 
+		"itemstore" : "<The name of the store the item belongs to>", 
+		"categories" : ["<catagory 1>", "<category 2>", ...], 
+		"inventory" : <Integer> // this is an optional parameter
+	}, 
+	...
+}
+
+*/
+
+router.post('/addmany', async function(req, res, next) {// add an item to the db, and add it to the store. 
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+
+	for(const [key, value] of Object.entries(req.body.items))
+	{
+		var itemprice = parseFloat(value.itemprice);
+		var newitem = new InventoryItemModel({
+					Name : value.itemname, 
+					Price : itemprice, 
+					StoreName : value.itemstore, 
+					StoreID : value.storeid, 
+					Category : value.categories
+				});
+		var number_In_Inventory = -1;
+		if (req.body.inventory != null) {
+			number_In_Inventory = value.inventory;
+		}
+		var StoreItem = { // create inventory item to add to inventory array
+			ItemID: newitem._id, 
+			ItemName: value.itemname, 
+			NumberInInventory: number_In_Inventory
+		};
+		await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
+			{_id:mongoose.Types.ObjectId(req.body.storeid)}, 
+			{ $push: { Inventory: StoreItem } }
+		); 
+		await newitem.save();
+	}
+
+	
+	var obj = new Object();
+	obj.status = "Success";
+	res.json(JSON.stringify(obj));
+	mongoose.connection.close();
+});
+
+/*
+
+A delete payload is as such: 
+
+{
+	"itemid" : "<itemid>" // this is stored on the page as the item id
+}
+
+*/
+
 router.post('/delete', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
@@ -61,6 +149,24 @@ router.post('/delete', async function(req, res, next) {// add an item to the db,
 	res.json(JSON.stringify(obj));
 	mongoose.connection.close();
 });
+
+/*
+
+This appears as such, all params except the id are optional: 
+
+{
+	"itemID" : "<The Item's ID>", // stored on the page when the item is retrieved from the DB
+	"PRICE" : "<Item's Price>", 
+	"HIDDEN" : <boolean>, 
+	"Add_Category_1" : "<Category>", 
+	"Add_Category_2" : "<Category>", 
+	"Add_Category_..." : "<Category>", 
+	"Remove_Category_1" : "<Category>", 
+	"Remove_Category_2" : "<Category>", 
+	"Remove_Category_..." : "<Category>"
+}
+
+*/
 
 router.post('/update', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	console.log(req.body);
