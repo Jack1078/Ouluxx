@@ -93,7 +93,7 @@ Adds many entries to the database. Is designed for information to be parsed on t
 
 */
 
-router.post('/addmany', async function(req, res, next) {// add an item to the db, and add it to the store. 
+router.post('/add_many', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
@@ -283,6 +283,29 @@ router.post('/get_all_items', async function(req, res, next) {
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	await InventoryItemModel.find({}, 
+		function(err, InventoryItemModel) {
+			res.json(JSON.stringify(InventoryItemModel))
+		});
+	mongoose.connection.close();
+});
+
+/*
+
+A get item with property payload is as such: 
+
+{
+	"<property>" : "<property>" // could be something like address, etc. 
+	"<value>" : "<value>" // could be something like a specific address, etc. 
+}
+
+get stores with specific properties
+
+*/
+
+router.post('/get_item_with_property', async function(req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	await InventoryItemModel.find({req.body.property : req.body.value},
 		function(err, InventoryItemModel) {
 			res.json(JSON.stringify(InventoryItemModel))
 		});

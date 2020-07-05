@@ -108,10 +108,33 @@ If there are no stores, it returns null.
 
 */
 
-router.post('/all_stores', async function(req, res, next) {
+router.post('/get_all_stores', async function(req, res, next) {
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	await StoreModel.find({},
+		function(err, StoreModel) {
+			res.json(JSON.stringify(StoreModel))
+		});
+	mongoose.connection.close();
+});
+
+/*
+
+A get store with property payload is as such: 
+
+{
+	"<property>" : "<property>" // could be something like address, etc. 
+	"<value>" : "<value>" // could be something like a specific address, etc. 
+}
+
+get stores with specific properties
+
+*/
+
+router.post('/get_store_with_property', async function(req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	await StoreModel.find({req.body.property : req.body.value},
 		function(err, StoreModel) {
 			res.json(JSON.stringify(StoreModel))
 		});
