@@ -186,8 +186,8 @@ const orders = [
 
 const categories = ['All', 'shirt', 't-shirt', 'clothing', 'plant'];
 
-const StorePage = () => {
-    const storeName = 'CornHub';
+const StorePage = (props) => {
+    const storeName = props.match.params.store;
     const storeImgUrl = 'cvs.png';
     const storeRating = 4;
     const [currProducts, setCurrProducts] = useState(products);

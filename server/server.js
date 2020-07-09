@@ -6,45 +6,61 @@
  * application. It uses express, node.js, and socket.io. Current setup allows  *
  * for 2 users to chat and should work on all browsers.                        *
  ******************************************************************************/
-const express = require('express')
-const app = express()
-const http = require('http') Server(app)
-const io = require('socket.io')(http)
-const port = process.env.PORT || 3000
+require('dotenv').config();
+const express = require("express");
+const http = require("http");
+const app = express();
+const server = http.createServer(app);
+const socket = require("socket.io");
+const io = socket(server);
 
-app.use(express.static(__dirname + "/public")) //public is the front end folder
+const users = {};
 
-let clients = 0
-io.on('connection', function(socket){
-    socket.on("NewClient", function(){
-        if(clients < 2) {
-            if( clients == 1){
-                this.emit('CreatePeer')
-            } else {
-                this.emit('SessionActive')
+const socketToRoom = {};
+
+io.on('connection', socket => {
+    socket.on("join room", roomID => {
+        if (users[roomID]) {
+            const length = users[roomID].length;
+            if (length === 4) {
+                socket.emit("room full");
+                return;
             }
-            clients++;
+            users[roomID].push(socket.id);
+        } else {
+            users[roomID] = [socket.id];
         }
-    })
-    socket.on('Offer', SendOffer)
-    socket.on('Answer', SendAnswer)
-    socket.on('disconnect', Disconnect)
-})
+        socketToRoom[socket.id] = roomID;
+        const usersInThisRoom = users[roomID].filter(id => id !== socket.id);
 
-//Disconnects user when they leave the call/link
-function Disconnect(){
-    if(clients > 0)
-        this.broadcast.emit("Disconnect")
-    clients--
-}
+        socket.emit("all users", usersInThisRoom);
+    });
 
-//Sends data to the other user trying to enter the call
-function SendOffer(offer){
-    this.broadcast.emit("BackOffer", offer)
-}
+    socket.on("sending signal", payload => {
+        io.to(payload.userToSignal).emit('user joined', {
+            signal: payload.signal,
+            callerID: payload.callerID
+        });
+    });
 
-function SendAnswer(data){
-    this.broadcast.emit("BackAnswer", data)
-}
+    socket.on("returning signal", payload => {
+        io.to(payload.callerID).emit('receiving returned signal', {
+            signal: payload.signal,
+            id: socket.id
+        });
+    });
 
-http.listen(port, () => console.log(`Active on ${port} port`))
+    socket.on('disconnect', () => {
+        const roomID = socketToRoom[socket.id];
+        let room = users[roomID];
+        if (room) {
+            room = room.filter(id => id !== socket.id);
+            users[roomID] = room;
+        }
+    });
+
+});
+
+const PORT = process.env.PORT || 8000;
+
+server.listen(PORT, () => console.log(`server is running on port ${PORT}`));

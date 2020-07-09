@@ -4,7 +4,7 @@ import classes from './miniCart_k.module.css';
 
 /**
  * In cart section
- * @param {orders} props
+ * @param {orders} MiniCart
  */
 
 const MiniCart = (props) => {
