@@ -1,6 +1,6 @@
 /******************************************************************************
  * Name: Kyle Enchill														  *
- * Date: 7/5/2020															  *
+ * Date: 7/9/2020															  *
  * Version: 1.1.0															  *
  * Description: This file contains the functions for the users on our platform*
  * There are functions for the user and the user's cart. So far there is the  *

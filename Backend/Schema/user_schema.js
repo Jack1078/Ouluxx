@@ -1,6 +1,6 @@
 /******************************************************************************
  * Name: Kyle Enchill														  *
- * Date: 7/2/2020															  *
+ * Date: 7/9/2020															  *
  * Version: 1.0.0															  *
  * Description: This file is the schema fo the user object. It contains useful*
  * information about the user such as name, address, email, cart, etc.		  *
@@ -21,6 +21,7 @@ const User = new mongoose.Schema({
     City: String,
     State: String,
     Zipcode: Number,   //This does not verify if the zipcode is strictly XXXXX format
+    UserType: String, // This is either user or store. 
     Cart: {
         type: [{
             ItemID: String, // uses the _id property of the item
