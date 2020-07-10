@@ -7,16 +7,18 @@
  * basic create, retrieve, update, and delete for both items in the cart and  *
  * users.																	  *
  ******************************************************************************/
-var express = require('express');
-var router = express.Router();
-const mongoose = require('mongoose');
-var user_schema = require('../Schema/user_schema');
-var Item_Schema = require('../Schema/Item_Schema');
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose'); 
+const UserModel = require('../Models/User_Model');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy; 
+const jwt = require("jsonwebtoken");
+
+const UserModel = require('../Models/User_Model');
+const ItemModel = require('../Models/Item_Model');
 
 const url = 'mongodb://127.0.0.1:27017/Ouluxx'
-
-const UserModel = mongoose.model('UserAddModel', user_schema);
-const ItemModel = mongoose.model('ItemModel', Item_Schema);
 
 router.get('/', function (req, res, next) {
 	//this processes the GET request. 
@@ -30,6 +32,87 @@ router.get('/', function (req, res, next) {
 });
 
 /************************** USER FUNCTIONS *************************************/
+router.post('/register', async function(req, res) { // add and register a user, hashes password
+	console.log(req.body);
+	var UserTypeSet = "USER";
+	if (req.body.isstore) {
+		UserTypeSet = "STORE"
+	}
+	user_details = {
+		Email: req.body.Email,
+		username: req.body.username,
+		FirstName: req.body.FirstName,
+		LastName: req.body.LastName,
+		Address: req.body.Address,
+		City: req.body.City,
+		State: req.body.State,
+		Zipcode: req.body.Zipcode, 
+		UserType : UserTypeSet
+	};
+	await UserModel.register(new UserModel(user_details), req.body.password, async function(err) 
+	{
+		console.log("HI");
+		if (err)
+		{
+			console.log("Error: ", err);
+			res.json({success:false, message:"Your account could not be saved. Error: ", err}) 
+		}
+		else
+		{
+			console.log("No error");
+			res.json({success: true, message: "Your account has been saved"})
+		} 
+	}); 
+}); 
+
+router.post('/login', function(req, res){
+	if(!req.body.username){ 
+		//console.log("No username");
+		res.json({success: false, message: "Username was not given"}) 
+	}
+	else
+	{ 
+		if(!req.body.password){ 
+			//console.log("No password");
+			res.json({success: false, message: "Password was not given"}) 
+		}
+		else{ 
+			passport.authenticate('local', function (err, user, info) {	
+			if(err){ 
+				//console.log("authentication error");
+				res.json({success: false, message: err}) 
+			}
+			else{ 
+				if(!user){ 
+					//console.log("incorrect username or password");
+					res.json({success: false, message: 'username or password incorrect'}) 
+				}
+				else{ 
+					req.login(user, function(err){ 
+						if(err){
+							//console.log("login error", err);
+							res.json({success: false, message: err}) 
+						}
+						else{
+							//console.log("SUCCESS");
+							const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103"
+							const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'}) 
+							res.json({success:true, message:"Authentication successful", token: token }); 
+						} 
+					}) 
+				}
+			} 
+		})
+		(req, res); 
+		}
+	}
+});
+
+
+
+
+
+
 //creates a new user in the database
 router.post('/add', async function (req, res, next) { // add a user to the db
 	//this processes the POST request. 
@@ -38,7 +121,6 @@ router.post('/add', async function (req, res, next) { // add a user to the db
 	//this needs to implement prepared statements for the query
 	console.log(req.body);
 
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 	var newuser = new UserModel({
 		Username: req.body.Username,
 		FirstName: req.body.FirstName,
@@ -58,24 +140,20 @@ router.post('/add', async function (req, res, next) { // add a user to the db
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-	mongoose.connection.close();
 });
 
 //retrieve user
 router.post('/get_user', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	await UserModel.findOne({ _id: mongoose.Types.ObjectId(req.body.userid) },
 		function (err, InventoryItemModel) {
 			res.json(JSON.stringify(UserModel))
 		});
-	mongoose.connection.close();
 });
 
 //updates user information
 router.post('/update', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	for (const [key, value] of Object.entries(req.body)) {
 		if (key.toString().toUpperCase().includes("ID") || key.toString().toUpperCase().includes("Name")) {
@@ -122,7 +200,6 @@ router.post('/update', async function (req, res, next) {
 //delete user from database
 router.post('/delete', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.findOneAndRemove({ _id: mongoose.Types.ObjectId(req.body.userid) });
 
@@ -130,7 +207,6 @@ router.post('/delete', async function (req, res, next) {
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-	mongoose.connection.close();
 });
 
 /************************** CART FUNCTIONS *************************************/
@@ -138,7 +214,6 @@ router.post('/delete', async function (req, res, next) {
 //adds an item to the user's cart
 router.post('/add_to_cart', async function (req, res, next) {
 	console.log(req, body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	var itemprice = parseFloat(req.body.itemprice);
 
@@ -167,14 +242,12 @@ router.post('/add_to_cart', async function (req, res, next) {
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-	mongoose.connection.close();
 
 });
 
 //retrieves the items in the user's cart
 router.post('get_cart', async function (req, res, next) {
 	console.log(req, body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.find({ UserID: req.body.userid, Cart: {} },
 		function (err, UserModel) {
@@ -182,13 +255,11 @@ router.post('get_cart', async function (req, res, next) {
 		});
 
 
-	mongoose.connection.close();
 });
 
 //updates the quantity of an object in the user's cart
 router.post('update_cart', async function (req, res, next) {
 	console.log(req, body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.findOneAndUpdate(
 		{
@@ -201,14 +272,12 @@ router.post('update_cart', async function (req, res, next) {
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
-	mongoose.connection.close();
 
 });
 
 //removes an item from the user's cart
 router.post('remove_from_cart', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.findOneAndUpdate(
 		{
@@ -221,7 +290,6 @@ router.post('remove_from_cart', async function (req, res, next) {
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
-	mongoose.connection.close();
 });
 
 
