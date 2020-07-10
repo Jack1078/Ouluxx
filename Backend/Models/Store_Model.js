@@ -20,13 +20,13 @@ const Store_Schema = new Schema({
 	Email: String, // email address of the store, defined by user (a method to communicate with the store. Potentially an identifier for the store. )
 	Inventory : { // A list of items. The item is added to this list to connect it with the database. More data on items is found in the Item_Schema. 
 		type: [{ // contains the item ID, the items name, the date the item is added, and the number in the inventory. 
-			ItemID: String , ItemName: String, NumberInInventory: Number 
+			ItemID: String , ItemName: String, Date: {Type : Date, default : Date.now}, NumberInInventory: Number 
 		}], 
 		default : [] // starts as an empty list
 	}, 
 	Comments : { // if we want to add comments to the store. 
 		type: [{
-		 Body: String, Date: { type: Date, default: Date.now }, UserID: String, Username: String
+		 Body: String, Date: Date, UserID: String, Username: String
 		}], 
 		default : [] // starts as an empty list
 	},

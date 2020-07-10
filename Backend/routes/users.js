@@ -1,95 +1,22 @@
 /******************************************************************************
- * Name: Kyle Enchill															*
- * Date: 7/3/2020																*
- * Version: 1.0.0																*
+ * Name: Kyle Enchill														  *
+ * Date: 7/9/2020															  *
+ * Version: 1.1.0															  *
  * Description: This file contains the functions for the users on our platform*
- * So far there is an add function to create new users in our database.			*
+ * There are functions for the user and the user's cart. So far there is the  *
+ * basic create, retrieve, update, and delete for both items in the cart and  *
+ * users.																	  *
  ******************************************************************************/
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose'); 
-const UserModel = require('../Models/User_Model');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy; 
-const jwt = require("jsonwebtoken");
-//const passportLocalMongoose = require('passport-local-mongoose');
+var express = require('express');
+var router = express.Router();
+const mongoose = require('mongoose');
+var user_schema = require('../Schema/user_schema');
+var Item_Schema = require('../Schema/Item_Schema');
 
-router.post('/register', async function(req, res) { // add and register a user, hashes password
-	console.log(req.body);
-	var UserTypeSet = "USER";
-	if (req.body.isstore) {
-		UserTypeSet = "STORE"
-	}
-	user_details = {
-		Email: req.body.Email,
-		username: req.body.username,
-		FirstName: req.body.FirstName,
-		LastName: req.body.LastName,
-		Address: req.body.Address,
-		City: req.body.City,
-		State: req.body.State,
-		Zipcode: req.body.Zipcode, 
-		UserType : UserTypeSet
-	};
-	await UserModel.register(new UserModel(user_details), req.body.password, async function(err) 
-	{
-		console.log("HI");
-		if (err)
-		{
-			console.log("Error: ", err);
-			res.json({success:false, message:"Your account could not be saved. Error: ", err}) 
-		}
-		else
-		{
-			console.log("No error");
-			res.json({success: true, message: "Your account has been saved"})
-		} 
-	}); 
-}); 
+const url = 'mongodb://127.0.0.1:27017/Ouluxx'
 
-router.post('/login', function(req, res){
-	if(!req.body.username){ 
-		//console.log("No username");
-		res.json({success: false, message: "Username was not given"}) 
-	}
-	else
-	{ 
-		if(!req.body.password){ 
-			//console.log("No password");
-			res.json({success: false, message: "Password was not given"}) 
-		}
-		else{ 
-			passport.authenticate('local', function (err, user, info) {	
-			if(err){ 
-				//console.log("authentication error");
-				res.json({success: false, message: err}) 
-			}
-			else{ 
-				if(!user){ 
-					//console.log("incorrect username or password");
-					res.json({success: false, message: 'username or password incorrect'}) 
-				}
-				else{ 
-					req.login(user, function(err){ 
-						if(err){
-							//console.log("login error", err);
-							res.json({success: false, message: err}) 
-						}
-						else{
-							//console.log("SUCCESS");
-							const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103"
-							const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'}) 
-							res.json({success:true, message:"Authentication successful", token: token }); 
-						} 
-					}) 
-				}
-			} 
-		})
-		(req, res); 
-		}
-	}
-});
-
+const UserModel = mongoose.model('UserAddModel', user_schema);
+const ItemModel = mongoose.model('ItemModel', Item_Schema);
 
 router.get('/', function (req, res, next) {
 	//this processes the GET request. 
@@ -102,14 +29,16 @@ router.get('/', function (req, res, next) {
 	console.log("Hello");
 });
 
-/*router.post('/add', async function (req, res, next) { // add a user to the db
+/************************** USER FUNCTIONS *************************************/
+//creates a new user in the database
+router.post('/add', async function (req, res, next) { // add a user to the db
 	//this processes the POST request. 
 	//this needs to be converted to sanitize the inputs.
 	//this also needs to parse the inputs
 	//this needs to implement prepared statements for the query
 	console.log(req.body);
 
-	//mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 	var newuser = new UserModel({
 		Username: req.body.Username,
 		FirstName: req.body.FirstName,
@@ -118,7 +47,8 @@ router.get('/', function (req, res, next) {
 		Address: req.body.Address,
 		City: req.body.City,
 		State: req.body.State,
-		Zipcode: req.body.Zipcode
+		Zipcode: req.body.Zipcode,
+		UserID: newuser._id
 
 	});
 
@@ -128,11 +58,174 @@ router.get('/', function (req, res, next) {
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-	//mongoose.connection.close();
+	mongoose.connection.close();
 });
-*/
-/*
-router.post('/testadd', async function (req, res, next) {
+
+//retrieve user
+router.post('/get_user', async function (req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	await UserModel.findOne({ _id: mongoose.Types.ObjectId(req.body.userid) },
+		function (err, InventoryItemModel) {
+			res.json(JSON.stringify(UserModel))
+		});
+	mongoose.connection.close();
+});
+
+//updates user information
+router.post('/update', async function (req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+
+	for (const [key, value] of Object.entries(req.body)) {
+		if (key.toString().toUpperCase().includes("ID") || key.toString().toUpperCase().includes("Name")) {
+			console.log(key); // cannot be changed
+		} else if (key.toString().toUpperCase() === "USERNAME") { //need to verify if the username is already taken
+			await UserModel.findOneAndUpdate(
+				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ "Username": value.toString() }
+			);
+		} else if (key.toString().toUpperCase() === "FIRSTNAME") {
+			await UserModel.findOneAndUpdate(
+				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ "FirstName": value.toString() }
+			);
+		} else if (key.toString().toUpperCase() === "LASTNAME") {
+			await UserModel.findOneAndUpdate(
+				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ "LastName": value.toString() }
+			);
+		} else if (key.toString().toUpperCase() === "ADDRESS") {
+			await UserModel.findOneAndUpdate(
+				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ "Address": value.toString() }
+			);
+		} else if (key.toString().toUpperCase() === "CITY") {
+			await UserModel.findOneAndUpdate(
+				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ "City": value.toString() }
+			);
+		} else if (key.toString().toUpperCase() === "STATE") {
+			await UserModel.findOneAndUpdate(
+				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ "State": value.toString() }
+			);
+		} else if (key.toString().toUpperCase() === "ZIPCODE") {
+			await UserModel.findOneAndUpdate(
+				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ "Zipcode": value.toString() }
+			);
+		}
+	}
+});
+
+//delete user from database
+router.post('/delete', async function (req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+
+	await UserModel.findOneAndRemove({ _id: mongoose.Types.ObjectId(req.body.userid) });
+
+	var obj = new Object();
+	obj.status = "Success";
+	res.json(JSON.stringify(obj));
+
+	mongoose.connection.close();
+});
+
+/************************** CART FUNCTIONS *************************************/
+
+//adds an item to the user's cart
+router.post('/add_to_cart', async function (req, res, next) {
+	console.log(req, body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+
+	var itemprice = parseFloat(req.body.itemprice);
+
+	var newItem = new ItemModel({
+		Name: req.body.itemname,
+		Price: itemprice,
+		StoreName: req.body.itemstore,
+		StoreID: req.body.storeid,
+		Category: req.body.categories,
+		Quantity: req.body.quantity
+	});
+
+	var CartItem = {
+		ItemID: newItem._id,
+		UserID: req.body.userid,
+		ItemName: req.body.itemname,
+		NumberInCart: req.body.number_in_cart
+	}
+
+	await UserModel.findOneAndUpdate(
+		{ _id: mongoose.Types.ObjectId(req.body.userid) },
+		{ $push: { Cart: CartItem } }
+	);
+
+	var obj = new Object();
+	obj.status = "Success";
+	res.json(JSON.stringify(obj));
+
+	mongoose.connection.close();
+
+});
+
+//retrieves the items in the user's cart
+router.post('get_cart', async function (req, res, next) {
+	console.log(req, body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+
+	await UserModel.find({ UserID: req.body.userid, Cart: {} },
+		function (err, UserModel) {
+			res.json(JSON.stringify(UserModel))
+		});
+
+
+	mongoose.connection.close();
+});
+
+//updates the quantity of an object in the user's cart
+router.post('update_cart', async function (req, res, next) {
+	console.log(req, body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+
+	await UserModel.findOneAndUpdate(
+		{
+			_id: mongoose.Types.ObjectId(req.body.userid),
+			Cart: { _id: mongoose.Types.ObjectId(req.body.ItemID) }
+		},
+		{ "Quantity": value.toString() }
+	);
+
+	var obj = new Object();
+	obj.status = "Success";
+	res.json(JSON.stringify(obj));
+	mongoose.connection.close();
+
+});
+
+//removes an item from the user's cart
+router.post('remove_from_cart', async function (req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+
+	await UserModel.findOneAndUpdate(
+		{
+			_id: mongoose.Types.ObjectId(req.body.userid),
+			Cart: { _id: mongoose.Types.ObjectId(req.body.ItemID) }
+		},
+		{ $pull: { Cart: { ItemID: req.body.itemid } } }
+	);
+
+	var obj = new Object();
+	obj.status = "Success";
+	res.json(JSON.stringify(obj));
+	mongoose.connection.close();
+});
+
+
+/* router.post('/testadd', function (req, res, next) {
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 	var newuser = new UserModel({
@@ -147,13 +240,13 @@ router.post('/testadd', async function (req, res, next) {
 
 	});
 
-	await newuser.save();
+await newuser.save();
 
-	var obj = new Object();
-	obj.hello = "World";
-	res.json(JSON.stringify(obj));
+var obj = new Object();
+obj.hello = "World";
+res.json(JSON.stringify(obj));
 
-	mongoose.connection.close();
-});*/
+mongoose.connection.close();
+}); */
 
 module.exports = router;
