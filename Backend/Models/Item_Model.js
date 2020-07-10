@@ -8,8 +8,10 @@
  ******************************************************************************/
 
 const mongoose = require('mongoose');
+var Schema = mongoose.Schema; 
+var passportLocalMongoose = require('passport-local-mongoose'); 
 
-const Inventory_Item = new mongoose.Schema({
+const Inventory_Item = new Schema({
 	Schema_Type : {type : String, default: "ITEM"}, // Identifies this as an Inventory item. 
 	//ItemID : Uint32Array, // The id of the item potentially unneeded as _id exists
 	Name : String, // name of the item, defined by user
@@ -27,4 +29,4 @@ const Inventory_Item = new mongoose.Schema({
 	Hidden : {type: Boolean, default: false} // whether or not item is hidden, such as removed from store or out of stock 
 });
 
-module.exports = Inventory_Item;
+module.exports = mongoose.model("Inventory_Item", Inventory_Item);

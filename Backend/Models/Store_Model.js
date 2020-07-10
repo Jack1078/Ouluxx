@@ -8,8 +8,8 @@
  ******************************************************************************/
 
 const mongoose = require('mongoose');
-
-const Store_Schema = new mongoose.Schema({
+var Schema = mongoose.Schema; 
+const Store_Schema = new Schema({
 	Schema_Type : {type : String, default: "STORE"}, // Identifies this as a store item. 
 	Name : String, // The name of the store, defined by user
 	//StoreID : Number, // The ID of the store, defined by program based upon the name and the number of elements already labeled STORE
@@ -36,4 +36,4 @@ const Store_Schema = new mongoose.Schema({
 	Hidden : { type: Boolean, default: false } // determine if the object is hidden, if someone does not want their store hosted, etc. 
 });
 
-module.exports = Store_Schema;
+module.exports = mongoose.model('Store_Schema', Store_Schema);

@@ -1,13 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
-var Item_Schema = require('../Schema/Item_Schema'); 
-var Store_Schema = require('../Schema/Store_Schema'); 
+var InventoryItemModel = require('../Models/Item_Model'); 
+var StoreModel = require('../Models/Store_Model'); 
 
 const url = 'mongodb://127.0.0.1:27017/Ouluxx'
-
-const InventoryItemModel = mongoose.model('InventoryItemModel', Item_Schema);
-const StoreModel = mongoose.model('StoreModel', Store_Schema);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -338,7 +335,8 @@ get stores with specific properties
 router.post('/get_item_with_property', async function(req, res, next) {
 	console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	await InventoryItemModel.find({req.body.property : req.body.value},
+	var propertyname = req.body.property;
+	await InventoryItemModel.find({propertyname : req.body.value},
 		function(err, InventoryItemModel) {
 			res.json(JSON.stringify(InventoryItemModel))
 		});

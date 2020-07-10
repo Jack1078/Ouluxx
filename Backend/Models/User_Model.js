@@ -8,18 +8,21 @@
  ******************************************************************************/
 
 const mongoose = require('mongoose');
+const passport = require('passport');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const User = new mongoose.Schema({
 	Schema_Type : {type : String, default: "USER"}, // Identifies this as a store item. 
 	//UserID: String, // use the _id value
-	Username : String, 
+	Email: String,
+	username : {type: String, unique: true}, 
 	Password : String, 
 	FirstName: String,
 	LastName: String,
-	Email: String,
 	Address: String,
 	City: String,
 	State: String,
+	active: {type : Boolean, default : true},
 	Zipcode: Number,   //This does not verify if the zipcode is strictly XXXXX format
 	UserType: String, // This is either user or store. 
 	Cart: {
@@ -38,5 +41,7 @@ const User = new mongoose.Schema({
 	}
 
 });
-	
-module.exports = User;
+
+User.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model('User', User);

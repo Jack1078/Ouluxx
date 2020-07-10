@@ -1,13 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
-var Item_Schema = require('../Schema/Item_Schema'); 
-var Store_Schema = require('../Schema/Store_Schema'); 
+var InventoryItemModel = require('../Models/Item_Model'); 
+var StoreModel = require('../Models/Store_Model'); 
 
 const url = 'mongodb://127.0.0.1:27017/Ouluxx'
-
-const InventoryItemModel = mongoose.model('InventoryItemModel', Item_Schema);
-const StoreModel = mongoose.model('StoreModel', Store_Schema);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -36,7 +33,7 @@ Add a store.
 
 router.post('/add', async function(req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	var newStore = new StoreModel({
 				Name : req.body.storename, 
 				Address : req.body.storeaddress, 
@@ -50,7 +47,7 @@ router.post('/add', async function(req, res, next) {
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 /*
@@ -67,13 +64,13 @@ Remove a store.
 
 router.post('/delete', async function(req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	await StoreModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.body.storeid)});
 	await InventoryItemModel.deleteMany({StoreID:req.body.storeid});
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 /*
@@ -91,12 +88,12 @@ If there is no store with the given id, it returns null.
 
 router.post('/get_store', async function(req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	await StoreModel.findOne({_id: mongoose.Types.ObjectId(req.body.storeid)}, 
 		function(err, StoreModel) {
 			res.json(JSON.stringify(StoreModel))
 		});
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 /*
@@ -110,12 +107,12 @@ If there are no stores, it returns null.
 
 router.post('/get_all_stores', async function(req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	await StoreModel.find({},
 		function(err, StoreModel) {
 			res.json(JSON.stringify(StoreModel))
 		});
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 /*
@@ -133,12 +130,13 @@ get stores with specific properties
 
 router.post('/get_store_with_property', async function(req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	await StoreModel.find({req.body.property : req.body.value},
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	var propertyname = req.body.property;
+	await StoreModel.find({propertyname : req.body.value},
 		function(err, StoreModel) {
 			res.json(JSON.stringify(StoreModel))
 		});
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 /*
@@ -158,7 +156,7 @@ Add a comment to an item.
 
 router.post('/add_comment', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	var commentitem = { // create inventory item to add to inventory array
 		Body: req.body.comment, 
 		userID: req.body.userid,
@@ -171,7 +169,7 @@ router.post('/add_comment', async function(req, res, next) {// add an item to th
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 module.exports = router;
