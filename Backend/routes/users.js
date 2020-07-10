@@ -108,13 +108,8 @@ router.post('/login', function(req, res){
 	}
 });
 
-
-
-
-
-
 //creates a new user in the database
-router.post('/add', async function (req, res, next) { // add a user to the db
+/*router.post('/add', async function (req, res, next) { // add a user to the db
 	//this processes the POST request. 
 	//this needs to be converted to sanitize the inputs.
 	//this also needs to parse the inputs
@@ -141,7 +136,7 @@ router.post('/add', async function (req, res, next) { // add a user to the db
 	res.json(JSON.stringify(obj));
 
 });
-
+*/
 //retrieve user
 router.post('/get_user', async function (req, res, next) {
 	console.log(req.body);
