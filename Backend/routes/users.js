@@ -151,7 +151,7 @@ router.post('/update', async function (req, res, next) {
 	console.log(req.body);
 
 	for (const [key, value] of Object.entries(req.body)) {
-		if (key.toString().toUpperCase().includes("ID") || key.toString().toUpperCase().includes("Name")) {
+		if (key.toString().toUpperCase().includes("ID") || key.toString().toUpperCase().includes("NAME")) {
 			console.log(key); // cannot be changed
 		} else if (key.toString().toUpperCase() === "USERNAME") { //need to verify if the username is already taken
 			await UserModel.findOneAndUpdate(
