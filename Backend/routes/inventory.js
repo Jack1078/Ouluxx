@@ -82,19 +82,28 @@ Add a comment to an item.
 */
 
 router.post('/add_comment',async function(req, res, next) {// add an item to the db, and add it to the store. 
-	console.log(req.body);
-	var commentitem = { // create inventory item to add to inventory array
-		Body: req.body.comment, 
-		userID: req.body.userid,
-		Username: req.body.username
-	};
-	await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
-		{_id:mongoose.Types.ObjectId(req.body.itemid)}, 
-		{ $push: { Comments: commentitem } }
-	); 
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
+	if (req.isAuthenticated()) {
+		console.log(req.body);
+		var commentitem = { // create inventory item to add to inventory array
+			Body: req.body.comment, 
+			userID: req.body.userid,
+			Username: req.body.username
+		};
+		await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
+			{_id:mongoose.Types.ObjectId(req.body.itemid)}, 
+			{ $push: { Comments: commentitem } }
+		); 
+		var obj = new Object();
+		obj.status = "Success";
+		res.json(JSON.stringify(obj));
+	}
+	else
+	{
+		var obj = new Object();
+		obj.status = "FAILURE";
+		obj.message = "NOT LOGGED IN";
+		res.json(JSON.stringify(obj));
+	}
 });
 
 /*
