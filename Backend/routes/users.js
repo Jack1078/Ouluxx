@@ -32,6 +32,25 @@ router.get('/', function (req, res, next) {
 });
 
 /************************** USER FUNCTIONS *************************************/
+
+/*
+JSON request looks like this. 
+{
+"Email": "<email>",
+"username": "<Username>",
+"password":"<Password>",
+"FirstName": "<FirstName>",
+"LastName": "<LastName>",
+"Address": "<address>",
+"City": "<City>",
+"State": "<State>",
+"Zipcode": "<Zip code>", 
+"isstore" : <boolean>
+}
+*/
+
+
+
 router.post('/register', async function(req, res) { // add and register a user, hashes password
 	//console.log(req.body);
 	var UserTypeSet = "USER";
@@ -69,13 +88,6 @@ router.post('/register', async function(req, res) { // add and register a user, 
 		} 
 	}); 
 }); 
-
-
-
-router.post('/login_testing', function(req, res) {
-	console.log(req.body);
-	res.json({success:true});
-});
 
 router.post('/login', passport.authenticate('local', { failureFlash: true }), function(req, res) {
 	res.json({success:true, message:"LOGIN SUCCESS"});

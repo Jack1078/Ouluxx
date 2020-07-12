@@ -14,7 +14,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const User = new mongoose.Schema({
 	Schema_Type: { type: String, default: "USER" }, // Identifies this as a store item. 
 	//UserID: String, // use the _id value
-	email: {type: String, unique: true},
+	Email: {type: String, unique: true},
 	username : String, 
 	Password : String, 
 	FirstName: String,
@@ -42,9 +42,9 @@ const User = new mongoose.Schema({
 
 });
 
-User.plugin(passportLocalMongoose/*, 
+User.plugin(passportLocalMongoose, 
 	{
 		usernameField:"Email"
-	}*/);
+	});
 
 module.exports = mongoose.model('User', User);
