@@ -12,6 +12,7 @@ const router = express.Router();
 const mongoose = require('mongoose'); 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy; 
+var flash = require('connect-flash');
 const jwt = require("jsonwebtoken");
 
 const UserModel = require('../Models/User_Model');
@@ -61,58 +62,22 @@ router.post('/register', async function(req, res) { // add and register a user, 
 			//console.log("No error");
 			//res.json({success: true, message: "Your account has been saved"})
 			// login to the new account
-			const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103";
-			const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'});
-			res.cookie("username", req.body.username, { expire: new Date() + 259200000 });
-			res.cookie("Token", token, { expire: new Date() + 259200000 });
+			//const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103";
+			//const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'});
+			//res.cookie("username", req.body.username, { expire: new Date() + 259200000 });
+			//res.cookie("Token", token, { expire: new Date() + 259200000 });
 			res.json({success:true, message:"Authentication successful", token: token });
 		} 
 	}); 
 }); 
 
-router.post('/login', function(req, res){
-	if(!req.body.username){ 
-		//console.log("No username");
-		res.json({success: false, message: "Username was not given"}) 
-	}
-	else
-	{ 
-		if(!req.body.password){ 
-			//console.log("No password");
-			res.json({success: false, message: "Password was not given"}) 
-		}
-		else{ 
-			passport.authenticate('local', function (err, user, info) {	
-			if(err){ 
-				//console.log("authentication error");
-				res.json({success: false, message: err}) 
-			}
-			else{ 
-				if(!user){ 
-					//console.log("incorrect username or password");
-					res.json({success: false, message: 'username or password incorrect'}) 
-				}
-				else{ 
-					req.login(user, function(err){ 
-						if(err){
-							//console.log("login error", err);
-							res.json({success: false, message: err}) 
-						}
-						else{
-							//console.log("SUCCESS");
-							const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103";
-							const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'});
-							res.cookie("username", req.body.username, { expire: new Date() + 259200000 });
-							res.cookie("Token", token, { expire: new Date() + 259200000 });
-							res.json({success:true, message:"Authentication successful", token: token });
-						} 
-					}) 
-				}
-			} 
-		})
-		(req, res); 
-		}
-	}
+router.post('/login', passport.authenticate('local', { failureFlash: true }), function(req, res) {
+	res.json({success:true, message:"LOGIN SUCCESS"});
+  });
+
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
 });
 
 //creates a new user in the database

@@ -33,10 +33,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(flash());
 
-app.use(express.static(path.join(__dirname, 'public')));
 
 
 // configure passport middleware
+app.use(session({ secret: '7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103'}));
 app.use(passport.initialize()); 
 app.use(passport.session()); 
 
@@ -46,6 +46,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(express.static(path.join(__dirname, 'public')));
 
 //create connection to DB
 
