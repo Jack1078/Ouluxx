@@ -32,12 +32,12 @@ router.get('/', function (req, res, next) {
 
 /************************** USER FUNCTIONS *************************************/
 router.post('/register', async function(req, res) { // add and register a user, hashes password
-	console.log(req.body);
+	//console.log(req.body);
 	var UserTypeSet = "USER";
 	if (req.body.isstore) {
 		UserTypeSet = "STORE"
 	}
-	user_details = {
+	user = new UserModel({
 		Email: req.body.Email,
 		username: req.body.username,
 		FirstName: req.body.FirstName,
@@ -47,10 +47,10 @@ router.post('/register', async function(req, res) { // add and register a user, 
 		State: req.body.State,
 		Zipcode: req.body.Zipcode, 
 		UserType : UserTypeSet
-	};
-	await UserModel.register(new UserModel(user_details), req.body.password, async function(err) 
+	});
+	await UserModel.register(user, req.body.password, async function(err) 
 	{
-		console.log("HI");
+		//console.log("HI");
 		if (err)
 		{
 			console.log("Error: ", err);
@@ -58,8 +58,14 @@ router.post('/register', async function(req, res) { // add and register a user, 
 		}
 		else
 		{
-			console.log("No error");
-			res.json({success: true, message: "Your account has been saved"})
+			//console.log("No error");
+			//res.json({success: true, message: "Your account has been saved"})
+			// login to the new account
+			const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103";
+			const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'});
+			res.cookie("username", req.body.username, { expire: new Date() + 259200000 });
+			res.cookie("Token", token, { expire: new Date() + 259200000 });
+			res.json({success:true, message:"Authentication successful", token: token });
 		} 
 	}); 
 }); 
@@ -96,7 +102,8 @@ router.post('/login', function(req, res){
 							//console.log("SUCCESS");
 							const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103";
 							const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'});
-							//res.cookie();
+							res.cookie("username", req.body.username, { expire: new Date() + 259200000 });
+							res.cookie("Token", token, { expire: new Date() + 259200000 });
 							res.json({success:true, message:"Authentication successful", token: token });
 						} 
 					}) 
