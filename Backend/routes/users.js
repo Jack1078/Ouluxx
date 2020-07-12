@@ -280,7 +280,6 @@ router.post('remove_from_cart', async function (req, res, next) {
 
 /* router.post('/testadd', function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 	var newuser = new UserModel({
 		Username: req.body.Username,
 		FirstName: req.body.FirstName,
@@ -299,7 +298,6 @@ var obj = new Object();
 obj.hello = "World";
 res.json(JSON.stringify(obj));
 
-mongoose.connection.close();
 }); */
 
 module.exports = router;

@@ -332,7 +332,6 @@ router.post('/get_item_with_property', async function(req, res, next) {
 
 /*router.post('/testadd', async function(req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 	var newitem = new InventoryItemModel({
 				name : req.body.itemname, 
 				price : req.body.itemprice, 
@@ -343,7 +342,6 @@ router.post('/get_item_with_property', async function(req, res, next) {
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));	
-	mongoose.connection.close();
 });*/
 
 module.exports = router;
