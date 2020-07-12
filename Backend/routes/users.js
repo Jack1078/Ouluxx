@@ -84,13 +84,13 @@ router.post('/register', async function(req, res) { // add and register a user, 
 			const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'});
 			res.cookie("username", req.body.username, { expire: new Date() + 259200000 });
 			res.cookie("Token", token, { expire: new Date() + 259200000 });
-*/			res.json({success:true, message:"Authentication successful"/*, token: token */});
+*/			res.json({success:true, message:"Authentication successful", User:req.user/*, token: token */});
 		} 
 	}); 
 }); 
 
 router.post('/login', passport.authenticate('local', { failureFlash: true }), function(req, res) {
-	res.json({success:true, message:"LOGIN SUCCESS"});
+	res.json({success:true, message:"LOGIN SUCCESS", User:req.user});
 });
 
 router.post('/logout', function(req, res) {
