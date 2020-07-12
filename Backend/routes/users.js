@@ -95,9 +95,10 @@ router.post('/login', function(req, res){
 						}
 						else{
 							//console.log("SUCCESS");
-							const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103"
-							const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'}) 
-							res.json({success:true, message:"Authentication successful", token: token }); 
+							const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103";
+							const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'});
+							//res.cookie();
+							res.json({success:true, message:"Authentication successful", token: token });
 						} 
 					}) 
 				}
@@ -156,7 +157,7 @@ router.post('/update', async function (req, res, next) {
 		} else if (key.toString().toUpperCase() === "USERNAME") { //need to verify if the username is already taken
 			await UserModel.findOneAndUpdate(
 				{ _id: mongoose.Types.ObjectId(req.body.userid) },
-				{ "Username": value.toString() }
+				{ "username": value.toString() }
 			);
 		} else if (key.toString().toUpperCase() === "FIRSTNAME") {
 			await UserModel.findOneAndUpdate(
