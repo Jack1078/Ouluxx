@@ -81,7 +81,7 @@ Add a comment to an item.
 
 */
 
-router.post('/add_comment',passport.authenticate('local',{ failureFlash: true }),async function(req, res, next) {// add an item to the db, and add it to the store. 
+router.post('/add_comment',async function(req, res, next) {// add an item to the db, and add it to the store. 
 	console.log(req.body);
 	var commentitem = { // create inventory item to add to inventory array
 		Body: req.body.comment, 
@@ -216,29 +216,27 @@ router.post('/update', async function(req, res, next) {// add an item to the db,
 		else if (key.toString().toUpperCase() === "PRICE") {
 			await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
 				{_id : mongoose.Types.ObjectId(req.body.itemid) }, 
-				{ "Price" : parseFloat(value.toString()) }
+				{ "Price" : parseFloat(value) }
 			);
 		}
 		else if (key.toString().toUpperCase() === "HIDDEN") {
-			console.log(key);
-			console.log(value);
 			await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
 				{_id : mongoose.Types.ObjectId(req.body.itemid) }, 
-				{ "Hidden" : value.toString()==="true" }
+				{ "Hidden" : value==="true" }
 			);
 		}
 		else if (key.toString().includes("Add_Category")) 
 		{
 			await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
 				{ _id : mongoose.Types.ObjectId(req.body.itemid) }, 
-				{ $push: { "Category" : value.toString() } }
+				{ $push: { "Category" : value } }
 			); 
 		}
 		else if (key.toString().includes("Remove_Category")) 
 		{
 			await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
 				{ _id : mongoose.Types.ObjectId(req.body.itemid) }, 
-				{ $pull: { "Category" : value.toString() } }
+				{ $pull: { "Category" : value } }
 			); 
 		}
 		else
