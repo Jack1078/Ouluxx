@@ -6,6 +6,7 @@ import LandingPage from './layouts/LandingPage/landingpage_h';
 import SignupPage from './layouts/SignupPage/signup_h';
 import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import StorePage from './layouts/StorePage/storePage_h';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // default theme
 const theme = createMuiTheme({
