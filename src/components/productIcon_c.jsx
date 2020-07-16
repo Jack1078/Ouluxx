@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Container, Row, Col, ButtonGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { makeStyles } from "@material-ui/core/styles";
-//import Popup from "../containers/item_popup_menu";
+import MiniCart from "../containers/miniCart_k";
 
 
 
@@ -79,6 +79,9 @@ const useStyles = makeStyles(() => ({
 
 }));
 
+let items = [];
+
+
 const ProductIcon = (props) => {
     const classes = useStyles();
     const { name, categories, img_url, alt, onClick, rating, price, ...other } = props;
@@ -91,12 +94,32 @@ const ProductIcon = (props) => {
     const [quantity, setQuantity] = useState(0);
     function increase() {
         setQuantity(quantity + 1);
+        item.itemQuantity = quantity;
     }
     function decrease() {
         if (quantity > 0) {
             setQuantity(quantity - 1);
+            item.itemQuantity = quantity;
         }
     }
+
+    //when "add to cart" clicked, it will get the current object and check for the object in the database (by id) and will grab the info in 
+    //modal and add to the list in cart after validation
+
+    //create an object
+    let item = {
+        itemImage: img_url,
+        itemName: name,
+        itemQuantity: quantity,
+        itemPrice: "$" + price.toFixed(2),
+        orderNumber: Math.floor(Math.random())
+    }
+
+
+    function addToCart() {
+        items.push(item);
+    }
+
     return (
         <>
             <div
@@ -176,7 +199,7 @@ const ProductIcon = (props) => {
                                     <Row></Row>
                                     <br></br>
                                     <Row>
-                                        <Button variant="warning" onClick={handleClose}>
+                                        <Button variant="warning" onClick={addToCart()}>
                                             + Add to cart
                                      </Button>
                                     </Row>
@@ -211,3 +234,4 @@ ProductIcon.propTypes = {
 }
 
 export default ProductIcon;
+export { items }
