@@ -7,8 +7,8 @@ import LandingPage from './layouts/LandingPage/landingpage_h';
 import SignupPage from './layouts/SignupPage/signup_h';
 import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import StorePage from './layouts/StorePage/storePage_h';
-import VideoChat from './containers/videochat_k';
 
+import VideoRoom from './containers/VideoRoom/videoroom_k';
 // default theme
 const theme = createMuiTheme({
   palette: {
@@ -27,7 +27,8 @@ function App() {
             <Route path="/signup" exact component={SignupPage} />
             <Route path="/stores" exact component={SelectionPage} />
             <Route path="/stores/:store" exact component={StorePage} />
-            <Route path="/room/:roomID" component={VideoChat} />
+            <Route path="/stores/:store/room/:roomID" exact component={StorePage} />
+            <Route path="/:roomID" exact component={VideoRoom} /> // TODO: delete later
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>
