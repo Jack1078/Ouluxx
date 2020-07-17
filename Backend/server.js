@@ -11,12 +11,15 @@ var session = require("express-session");
 const mongoose = require('mongoose')
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy; 
+var GoogleStrategy = require('./config/google_strategy');
+var FacebookStrategy = require('./config/facebook_strategy');
 const flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var storeRouter = require('./routes/store');
 var inventoryRouter = require('./routes/inventory');
+var authRouter = require('./routes/auth');
 const User = require('./Models/User_Model');
 const port = process.env.PORT || 4000;
 
@@ -38,13 +41,31 @@ app.use(flash());
 // configure passport middleware
 app.use(session({ secret: '7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103'}));
 app.use(passport.initialize()); 
-app.use(passport.session()); 
+app.use(passport.session());
 
-
-passport.use(User.createStrategy());
-
-passport.serializeUser(User.serializeUser());
+/*passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+*/
+
+passport.serializeUser((user, done) => {
+    done(null, user._id); //user.id is the id from Mongo
+});
+
+passport.deserializeUser((id, done) => {
+    User.findById(id)
+        .then(user => {
+             done(null, user)
+        })
+        .catch((err) => done('pass')); //you should use catch like this
+});
+
+passport.deserializeUser((obj, done) => {
+    User.deserializeUser();
+});
+
+passport.use(User.createStrategy()); // local strategy
+/*passport.use(FacebookStrategy); // facebook strategy
+*/passport.use(GoogleStrategy); // google strategy
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -65,6 +86,11 @@ app.use('/', indexRouter);
 app.use('/store', storeRouter);
 app.use('/inventory', inventoryRouter);
 app.use('/users', usersRouter);
+app.use('/auth', authRouter);
+
+app.get("/auth/google", passport.authenticate("google", {
+	scope: ["profile", "email"]
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
