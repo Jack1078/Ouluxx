@@ -9,6 +9,7 @@
 
 const mongoose = require('mongoose');
 var Schema = mongoose.Schema; 
+var passportLocalMongoose = require('passport-local-mongoose'); 
 
 const Inventory_Item = new Schema({
 	Schema_Type : {type : String, default: "ITEM"}, // Identifies this as an Inventory item. 
