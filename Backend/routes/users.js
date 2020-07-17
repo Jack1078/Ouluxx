@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
+const jwt = require("jsonwebtoken");
 
 const UserModel = require('../Models/User_Model');
 const ItemModel = require('../Models/Item_Model');
@@ -31,7 +32,26 @@ router.get('/', function (req, res, next) {
 });
 
 /************************** USER FUNCTIONS *************************************/
-router.post('/register', async function (req, res) { // add and register a user, hashes password
+
+/*
+JSON request looks like this. 
+{
+"Email": "<email>",
+"username": "<Username>",
+"password":"<Password>",
+"FirstName": "<FirstName>",
+"LastName": "<LastName>",
+"Address": "<address>",
+"City": "<City>",
+"State": "<State>",
+"Zipcode": "<Zip code>", 
+"isstore" : <boolean>
+}
+*/
+
+
+
+router.post('/register', async function(req, res) { // add and register a user, hashes password
 	//console.log(req.body);
 	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	var UserTypeSet = "USER";
@@ -57,18 +77,23 @@ router.post('/register', async function (req, res) { // add and register a user,
 		}
 		else {
 			//console.log("No error");
-			res.json({ success: true, message: "Authentication successful", token: token });
-		}
-	});
-	// mongoose.connection.close(); //Why do i get an error when I close the connection after a user is added?
-});
+			// login to the new account
+/*			const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103";
+			const token = jwt.sign({userId : user._id, username:user.username}, secretkey, {expiresIn: '72h'});
+			res.cookie("username", req.body.username, { expire: new Date() + 259200000 });
+			res.cookie("Token", token, { expire: new Date() + 259200000 });
+*/			res.json({success:true, message:"Authentication successful", User:req.user/*, token: token */});
+		} 
+	}); 
+}); 
 
-router.post('/login', passport.authenticate('local', { failureFlash: true }), function (req, res) {
-	res.json({ success: true, message: "LOGIN SUCCESS" });
+router.post('/login', passport.authenticate('local', { failureFlash: true }), function(req, res) {
+	res.json({success:true, message:"LOGIN SUCCESS", User:req.user});
 });
 
 router.post('/logout', function (req, res) {
 	req.logout();
+	res.json({success:true, message:"LOGOUT SUCCESS"});
 });
 
 //creates a new user in the database
