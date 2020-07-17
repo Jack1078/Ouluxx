@@ -1,7 +1,7 @@
 /******************************************************************************
  * Name: Kyle Enchill														  *
- * Date: 7/9/2020															  *
- * Version: 1.1.0															  *
+ * Date: 7/16/2020															  *
+ * Version: 1.2.0															  *
  * Description: This file contains the functions for the users on our platform*
  * There are functions for the user and the user's cart. So far there is the  *
  * basic create, retrieve, update, and delete for both items in the cart and  *
@@ -9,9 +9,9 @@
  ******************************************************************************/
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy; 
+const LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 
 const UserModel = require('../Models/User_Model');
@@ -31,8 +31,9 @@ router.get('/', function (req, res, next) {
 });
 
 /************************** USER FUNCTIONS *************************************/
-router.post('/register', async function(req, res) { // add and register a user, hashes password
+router.post('/register', async function (req, res) { // add and register a user, hashes password
 	//console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	var UserTypeSet = "USER";
 	if (req.body.isstore) {
 		UserTypeSet = "STORE"
@@ -45,30 +46,28 @@ router.post('/register', async function(req, res) { // add and register a user, 
 		Address: req.body.Address,
 		City: req.body.City,
 		State: req.body.State,
-		Zipcode: req.body.Zipcode, 
-		UserType : UserTypeSet
+		Zipcode: req.body.Zipcode,
+		UserType: UserTypeSet
 	});
-	await UserModel.register(user, req.body.password, async function(err) 
-	{
+	await UserModel.register(user, req.body.password, async function (err) {
 		//console.log("HI");
-		if (err)
-		{
+		if (err) {
 			console.log("Error: ", err);
-			res.json({success:false, message:"Your account could not be saved. Error: ", err}) 
+			res.json({ success: false, message: "Your account could not be saved. Error: ", err })
 		}
-		else
-		{
+		else {
 			//console.log("No error");
-			res.json({success:true, message:"Authentication successful", token: token });
-		} 
-	}); 
-}); 
-
-router.post('/login', passport.authenticate('local', { failureFlash: true }), function(req, res) {
-	res.json({success:true, message:"LOGIN SUCCESS"});
+			res.json({ success: true, message: "Authentication successful", token: token });
+		}
+	});
+	// mongoose.connection.close(); //Why do i get an error when I close the connection after a user is added?
 });
 
-router.post('/logout', function(req, res) {
+router.post('/login', passport.authenticate('local', { failureFlash: true }), function (req, res) {
+	res.json({ success: true, message: "LOGIN SUCCESS" });
+});
+
+router.post('/logout', function (req, res) {
 	req.logout();
 });
 
@@ -104,19 +103,28 @@ router.post('/logout', function(req, res) {
 //retrieve user
 router.post('/get_user', async function (req, res, next) {
 	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+
 	await UserModel.findOne({ _id: mongoose.Types.ObjectId(req.body.userid) },
-		function (err, InventoryItemModel) {
+		function (err, UserModel) {
 			res.json(JSON.stringify(UserModel))
 		});
+
+	mongoose.connection.close();
 });
 
 //updates user information
 router.post('/update', async function (req, res, next) {
 	console.log(req.body);
-
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	for (const [key, value] of Object.entries(req.body)) {
-		if (key.toString().toUpperCase().includes("ID") || key.toString().toUpperCase().includes("NAME")) {
+		if (key.toString().toUpperCase().includes("ID")) {
 			console.log(key); // cannot be changed
+		} else if (key.toString().toUpperCase() === "EMAIL") { //usually has a process to change emails
+			await UserModel.findOneAndUpdate(
+				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ "Email": value.toString() }
+			);
 		} else if (key.toString().toUpperCase() === "USERNAME") { //need to verify if the username is already taken
 			await UserModel.findOneAndUpdate(
 				{ _id: mongoose.Types.ObjectId(req.body.userid) },
@@ -152,128 +160,130 @@ router.post('/update', async function (req, res, next) {
 				{ _id: mongoose.Types.ObjectId(req.body.userid) },
 				{ "Zipcode": value.toString() }
 			);
+		} else {
+			//ignore
 		}
 	}
+
+	var obj = new Object();
+	obj.status = "Success";
+	res.json(JSON.stringify(obj));
+
+	mongoose.connection.close();
 });
 
 //delete user from database
 router.post('/delete', async function (req, res, next) {
 	console.log(req.body);
-
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	await UserModel.findOneAndRemove({ _id: mongoose.Types.ObjectId(req.body.userid) });
 
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
+	mongoose.connection.close();
 });
 
 /************************** CART FUNCTIONS *************************************/
-
+/*
+{
+	"userid":"<The ID of the User>",
+	"ItemID":"<The ID of the Item being added to cart>",
+	"ItemName": "<Name of item>",
+	"Price": <Float>, //price of item
+	"Description": "<Description of the Item>",
+	"Quantity":"<Integer>" //The quantity of the item being added
+}
+*/
 //adds an item to the user's cart
 router.post('/add_to_cart', async function (req, res, next) {
-	console.log(req, body);
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
-	var itemprice = parseFloat(req.body.itemprice);
-
-	var newItem = new ItemModel({
-		Name: req.body.itemname,
-		Price: itemprice,
-		StoreName: req.body.itemstore,
-		StoreID: req.body.storeid,
-		Category: req.body.categories,
-		Quantity: req.body.quantity
-	});
+	var itemprice = parseFloat(req.body.Price);
 
 	var CartItem = {
-		ItemID: newItem._id,
 		UserID: req.body.userid,
-		ItemName: req.body.itemname,
-		NumberInCart: req.body.number_in_cart
-	}
+		ItemID: req.body.ItemID,
+		ItemName: req.body.ItemName,
+		Description: req.body.Description,
+		Quantity: req.body.Quantity,
+		Price: itemprice,
+		Subtotal: (req.body.Price * req.body.Quantity)
+	};
 
 	await UserModel.findOneAndUpdate(
 		{ _id: mongoose.Types.ObjectId(req.body.userid) },
 		{ $push: { Cart: CartItem } }
 	);
-
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-
+	mongoose.connection.close();
 });
 
 //retrieves the items in the user's cart
-router.post('get_cart', async function (req, res, next) {
-	console.log(req, body);
+router.post('/get_cart', async function (req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
-	await UserModel.find({ UserID: req.body.userid, Cart: {} },
+	await UserModel.find({ _id: mongoose.Types.ObjectId(req.body.userid) }, { Cart: 1 },
 		function (err, UserModel) {
 			res.json(JSON.stringify(UserModel))
 		});
 
+	// var obj = new Object();
+	// obj.status = "Success";
+	// res.json(JSON.stringify(obj));
+
+	mongoose.connection.close();
 
 });
 
 //updates the quantity of an object in the user's cart
-router.post('update_cart', async function (req, res, next) {
-	console.log(req, body);
+router.post('/update_cart', async function (req, res, next) {
+	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.findOneAndUpdate(
+		// { _id: mongoose.Types.ObjectId(req.body.userid) },
 		{
 			_id: mongoose.Types.ObjectId(req.body.userid),
-			Cart: { _id: mongoose.Types.ObjectId(req.body.ItemID) }
+			'Cart.ItemID': req.body.ItemID
 		},
-		{ "Quantity": value.toString() }
+		{
+			$set: {
+				'Cart.$.Quantity': req.body.Quantity
+			}
+		}
 	);
 
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
+	mongoose.connection.close();
 });
 
 //removes an item from the user's cart
-router.post('remove_from_cart', async function (req, res, next) {
+router.post('/remove_from_cart', async function (req, res, next) {
 	console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.findOneAndUpdate(
 		{
-			_id: mongoose.Types.ObjectId(req.body.userid),
-			Cart: { _id: mongoose.Types.ObjectId(req.body.ItemID) }
+			_id: mongoose.Types.ObjectId(req.body.userid)
 		},
-		{ $pull: { Cart: { ItemID: req.body.itemid } } }
+		{ $pull: { Cart: { ItemID: req.body.ItemID } } }
 	);
 
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
+
+	mongoose.connection.close();
 });
-
-
-/* router.post('/testadd', function (req, res, next) {
-	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-	var newuser = new UserModel({
-		Username: req.body.Username,
-		FirstName: req.body.FirstName,
-		LastName: req.body.LastName,
-		Email: req.body.Email,
-		Address: req.body.Address,
-		City: req.body.City,
-		State: req.body.State,
-		Zipcode: req.body.Zipcode
-
-	});
-
-await newuser.save();
-
-var obj = new Object();
-obj.hello = "World";
-res.json(JSON.stringify(obj));
-
-mongoose.connection.close();
-}); */
 
 module.exports = router;

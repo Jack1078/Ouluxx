@@ -15,14 +15,14 @@ const User = new mongoose.Schema({
 	Schema_Type: { type: String, default: "USER" }, // Identifies this as a store item. 
 	//UserID: String, // use the _id value
 	Email: String,
-	username : {type: String, unique: true}, 
-	Password : String, 
+	username: { type: String, unique: true },
+	Password: String,
 	FirstName: String,
 	LastName: String,
 	Address: String,
 	City: String,
 	State: String,
-	active: {type : Boolean, default : true},
+	active: { type: Boolean, default: true },
 	Zipcode: Number,   //This does not verify if the zipcode is strictly XXXXX format
 	UserType: String, // This is either user or store. 
 	Cart: {
@@ -32,19 +32,20 @@ const User = new mongoose.Schema({
 			Description: String,
 			Quantity: Number,
 			Price: Number,
-			Date_Ordered: {
-				type: Date,
-				default: Date.now
-			}
+			Subtotal: Number,
+			// Date_Ordered: {
+			// 	type: Date,
+			// 	default: Date.now
+			// }
 		}],
 		default: []
 	}
 
 });
 
-User.plugin(passportLocalMongoose, 
+User.plugin(passportLocalMongoose,
 	{
-		"usernameField":"Email"
+		"usernameField": "Email"
 	});
 
 module.exports = mongoose.model('User', User);
