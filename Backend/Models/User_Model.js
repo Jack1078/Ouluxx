@@ -1,7 +1,7 @@
 /******************************************************************************
  * Name: Kyle Enchill														  *
- * Date: 7/9/2020															  *
- * Version: 1.0.0															  *
+ * Date: 7/17/2020															  *
+ * Version: 1.1.0															  *
  * Description: This file is the schema fo the user object. It contains useful*
  * information about the user such as name, address, email, cart, etc.		  *
  * The cart information will be kept within the user as an array.			 *
@@ -27,13 +27,13 @@ const User = new mongoose.Schema({
 	UserType: String, // This is either user or store. 
 	Cart: {
 		type: [{
-			ItemID: String, // uses the _id property of the item
+			ItemID: String,			 // uses the _id property of the item
 			ItemName: String,
 			Description: String,
 			Quantity: Number,
 			Price: Number,
 			Subtotal: Number,
-			// Date_Ordered: {
+			// Date_Ordered: {		// Needs to update at checkout, not when added to cart
 			// 	type: Date,
 			// 	default: Date.now
 			// }
