@@ -17,6 +17,10 @@ router.post('/', function(req, res, next) {
 		console.log(JSON.stringify(obj));
 });
 
+router.get('/SUCCESS', function(req, res, next) {
+  res.render('index', { title: 'Success' });
+});
+
 router.post('/test', function(req, res, next) {
   res.render('index', { title: 'Express' });
   console.log(req.body);
