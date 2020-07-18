@@ -4,15 +4,19 @@ Contains: email signup textfield, sign up button,
     continue with facebook button, continue with google button
 */
 
-import React from 'react';
-import {createMuiTheme, ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { createMuiTheme, ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import Textfield from '../../components/textfield_c';
 import Button from '../../components/button_c';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import BackButton from '../../components/BackButton/backButton_c';
-import {FaGoogle} from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 import logo from '../../images/logo.png';
 import classes from './signUp_k.module.css';
+//import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Input } from '@material-ui/core';
+import { Container } from 'react-bootstrap';
+
 
 /**
  * Email sign up container
@@ -20,58 +24,94 @@ import classes from './signUp_k.module.css';
 
 const button_theme = createMuiTheme({
     palette: {
-      primary: {main: '#3b5998'},
-      secondary: {main: '#4285F4'},
+        primary: { main: '#3b5998' },
+        secondary: { main: '#4285F4' },
     }
 })
-  
+
+
 function SignUp() {
     return (
         <div className={classes.container}>
             {/* back to zip code page */}
             <div>
-                <BackButton/>
+                <BackButton />
             </div>
 
             {/* Email Sign up */}
-            <form className={classes.form}>
+            <form className={classes.form} action="/users/register" method="POST" >
 
                 {/* Logo */}
                 <span className={classes.title}>
                     <img
                         className={classes.logo}
                         src={logo}
-                        alt="a logo"/>
+                        alt="a logo" />
                 </span>
 
                 {/* Location changes based on zip code */}
                 <h1>Available in Syosset!</h1>
                 <h2>Create an account to start shopping</h2>
 
-                {/* Email textfield: enter email to sign up */}
+                {/* First/last Name textfield: enter password to sign up */}
                 <div className={classes.block}>
-                    <Textfield
+                    <Input
                         className={classes.textfield}
-                        id="email-textfield"
-                        label="Email"/>
+                        label="fname"
+                        name=""
+                        type="text"
+                        placeholder="First name"
+
+                    />
+                    <Input
+                        className={classes.textfield}
+                        label="lname"
+                        name=""
+                        type="text"
+                        placeholder="Last name"
+
+                    />
                 </div>
 
-                {/* Email textfield: enter email to sign up */}
+
+                {/* Email/Password textfield: enter email to sign up */}
                 <div className={classes.block}>
-                    <p style={{textAlign: "center"}}>By signing up, you agree to our <a href=".">Terms of Service</a> & <a href=".">Privacy Policy</a></p>
+                    <Input
+                        className={classes.textfield}
+                        id="email-textfield"
+                        label="Email"
+                        name="Email"
+                        placeholder="Email"
+                    />
+
+                    <Input
+                        className={classes.textfield}
+                        label="Password"
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+
+                    />
+
+                </div>
+
+
+                <div className={classes.block}>
+                    <p style={{ textAlign: "center" }}>By signing up, you agree to our <a href=".">Terms of Service</a> & <a href=".">Privacy Policy</a></p>
                 </div>
                 <div className={classes.block}>
                     <Button
                         id="signup_button"
                         text="Sign up with email"
                         color="primary"
-                        fontColor="white"/>
+                        fontColor="white"
+                        type="submit" />
                 </div>
 
                 <div className={classes.or_block}>
                     <div className={classes.or}>or</div>
                     <div className={classes.line}></div>
-                    <div className={classes.line} style={{right:"0"}}></div>
+                    <div className={classes.line} style={{ right: "0" }}></div>
                 </div>
 
                 {/* Sign up with facebook or google account */}
@@ -81,14 +121,14 @@ function SignUp() {
                             id="facebook_signup_button"
                             text="Continue with Facebook"
                             color="primary"
-                            startIcon={<FacebookIcon/>}/>
+                            startIcon={<FacebookIcon />} />
                     </div>
                     <div className={classes.block}>
                         <Button
                             id="facebook_signup_button"
                             text="Continue with Google"
                             color="secondary"
-                            startIcon={<FaGoogle color="white"/>}/>
+                            startIcon={<FaGoogle color="white" />} />
                     </div>
                 </MuiThemeProvider>
 
@@ -100,5 +140,5 @@ function SignUp() {
         </div>
     );
 }
-  
+
 export default SignUp;

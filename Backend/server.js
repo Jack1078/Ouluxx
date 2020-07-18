@@ -10,7 +10,7 @@ var session = require("express-session");
 
 const mongoose = require('mongoose')
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy; 
+const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
@@ -36,9 +36,9 @@ app.use(flash());
 
 
 // configure passport middleware
-app.use(session({ secret: '7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103'}));
-app.use(passport.initialize()); 
-app.use(passport.session()); 
+app.use(session({ secret: '7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 passport.use(User.createStrategy());
@@ -51,14 +51,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //create connection to DB
 
 const url = 'mongodb://127.0.0.1:27017/Ouluxx'
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true})
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 const db = mongoose.connection
 db.once('open', _ => {
-	console.log('Database connected:', url)
+  console.log('Database connected:', url)
 })
 
 db.on('error', err => {
-	console.error('connection error:', err)
+  console.error('connection error:', err)
 })
 
 app.use('/', indexRouter);
@@ -67,14 +67,14 @@ app.use('/inventory', inventoryRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
