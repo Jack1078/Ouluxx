@@ -80,7 +80,8 @@ module.exports = app;
  *                      to the receiver peer
  *  back_answer     -> send answer response from the receiver of the offer
  *                      to the newly created peer
- *  host_left       -> signal the other clients in the room that host has disconnected
+ *  host_left       -> signal the other clients in the room that host has 
+ *                      disconnected
  * HANDLES: (socket.on)
  *  join_room       -> let connected socket join room with roomID
  *                      if condition is met

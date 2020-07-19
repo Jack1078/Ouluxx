@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import { FaVideo, FaMicrophone, FaHeadphonesAlt } from 'react-icons/fa';
+import { GiExitDoor } from 'react-icons/gi';
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
 import Video from '../../components/video_c';
 import classes from './videoroom_k.module.css';
-import { FaVideo, FaMicrophone, FaHeadphonesAlt } from 'react-icons/fa';
-import { GiExitDoor } from 'react-icons/gi';
+
 
 const VideoRoom = (props) => {
     const [peers, setPeers] = useState([]);     // stores all the peers
@@ -23,6 +24,7 @@ const VideoRoom = (props) => {
     /* -------------------- */
 
     useEffect(() => {
+        console.log('useEffect ... first')
         // connect to server
         socket_ref.current = io.connect();
         // get video and audio stream
@@ -45,6 +47,7 @@ const VideoRoom = (props) => {
              *  back_answer
              *  user_disconnected
              *  host_left
+             *  is_host
              * ---------------------------------------- */
 
             socket_ref.current.on('create_peers', users => {
@@ -62,6 +65,7 @@ const VideoRoom = (props) => {
                 });
                 setPeers(ps);
             });
+
             /* ********************  */
             socket_ref.current.on('room_full', () => {
                 document.write('Room full, please come back later');
@@ -70,6 +74,7 @@ const VideoRoom = (props) => {
             /* ********************  */
             socket_ref.current.on('back_offer', payload => {
                 console.log('back_offer: ' + socket_ref.current.id);
+
                 const peer = add_peer(payload.signal, payload.callerID, stream);
                 peers_ref.current.push({
                     peerID: payload.callerID,
@@ -152,6 +157,67 @@ const VideoRoom = (props) => {
         return peer;
     }
 
+
+    /* --------------------------- */
+    /* UseEffect for buttons       */
+    /* [canHear, canSpeak, canSee] */
+    /* --------------------------- */
+
+    useEffect(() => {
+        // for each peers, turn down their video's volume
+        peers.forEach(item => {
+            document.getElementById(item.peerID).volume = canHear ? 1 : 0
+        })
+    }, [canHear])
+
+    useEffect(() => {
+        if (user_video.current.srcObject !== null) {
+            // if can speak, then turn on the audio track
+            // if not then diable them
+            if (canSpeak) {
+                user_video.current.srcObject.getTracks().forEach(track => {
+                    if (track.readyState === 'live' && track.kind === 'audio') {
+                        track.enabled = true;
+                    }
+                })
+            } else {
+                user_video.current.srcObject.getTracks().forEach(track => {
+                    if (track.readyState === 'live' && track.kind === 'audio') {
+                        track.enabled = false;
+                    }
+                })
+            }
+        }
+    }, [canSpeak])
+
+    useEffect(() => {
+        if (user_video.current.srcObject !== null) {
+            // if can see, then turn on the video track
+            // if not then diable them
+            if (canSee) {
+                user_video.current.srcObject.getTracks().forEach(track => {
+                    if (track.readyState === 'live' && track.kind === 'video') {
+                        track.enabled = true;
+                    }
+                })
+            } else {
+                user_video.current.srcObject.getTracks().forEach(track => {
+                    if (track.readyState === 'live' && track.kind === 'video') {
+                        track.enabled = false;
+                    }
+                })
+            }
+        }
+    }, [canSee]);
+
+    /* ----------------------------- */
+    /* Function for leave video room */
+    /* ----------------------------- */
+    const leave_room = () => {
+        socket_ref.current.disconnect();
+        props.history.push(`/stores/${props.match.params.store}`);
+    }
+
     return (
         <div className={classes.container}>
             <div className={classes.btn_container}>
@@ -164,7 +230,7 @@ const VideoRoom = (props) => {
                 <div className={canSee ? classes.btn : classes.btn_disabled} onClick={() => setCanSee(!canSee)}>
                     <FaVideo />
                 </div>
-                <div className={classes.btn_exit}>
+                <div className={classes.btn_exit} onClick={leave_room}>
                     <GiExitDoor />
                 </div>
             </div>

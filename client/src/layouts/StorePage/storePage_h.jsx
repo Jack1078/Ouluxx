@@ -212,19 +212,6 @@ const StorePage = (props) => {
             setCurrPage(currPage - 1);
     }
 
-    const logoClickHandler = () => {
-        console.log('logo clicked...')
-    }
-    const storeClickHandler = () => {
-        console.log('store clicked...')
-    }
-    const accountClickHandler = () => {
-        console.log('account clicked...')
-    }
-    const cartClickHandler = () => {
-        console.log('cart clicked...')
-    }
-
     useEffect(() => {
         setCurrPage(1);
     }, [currProducts]);
@@ -232,12 +219,7 @@ const StorePage = (props) => {
     return (
         <div>
 
-            <NavBar
-                logoOnClick={() => logoClickHandler()}
-                storeOnClick={() => storeClickHandler()}
-                accountOnClick={() => accountClickHandler()}
-                cartOnClick={() => cartClickHandler()}
-            />
+            <NavBar />
 
             <Draggable>
                 <div className={classes.videoroom_sticky}>
