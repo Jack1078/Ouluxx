@@ -16,6 +16,61 @@ router.get('/', function(req, res, next) {
 });
 
 
+/*
+JSON request looks like this. 
+{
+"Email": "<email>",
+"username": "<Username>",
+"password":"<Password>",
+"FirstName": "<FirstName>",
+"LastName": "<LastName>",
+"Address": "<address>",
+"City": "<City>",
+"State": "<State>",
+"Zipcode": "<Zip code>", 
+"isstore" : <boolean>
+}
+*/
+
+router.post('/register', async function (req, res) { // add and register a user, hashes password
+	//console.log(req.body);
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	var UserTypeSet = "USER";
+	if (req.body.isstore) {
+		UserTypeSet = "STORE"
+	}
+	user = new UserModel({
+		Email: req.body.Email,
+		username: req.body.username,
+		FirstName: req.body.FirstName,
+		LastName: req.body.LastName,
+		Address: req.body.Address,
+		City: req.body.City,
+		State: req.body.State,
+		Zipcode: req.body.Zipcode,
+		UserType: UserTypeSet
+	});
+	await UserModel.register(user, req.body.password, async function (err) {
+		//console.log("HI");
+		if (err) {
+			console.log("Error: ", err);
+			res.json({ success: false, message: "Your account could not be saved. Error: ", err })
+		}
+		else {
+			res.json({ success: true, message: "Authentication successful", User: req.user/*, token: token */ });
+		}
+	});
+});
+
+router.post('/login', passport.authenticate('local', { failureFlash: true }), function (req, res) {
+	res.json({ success: true, message: "LOGIN SUCCESS", User: req.user });
+});
+
+router.post('/logout', function (req, res) {
+	req.logout();
+	res.json({ success: true, message: "LOGOUT SUCCESS" });
+});
+
 router.get('/facebook',
 	passport.authenticate('facebook', { scope : ['email'] }));
 
