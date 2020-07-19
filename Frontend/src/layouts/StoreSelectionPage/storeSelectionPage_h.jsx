@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Component} from 'react'
 import StoreIcon from '../../components/storeIcon_c';
 import classes from './storeSelectionPage_h.module.css';
 import Filter from '../../containers/Filter/filter_k';
@@ -6,6 +7,40 @@ import Logo from '../../images/logo.png';
 /**
  * Layout for the Store Selection page
  */
+
+var testing;
+var data = {
+        zipcode: 11111
+    }
+
+//return the fetch to return the promise
+const Get_Stores = (json_data) => {
+    return fetch("/users/test", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(json_data)
+    }).then((response) => {
+        if (response.status >= 400) {
+            throw new Error("Bad response from server");
+        }
+        return response.json();
+    }).then((respData) => {
+        return JSON.parse(respData);
+        //console.log(testing);
+    }).catch((err) => {
+        console.log(err);
+        return (err);
+    });
+}
+
+//create the promise, then work on the promise
+//all working on the response must occur in an async function like this. 
+testing = Get_Stores(data);
+testing.then((response)=>
+{
+    console.log(response);
+    testing = response;
+});
 
 const stores = [{name: "fairway",
             categories: ["Groceries","Produce","Organic"],

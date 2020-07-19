@@ -4,7 +4,7 @@ Contains: email signup textfield, sign up button,
     continue with facebook button, continue with google button
 */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { createMuiTheme, ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import Textfield from '../../components/textfield_c';
 import Button from '../../components/button_c';
@@ -13,6 +13,10 @@ import BackButton from '../../components/BackButton/backButton_c';
 import { FaGoogle } from 'react-icons/fa';
 import logo from '../../images/logo.png';
 import classes from './signUp_k.module.css';
+//import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Input } from '@material-ui/core';
+import { Row, Col, Container } from 'react-bootstrap';
+
 
 /**
  * Email sign up container
@@ -25,6 +29,7 @@ const button_theme = createMuiTheme({
     }
 })
 
+
 function SignUp() {
     return (
         <div className={classes.container}>
@@ -34,7 +39,7 @@ function SignUp() {
             </div>
 
             {/* Email Sign up */}
-            <form className={classes.form}>
+            <form className={classes.form} action="/users/register" method="POST" >
 
                 {/* Logo */}
                 <span className={classes.title}>
@@ -48,15 +53,60 @@ function SignUp() {
                 <h1>Available in Syosset!</h1>
                 <h2>Create an account to start shopping</h2>
 
-                {/* Email textfield: enter email to sign up */}
+                {/* First/last Name textfield: enter password to sign up */}
+                <div className={classes.block}>
+                    <Textfield
+                        className={classes.textfield}
+                        label="First Name"
+                        name="FirstName"
+                        type="text"
+
+                    />
+                </div>
+                <div className={classes.block}>
+                    <Textfield
+                        className={classes.textfield}
+                        label="Last Name"
+                        name="LastName"
+                        type="text"
+
+                    />
+                </div>
+
+
+                {/* Email/Password textfield: enter email to sign up */}
                 <div className={classes.block}>
                     <Textfield
                         className={classes.textfield}
                         id="email-textfield"
-                        label="Email" />
+                        label="Email"
+                        name="Email"
+                        required
+                    />
+                </div>
+                <div className={classes.block}>
+                    <Textfield
+                        className={classes.textfield}
+                        label="Password"
+                        name="password"
+                        type="password"
+                        required
+                    />
                 </div>
 
-                {/* Email textfield: enter email to sign up */}
+                <div className={classes.block}>
+
+                    <Textfield
+                        className={classes.textfield}
+                        label="Zip Code"
+                        name="Zipcode"
+                        type="text"
+                        required
+                    />
+                </div>
+
+
+
                 <div className={classes.block}>
                     <p style={{ textAlign: "center" }}>By signing up, you agree to our <a href=".">Terms of Service</a> & <a href=".">Privacy Policy</a></p>
                 </div>
@@ -65,7 +115,8 @@ function SignUp() {
                         id="signup_button"
                         text="Sign up with email"
                         color="primary"
-                        fontColor="white" />
+                        fontColor="white"
+                        type="submit" />
                 </div>
 
                 <div className={classes.or_block}>
