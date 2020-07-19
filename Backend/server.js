@@ -64,8 +64,8 @@ passport.deserializeUser((obj, done) => {
 });
 
 passport.use(User.createStrategy()); // local strategy
-/*passport.use(FacebookStrategy); // facebook strategy
-*/passport.use(GoogleStrategy); // google strategy
+passport.use(FacebookStrategy); // facebook strategy
+passport.use(GoogleStrategy); // google strategy
 
 app.use(express.static(path.join(__dirname, 'public')));
 

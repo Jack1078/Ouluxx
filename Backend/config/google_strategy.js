@@ -2,10 +2,11 @@ const passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 const UserModel = require('../Models/User_Model');
 const mongoose = require('mongoose'); 
+const secrets = require('../secrets/secrets'); 
 
 var Google_Strategy = new GoogleStrategy({
-		clientID: "436490215826-t665ghl7p084utnpbiaoiaflecumivjq.apps.googleusercontent.com",
-		clientSecret: "A2XGU_2bJPiYJgACE4eFMRm1",
+		clientID: secrets.googleclientid,
+		clientSecret: secrets.googlesecretid,
 		callbackURL: "http://localhost:4000/auth/google/callback"
 	}, 
 	function (accessToken, refreshToken, profile, done) {
@@ -20,7 +21,6 @@ var Google_Strategy = new GoogleStrategy({
 				} else {
 					user = new UserModel({
 						Email: profile.emails[0].value,
-						email: profile.emails[0].value,
 						username: profileInfo.displayName,
 						FirstName: profileInfo.name.given_name,
 						LastName: profileInfo.name.family_name,
@@ -34,10 +34,6 @@ var Google_Strategy = new GoogleStrategy({
 					}
 					await UserModel.register(user, password, async function(err) 
 					{
-						console.log(profileInfo);
-						console.log("HI");
-						console.log(user);
-						console.log("DERP");
 						if (err)
 						{
 							console.log("Error: ", err);
