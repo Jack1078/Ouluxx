@@ -30,7 +30,7 @@ const button_theme = createMuiTheme({
 })
 
 
-function Login() {
+const userLogIn = () {
     return (
         <>
             <div className={classes.container2}>
@@ -113,10 +113,10 @@ function Login() {
                             Don't have an account? <a href=".">Sign Up</a>
                         </div>
                     </form>
+                </div>
             </div>
-        </div>
         </>
     );
 }
 
-export default Login;
+export default userLogIn;
