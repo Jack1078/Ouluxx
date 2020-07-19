@@ -15,7 +15,7 @@ import logo from '../../images/logo.png';
 import classes from './signUp_k.module.css';
 //import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Input } from '@material-ui/core';
-import { Container } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 
 
 /**
@@ -55,20 +55,20 @@ function SignUp() {
 
                 {/* First/last Name textfield: enter password to sign up */}
                 <div className={classes.block}>
-                    <Input
+                    <Textfield
                         className={classes.textfield}
-                        label="fname"
-                        name=""
+                        label="First Name"
+                        name="FirstName"
                         type="text"
-                        placeholder="First name"
 
                     />
-                    <Input
+                </div>
+                <div className={classes.block}>
+                    <Textfield
                         className={classes.textfield}
-                        label="lname"
-                        name=""
+                        label="Last Name"
+                        name="LastName"
                         type="text"
-                        placeholder="Last name"
 
                     />
                 </div>
@@ -76,24 +76,35 @@ function SignUp() {
 
                 {/* Email/Password textfield: enter email to sign up */}
                 <div className={classes.block}>
-                    <Input
+                    <Textfield
                         className={classes.textfield}
                         id="email-textfield"
                         label="Email"
                         name="Email"
-                        placeholder="Email"
+                        required
                     />
-
-                    <Input
+                </div>
+                <div className={classes.block}>
+                    <Textfield
                         className={classes.textfield}
                         label="Password"
                         name="password"
                         type="password"
-                        placeholder="Password"
-
+                        required
                     />
-
                 </div>
+
+                <div className={classes.block}>
+
+                    <Textfield
+                        className={classes.textfield}
+                        label="Zip Code"
+                        name="Zipcode"
+                        type="text"
+                        required
+                    />
+                </div>
+
 
 
                 <div className={classes.block}>
