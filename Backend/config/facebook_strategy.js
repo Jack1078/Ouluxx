@@ -12,13 +12,29 @@ var Strategy = new FacebookStrategy({
 	},
 	function(accessToken, refreshToken, profile, done) {
 		process.nextTick(() => {
+			console.log(profile);
 			var useremail = profile.email || profile.emails[0].value;
 			UserModel.findOne({'Email': useremail}, 
 			async (err, user) => {
 				if (err)
 					return done(err);
 				if (user) {
-					return done(null, user);
+					if (profile.id == user.facebookid) {
+						return done(null, user);
+					}
+					else if(!user.facebookid)
+					{
+						await UserModel.findOneAndUpdate(
+							{ _id: user._id },
+							{ "facebookid": profile.id }
+						);
+						return done(null, user);
+					}
+					else
+					{
+						console.log("Error: Mismatch between recorded Facebook ID and recieved Facebook ID");
+						return done(err);
+					}
 				} else {
 
 					if (!useremail) {
@@ -31,6 +47,7 @@ var Strategy = new FacebookStrategy({
 						email+="@fakemail.com";
 						user = new UserModel({
 							Email: email,
+							facebookid: profile.id, 
 							FirstName: profile.name.givenName,
 							LastName: profile.name.familyName,
 							UserType : "USER"
@@ -40,6 +57,7 @@ var Strategy = new FacebookStrategy({
 					{
 						user = new UserModel({
 							Email: useremail,
+							facebookid: profile.id, 
 							FirstName: profile.name.givenName,
 							LastName: profile.name.familyName,
 							UserType : "USER"

@@ -17,13 +17,34 @@ var Google_Strategy = new GoogleStrategy({
 				if (err)
 					return done(err);
 				if (user) {
-					return done(null, user);
+					if (profileInfo.sub == user.googleid) {
+						return done(null, user);
+					}
+					else if (!user.googleid)
+					{
+						await UserModel.findOneAndUpdate(
+							{ _id: user._id },
+							{ "googleid": profileInfo.sub }
+						);
+						await UserModel.findOneAndUpdate(
+							{ _id: user._id },
+							{ "verifiedemail": profileInfo.email_verified }
+						);
+						return done(null, user);
+					}
+					else
+					{
+						console.log("Error: Mismatch between recorded Google ID and recieved Google ID");
+						return done(err);
+					}
 				} else {
 					user = new UserModel({
 						Email: profile.emails[0].value,
 						username: profileInfo.displayName,
 						FirstName: profileInfo.name.given_name,
 						LastName: profileInfo.name.family_name,
+						googleid: profileInfo.sub, //unique google id
+						verifiedemail: profileInfo.email_verified,
 						UserType : "USER"
 					});
 					var password           = '';
