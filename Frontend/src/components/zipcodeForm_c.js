@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { Link } from "react-router-dom";
+import { Button } from '@material-ui/core';
 
 // grey border around text input, rounded edges, white background, slight padding
 const zipcodeform = {
@@ -19,7 +21,9 @@ const continuebutton = {
     marginBottom: 0
 };
 
+// This reroutes to the stores page correctly, but doesn't transfer data yet
 function Zipcode() {
+    var userzipcode = 12345;
     return (
         <form>
             <label>
@@ -27,8 +31,8 @@ function Zipcode() {
                     style={zipcodeform} />
             </label>
             <br />
-            <input type="submit" value="Continue"
-                style={continuebutton} />
+            {/* <input type="button" value="Continue" style={continuebutton} /> */}
+            <Button style={continuebutton} component={Link} to={{ pathname: '/stores', data: userzipcode }}>Continue</Button>
         </form>
 
     );

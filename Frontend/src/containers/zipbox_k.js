@@ -1,7 +1,8 @@
-import React from 'react'
-import ZipCodeForm from '../components/zipcodeForm_c'
-import CompanyName from '../components/companyName_c'
-import '../layouts/LandingPage/landingpage.module.css'
+import React from 'react';
+import ZipCodeForm from '../components/zipcodeForm_c';
+import CompanyName from '../components/companyName_c';
+import '../layouts/LandingPage/landingpage.module.css';
+import { Link } from "react-router-dom";
 
 
 // centered, thin border with shadow, text centered
@@ -46,7 +47,7 @@ function zipBox() {
             <h3 style={fontA}>Delivery made classy.</h3>
             <ZipCodeForm />
 
-            <p style={fontB}>Already have an account? <span style={hyperlink}> Log In</span> </p>
+            <p style={fontB}>Already have an account? <Link to="/signup" style={hyperlink}>Log In</Link> </p>
 
         </div>
     );

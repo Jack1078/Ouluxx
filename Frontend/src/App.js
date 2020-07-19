@@ -6,6 +6,7 @@ import LandingPage from './layouts/LandingPage/landingpage_h';
 import SignupPage from './layouts/SignupPage/signup_h';
 import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Route, Link } from 'react-router-dom';
 
 // default theme
 const theme = createMuiTheme({
@@ -19,9 +20,9 @@ function App() {
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
-        {/* <LandingPage />*/}
-        <SignupPage />
-        {/*<SelectionPage/>*/}
+        <Route exact path="/" component={LandingPage} />
+        <Route exact path="/signup" component={SignupPage} />
+        <Route exact path="/stores" component={SelectionPage} />
       </MuiThemeProvider>
     </div>
   );

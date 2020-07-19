@@ -4,20 +4,21 @@ import classes from './about_k.module.css';
 import browse_img from '../../images/browse.png';
 import shop_img from '../../images/shopping.png';
 import bag_img from '../../images/bag.png';
+import { Link } from "react-router-dom";
 
 /**
  * Ouluxx service description container
  */
 
 function Description() {
-    return(
+    return (
         <div className={classes.padding_vertical}>
 
             {/* Short description */}
             <div className={[classes.grid, classes.three_per_row, classes.padding_top].join(' ')}>
-                <img src={browse_img} alt="touching app"/>
-                <img src={shop_img} alt="shopping car"/>
-                <img src={bag_img} alt="a bag"/>
+                <img src={browse_img} alt="touching app" />
+                <img src={shop_img} alt="shopping car" />
+                <img src={bag_img} alt="a bag" />
                 <h3>Brands you love</h3>
                 <h3>Same day delivery</h3>
                 <h3>Save time and money</h3>
@@ -30,14 +31,14 @@ function Description() {
                     Silver Spring, College Park and many more.
                 </div>
                 <div className={classes.text}>
-                    Find deals on popular products and brands<br/>
+                    Find deals on popular products and brands<br />
                     &mdash; delivered right to your door
                 </div>
             </div>
 
             {/* Description with buttons */}
             <div className={[classes.grid, classes.two_per_row].join(' ')}>
-                
+
                 <div className={[classes.box, classes.img, classes.deliveryGuy_img].join(' ')}></div>
                 <div className={classes.box}>
                     <h3>The Best Brands Instantly Delivered to You </h3>
@@ -48,7 +49,8 @@ function Description() {
                             id="saving_button"
                             text="Start saving"
                             color="primary"
-                            fontColor="white"/>
+                            fontColor="white"
+                            component={Link} to="/signup" />
                     </div>
                 </div>
 
@@ -61,7 +63,8 @@ function Description() {
                             id="started_button"
                             text="Get started"
                             color="primary"
-                            fontColor="white"/>
+                            fontColor="white"
+                            component={Link} to="/signup" />
                     </div>
                 </div>
                 <div className={[classes.box, classes.img, classes.browse_img].join(' ')}></div>
@@ -74,11 +77,12 @@ function Description() {
                         id="delivery_button"
                         text="Get Delivery now"
                         color="primary"
-                        fontColor="white"/>
+                        fontColor="white"
+                        component={Link} to="/signup" />
                 </div>
-               
+
             </div>
-            
+
         </div>
     );
 }
