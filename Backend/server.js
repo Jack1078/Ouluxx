@@ -15,6 +15,8 @@ var GoogleStrategy = require('./config/google_strategy');
 var FacebookStrategy = require('./config/facebook_strategy');
 const flash = require('connect-flash');
 
+var nodemailer = require('nodemailer');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var storeRouter = require('./routes/store');

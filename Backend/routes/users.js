@@ -41,14 +41,14 @@ router.get('/', function (req, res, next) {
 
 router.post('/get_user', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.findOne({ _id: mongoose.Types.ObjectId(req.body.userid) },
 		function (err, UserModel) {
 			res.json(JSON.stringify(UserModel))
 		});
 
-	mongoose.connection.close();
+	// mongoose.connection.close();
 
 });
 
@@ -70,7 +70,7 @@ router.post('/get_user', async function (req, res, next) {
 
 router.post('/update', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	for (const [key, value] of Object.entries(req.body)) {
 		if (key.toString().toUpperCase().includes("ID")) {
@@ -124,7 +124,7 @@ router.post('/update', async function (req, res, next) {
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-	mongoose.connection.close();
+	// mongoose.connection.close();
 
 });
 
@@ -137,14 +137,14 @@ router.post('/update', async function (req, res, next) {
 
 router.post('/delete', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	await UserModel.findOneAndRemove({ _id: mongoose.Types.ObjectId(req.body.userid) });
 
 	var obj = new Object();
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 /************************** CART FUNCTIONS *************************************/
@@ -162,7 +162,7 @@ JSON is structured like this:
 //adds an item to the user's cart
 router.post('/add_to_cart', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	var itemprice = parseFloat(req.body.Price);
 
@@ -184,7 +184,7 @@ router.post('/add_to_cart', async function (req, res, next) {
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 //retrieves the items in the user's cart
@@ -195,21 +195,21 @@ router.post('/add_to_cart', async function (req, res, next) {
 */
 router.post('/get_cart', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.find({ _id: mongoose.Types.ObjectId(req.body.userid) }, { Cart: 1 },
 		function (err, UserModel) {
 			res.json(JSON.stringify(UserModel))
 		});
 
-	mongoose.connection.close();
+	// mongoose.connection.close();
 
 });
 
 //updates the quantity of an object in the user's cart
 router.post('/update_cart', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.findOneAndUpdate(
 		{
@@ -227,7 +227,7 @@ router.post('/update_cart', async function (req, res, next) {
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 //removes an item from the user's cart
@@ -239,7 +239,7 @@ router.post('/update_cart', async function (req, res, next) {
 */
 router.post('/remove_from_cart', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	await UserModel.findOneAndUpdate(
 		{
@@ -252,7 +252,7 @@ router.post('/remove_from_cart', async function (req, res, next) {
 	obj.status = "Success";
 	res.json(JSON.stringify(obj));
 
-	mongoose.connection.close();
+	// mongoose.connection.close();
 });
 
 module.exports = router;

@@ -34,7 +34,6 @@ JSON request looks like this.
 
 router.post('/register', async function (req, res) { // add and register a user, hashes password
 	//console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 	var UserTypeSet = "USER";
 	if (req.body.isstore) {
 		UserTypeSet = "STORE"
