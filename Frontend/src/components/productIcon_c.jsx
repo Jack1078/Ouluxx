@@ -115,7 +115,6 @@ const ProductIcon = (props) => {
         orderNumber: Math.floor(Math.random())
     }
 
-
     function addToCart() {
         items.push(item);
     }
@@ -141,73 +140,74 @@ const ProductIcon = (props) => {
                 <Modal.Header closeButton>
                 </Modal.Header>
                 <Modal.Body>
-                    <Container fluid>
-                        <Row>
-                            <Col xs={6} >
-                                <Row className="justify-content-md-center">
-                                    <div>
-                                        <img className={classes.img_pop} src={require(`../images/${img_url}`)} alt={alt}></img>
-                                    </div>
-                                    <ButtonGroup>
-                                        <Button variant="light" >S</Button>
-                                        <Button variant="light">M</Button>
-                                        <Button variant="light">L</Button>
-                                    </ButtonGroup>
-                                </Row>
-                            </Col>
-                            <Col xs={6}>
-                                <div className={classes.display_details}>
-                                    <Row>
-                                        <span className={classes.name_pop} ><strong>{name}</strong></span>
-                                        <span className={classes.rating_text_pop}>&#9733;{rating}</span>
-                                    </Row>
-
-                                    <Row>
-                                        <span className={classes.price_pop}>${price.toFixed(2)}</span>
-                                    </Row>
-                                    <br></br>
-                                    <Row>Quantity</Row>
-                                    <Row>
-
+                    <form action="/users/add_to_cart" method="POST">
+                        <Container fluid>
+                            <Row>
+                                <Col xs={6} >
+                                    <Row className="justify-content-md-center">
+                                        <div>
+                                            <img className={classes.img_pop} src={require(`../images/${img_url}`)} alt={alt}></img>
+                                        </div>
                                         <ButtonGroup>
-                                            <Button variant="secondary" onClick={decrease}>-</Button>
-                                            <Button variant="light">{quantity}</Button>
-                                            <Button variant="secondary" onClick={increase}>+</Button>
+                                            <Button variant="light" >S</Button>
+                                            <Button variant="light">M</Button>
+                                            <Button variant="light">L</Button>
                                         </ButtonGroup>
+                                    </Row>
+                                </Col>
+                                <Col xs={6}>
+                                    <div className={classes.display_details}>
+                                        <Row>
+                                            <span className={classes.name_pop} name="ItemName" ><strong>{name}</strong></span>
+                                            <span className={classes.rating_text_pop}>&#9733;{rating}</span>
+                                        </Row>
 
-                                        <Col xs={6}>
-                                            <Button variant="light">
-                                                <span className={classes.favorite}>&#x2764;</span> Favorite
+                                        <Row>
+                                            <span className={classes.price_pop}>${price.toFixed(2)}</span>
+                                        </Row>
+                                        <br></br>
+                                        <Row>Quantity</Row>
+                                        <Row>
+
+                                            <ButtonGroup>
+                                                <Button variant="secondary" onClick={decrease}>-</Button>
+                                                <Button variant="light">{quantity}</Button>
+                                                <Button variant="secondary" onClick={increase}>+</Button>
+                                            </ButtonGroup>
+
+                                            <Col xs={6}>
+                                                <Button variant="light">
+                                                    <span className={classes.favorite}>&#x2764;</span> Favorite
                                         </Button>
-                                        </Col>
-                                    </Row>
+                                            </Col>
+                                        </Row>
 
-                                    <br></br>
-                                    <Row>
-                                        <h6>Details</h6>
-                                        <div> Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Diam volutpat commodo sed egestas egestas fringilla phasellus.
-                                        Imperdiet nulla malesuada pellentesque elit eget. Diam quam nulla
-                                        porttitor massa id neque aliquam vestibulum morbi. Diam sollicitudin
-                                        tempor id eu nisl nunc. Fringilla urna porttitor rhoncus dolor purus
-                                        non enim praesent. Tincidunt dui ut ornare lectus sit amet est placerat.
-                                        Integer vitae justo eget magna. Risus ultricies tristique nulla aliquet enim
-                                        llamcorper velit sed ullamcorper morbi tincidunt ornare massa eget.
+                                        <br></br>
+                                        <Row>
+                                            <h6>Details</h6>
+                                            <div name="Description"> Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                            Diam volutpat commodo sed egestas egestas fringilla phasellus.
+                                            Imperdiet nulla malesuada pellentesque elit eget. Diam quam nulla
+                                            porttitor massa id neque aliquam vestibulum morbi. Diam sollicitudin
+                                            tempor id eu nisl nunc. Fringilla urna porttitor rhoncus dolor purus
+                                            non enim praesent. Tincidunt dui ut ornare lectus sit amet est placerat.
+                                            Integer vitae justo eget magna. Risus ultricies tristique nulla aliquet enim
+                                            llamcorper velit sed ullamcorper morbi tincidunt ornare massa eget.
                                     </div>
-                                    </Row>
-                                    <Row></Row>
-                                    <br></br>
-                                    <Row>
-                                        <Button variant="warning" onClick={addToCart()}>
-                                            + Add to cart
+                                        </Row>
+                                        <Row></Row>
+                                        <br></br>
+                                        <Row>
+                                            <Button variant="warning" type="submit">
+                                                + Add to cart
                                      </Button>
-                                    </Row>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Container>
-
+                                        </Row>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </form>
                 </Modal.Body>
                 <Modal.Footer>
                     <p>Product information or packaging displayed may not be current or complete.

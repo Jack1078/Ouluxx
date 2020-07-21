@@ -23,14 +23,21 @@ function App() {
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
-        {/* <LandingPage/> */}
-        {/* <SignupPage/> */}
-        {/* <SelectionPage/> */}
-        <StorePage />
-        {/* <LandingPage />*/}
-        {/* <SignupPage />*/}
-        {/* <LoginPage /> */}
-        <SelectionPage />
+        <Router>
+          <Switch>
+            <Route path="/" exact component={SignupPage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/landingpage" component={LandingPage} />
+            <Route path="/storepage" component={StorePage} />
+            <Route path="/selectionpage" component={SelectionPage} />
+          </Switch>
+          {/* <LandingPage/> 
+              <SignupPage />
+              <LoginPage />
+              <StorePage />
+          {/* <SelectionPage/> */}
+        </Router>
+
       </MuiThemeProvider>
     </div>
   );

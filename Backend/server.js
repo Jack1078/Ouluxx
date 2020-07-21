@@ -39,7 +39,10 @@ app.use(flash());
 
 
 // configure passport middleware
-app.use(session({ secret: '7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103' }));
+app.use(session({
+  secret: '7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103', resave: true,
+  saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 

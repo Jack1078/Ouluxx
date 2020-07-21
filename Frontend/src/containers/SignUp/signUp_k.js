@@ -16,6 +16,8 @@ import classes from './signUp_k.module.css';
 //import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Input } from '@material-ui/core';
 import { Row, Col, Container } from 'react-bootstrap';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
 
 
 /**
@@ -39,7 +41,7 @@ function SignUp() {
             </div>
 
             {/* Email Sign up */}
-            <form className={classes.form} action="/users/register" method="POST" >
+            <form className={classes.form} action="/auth/register" method="POST" >
 
                 {/* Logo */}
                 <span className={classes.title}>
@@ -128,27 +130,33 @@ function SignUp() {
                 {/* Sign up with facebook or google account */}
                 <MuiThemeProvider theme={button_theme}>
                     <div className={classes.block}>
-                        <Button
-                            id="facebook_signup_button"
-                            text="Continue with Facebook"
-                            color="primary"
-                            startIcon={<FacebookIcon />} />
+                        <a href="http://localhost:4000/auth/facebook" >
+                            <Button
+                                id="facebook_signup_button"
+                                text="Continue with Facebook"
+                                color="primary"
+                                startIcon={<FacebookIcon />}
+                            />
+                        </a>
                     </div>
                     <div className={classes.block}>
-                        <Button
-                            id="facebook_signup_button"
-                            text="Continue with Google"
-                            color="secondary"
-                            startIcon={<FaGoogle color="white" />} />
+                        <a href="http://localhost:4000/auth/google" >
+                            <Button
+                                id="google_signup_button"
+                                text="Continue with Google"
+                                color="danger"
+                                startIcon={<FaGoogle color="white" />}
+                            />
+                        </a>
                     </div>
                 </MuiThemeProvider>
 
                 {/* Log in option */}
                 <div className={classes.login}>
-                    Already have an account? <a href=".">Log in</a>
+                    Already have an account? <Link to="/login"><a href=".">Log in</a></Link>
                 </div>
             </form>
-        </div>
+        </div >
     );
 }
 

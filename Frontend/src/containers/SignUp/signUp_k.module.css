@@ -6,6 +6,7 @@
     box-shadow: #000 2px 1px 20px;
     min-height: 350px;
     background-color: #FFF;
+    border-radius: 10px;
 }
 
 .form {
@@ -18,7 +19,8 @@ Container elements
 ----------*/
 
 .logo {
-    max-width: 200px;;
+    max-width: 200px;
+    ;
 }
 
 .title {
@@ -42,6 +44,7 @@ Container elements
 }
 
 /* --- or --- */
+
 .or_block {
     margin: 8px 0px;
     line-height: 20px;
@@ -67,6 +70,7 @@ Container elements
     border-top: 1px solid #c4c2c2;
     width: 45%;
 }
+
 /* --------- */
 
 .login {

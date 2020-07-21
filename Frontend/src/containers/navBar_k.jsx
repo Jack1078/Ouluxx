@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import classes from './navBar_k.module.css';
 import { MdStoreMallDirectory, MdAccountCircle } from 'react-icons/md'
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { Row, Col, Container, Dropdown, Button } from 'react-bootstrap';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+
+
 
 /**
  * Navigation bar
@@ -22,29 +27,52 @@ const NavBar = (props) => {
                     <div
                         className={classes.logo}
                         onClick={() => logoOnClick()}>
-                        OULU<span style={{ color: '#FFC70D' }}>X</span>X</div>
+                        <strong> OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong></div>
 
-                    <div
+
+                    <div>
+                        <Button variant="outline-warning" type="submit" >
+                            <div className={classes.store_icon}>
+                                <div className={classes.btn_icon}><MdStoreMallDirectory /></div>
+                                <div className={classes.btn_txt}>Stores</div>
+                            </div>
+                        </Button>
+
+                    </div>
+                    {/* <div
                         className={[classes.btn, classes.store_btn].join(' ')}
                         onClick={() => storeOnClick()}>
-                        <div className={classes.btn_icon}><MdStoreMallDirectory /></div>
-                        <div className={classes.btn_txt}>Stores</div>
-                    </div>
+                        <Row className="justify-content-center">
+                            <div className={classes.btn_icon}><MdStoreMallDirectory /></div>
+                            <div className={classes.btn_txt}>Stores</div>
+                        </Row>
+                    </div> */}
 
                     <div></div>
-                    <div
-                        className={classes.btn}
-                        onClick={() => accountOnClick()}>
-                        <div className={classes.btn_icon}><MdAccountCircle /></div>
-                        <div className={classes.btn_txt}>Account</div>
-                    </div>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="outline-light" id="dropdown-basic">
+                            <span><MdAccountCircle /> <span> Account</span>
+                            </span>
+                        </Dropdown.Toggle>
 
-                    <div
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Settings & Privacy</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    <form action="/auth/logout" method="POST">
+                        <div>
+                            <Button variant="outline-danger" type="submit">Log Out</Button>
+                        </div>
+                    </form>
+                    {/* <div
                         className={classes.btn}
                         onClick={() => cartOnClick()}>
-                        <div className={classes.btn_icon}><AiOutlineShoppingCart /></div>
-                        <div className={classes.btn_txt}>Cart</div>
-                    </div>
+                        <Row className="justify-content-center">
+                            <div className={classes.btn_icon}><AiOutlineShoppingCart /></div>
+                            <div className={classes.btn_txt}>Cart</div>
+                        </Row>
+                    </div> */}
                     <div></div>
 
                 </div>
