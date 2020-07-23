@@ -19,6 +19,7 @@ const User = new mongoose.Schema({
 	facebookid: String,
 	googleid: String, 
 	verifiedemail: {type: Boolean, default: false},
+	VerifyEmailToken: String,
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
 	Password: String,

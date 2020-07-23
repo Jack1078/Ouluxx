@@ -16,6 +16,7 @@ var FacebookStrategy = require('./config/facebook_strategy');
 const flash = require('connect-flash');
 
 var nodemailer = require('nodemailer');
+const secrets = require('./secrets/secrets'); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -38,16 +39,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(flash());
 
-
-
 // configure passport middleware
 app.use(session({ secret: '7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103' }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-/*passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-*/
 
 passport.serializeUser((user, done) => {
   done(null, user._id); //user.id is the id from Mongo
@@ -89,10 +84,6 @@ app.use('/store', storeRouter);
 app.use('/inventory', inventoryRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
-
-app.get("/auth/google", passport.authenticate("google", {
-  scope: ["profile", "email"]
-}));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
