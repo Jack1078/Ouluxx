@@ -18,7 +18,7 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/SUCCESS', function(req, res, next) {
-  res.render('index', { title: 'Success' });
+	res.render('index', { title: 'Success' });
 });
 
 router.post('/test', function(req, res, next) {
