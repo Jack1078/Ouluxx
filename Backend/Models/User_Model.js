@@ -28,7 +28,7 @@ const User = new mongoose.Schema({
 	Address: String,
 	City: String,
 	State: String,
-	Created_Password: {type: Boolean, default: true}
+	Created_Password: {type: Boolean, default: true},
 	active: { type: Boolean, default: true },
 	Zipcode: Number,   //This does not verify if the zipcode is strictly XXXXX format
 	UserType: String, // This is either user or store. 

@@ -192,7 +192,7 @@ router.post("/change_password", async function(req, res, next){
 		// logged in
 		if (req.body.new_password === req.body.confirm_password) {
 			if (req.user.Created_Password) {
-				req.user.changePassword(req.body.old_password, req.body.new_password, function(err){
+				req.user.changePassword(req.body.old_password, req.body.new_password, async function(err){
 					if (err) {
 						res.status(500).json({message:"Error: "+err});
 					}
