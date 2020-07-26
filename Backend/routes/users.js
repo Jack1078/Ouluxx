@@ -36,7 +36,7 @@ router.get('/', function (req, res, next) {
 	"userid": "<The Users ID>"
 }
 */
-
+//used for getting a not logged in user. To get a logged in user, use req.user. 
 router.post('/get_user', async function (req, res, next) {
 	await UserModel.findOne({ _id: mongoose.Types.ObjectId(req.body.userid) }, function (err, UserModel) {
 		res.json(JSON.stringify(UserModel))
@@ -58,7 +58,7 @@ router.post('/get_user', async function (req, res, next) {
 */
 
 router.post('/update', async function (req, res, next) {
-	if (req.user) {
+	if (req.user && req.user.usertype === "USER") {
 		// logged in
 		for (const [key, value] of Object.entries(req.body)) {
 			if (key.toString().toUpperCase().includes("ID")) {
@@ -150,7 +150,7 @@ JSON is structured like this:
 */
 //adds an item to the user's cart
 router.post('/add_to_cart', async function (req, res, next) {
-	if (req.user) 
+	if (req.user && req.user.usertype === "USER") 
 	{
 		//must be logged in
 		var itemprice = parseFloat(req.body.Price);
@@ -184,7 +184,7 @@ router.post('/add_to_cart', async function (req, res, next) {
 }
 */
 router.post('/get_cart', async function (req, res, next) {
-	if (user.req) {
+	if (user.req && req.user.usertype === "USER") {
 		await UserModel.find({ _id: req.user._id }, { Cart: 1 },function (err, UserModel) {
 			res.json(JSON.stringify(UserModel))
 		});
@@ -206,7 +206,7 @@ JSON looks like:
 */
 
 router.post('/update_cart', async function (req, res, next) {
-	if (req.user) {
+	if (req.user && req.user.usertype === "USER") {
 		await UserModel.findOneAndUpdate(
 			{
 				_id: req.user._id,
@@ -237,7 +237,7 @@ router.post('/update_cart', async function (req, res, next) {
 }
 */
 router.post('/remove_from_cart', async function (req, res, next) {
-	if (user.req) {
+	if (user.req && req.user.usertype === "USER") {
 		await UserModel.findOneAndUpdate(
 			{
 				_id: req.user._id
