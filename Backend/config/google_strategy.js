@@ -40,11 +40,12 @@ var Google_Strategy = new GoogleStrategy({
 				} else {
 					user = new UserModel({
 						Email: profile.emails[0].value,
-						username: profileInfo.displayName,
-						FirstName: profileInfo.name.given_name,
-						LastName: profileInfo.name.family_name,
+						username: profileInfo.displayName, 
+						FirstName: profileInfo.name.given_name, 
+						LastName: profileInfo.name.family_name, 
 						googleid: profileInfo.sub, //unique google id
 						verifiedemail: profileInfo.email_verified,
+						Created_Password: false,
 						UserType : "USER"
 					});
 					var password           = '';
