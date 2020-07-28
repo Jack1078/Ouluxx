@@ -15,6 +15,7 @@ const LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 const jwt = require("jsonwebtoken");
 
+
 const UserModel = require('../Models/User_Model');
 
 const url = 'mongodb://127.0.0.1:27017/Ouluxx'
@@ -39,17 +40,23 @@ router.get('/', function (req, res, next) {
 }
 */
 
-
 router.post('/get_user', async function (req, res, next) {
-	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-
-	await UserModel.findOne({ _id: mongoose.Types.ObjectId(req.body.userid) },
-		function (err, UserModel) {
-			res.json(JSON.stringify(UserModel))
-		});
-
-	mongoose.connection.close();
+	console.log(JSON.stringify(req.body.userid));
+	//mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	try {
+		await UserModel.findOne({ _id: req.user._id },
+			function (err, UserModel) {
+				if (err) {
+					console.log(err);
+				} else {
+					//console.log(JSON.stringify(UserModel))
+					res.json(JSON.stringify(UserModel));
+				}
+			});
+	} catch (e) {
+		console.log(e);
+	}
+	//mongoose.connection.close();
 
 });
 
@@ -71,49 +78,49 @@ router.post('/get_user', async function (req, res, next) {
 
 router.post('/update', async function (req, res, next) {
 	console.log(req.body);
-	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	//mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 	for (const [key, value] of Object.entries(req.body)) {
 		if (key.toString().toUpperCase().includes("ID")) {
 			console.log(key); // cannot be changed
 		} else if (key.toString().toUpperCase() === "EMAIL") { //usually has a process to change emails
 			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ _id: req.user._id },
 				{ "Email": value.toString() }
 			);
 		} else if (key.toString().toUpperCase() === "USERNAME") { //need to verify if the username is already taken
 			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ _id: req.user._id },
 				{ "username": value.toString() }
 			);
 		} else if (key.toString().toUpperCase() === "FIRSTNAME") {
 			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ _id: req.user._id },
 				{ "FirstName": value.toString() }
 			);
 		} else if (key.toString().toUpperCase() === "LASTNAME") {
 			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ _id: req.user._id },
 				{ "LastName": value.toString() }
 			);
 		} else if (key.toString().toUpperCase() === "ADDRESS") {
 			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ _id: req.user._id },
 				{ "Address": value.toString() }
 			);
 		} else if (key.toString().toUpperCase() === "CITY") {
 			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ _id: req.user._id },
 				{ "City": value.toString() }
 			);
 		} else if (key.toString().toUpperCase() === "STATE") {
 			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ _id: req.user._id },
 				{ "State": value.toString() }
 			);
 		} else if (key.toString().toUpperCase() === "ZIPCODE") {
 			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
+				{ _id: req.user._id },
 				{ "Zipcode": value.toString() }
 			);
 		} else {
@@ -123,9 +130,9 @@ router.post('/update', async function (req, res, next) {
 
 	var obj = new Object();
 	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-
-	mongoose.connection.close();
+	//res.json(JSON.stringify(obj));
+	res.redirect("/accountpage");
+	//mongoose.connection.close();
 
 });
 

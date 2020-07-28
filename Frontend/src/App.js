@@ -7,6 +7,8 @@ import SignupPage from './layouts/SignupPage/signup_h';
 import LoginPage from './layouts/LoginPage/login_h';
 import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import StorePage from './layouts/StorePage/storePage_h';
+import AccountPage from './layouts/AccountPage/accountPage_h';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -30,6 +32,8 @@ function App() {
             <Route path="/landingpage" component={LandingPage} />
             <Route path="/storepage" component={StorePage} />
             <Route path="/selectionpage" component={SelectionPage} />
+            <Route path="/accountpage" component={AccountPage} />
+
           </Switch>
           {/* <LandingPage/> 
               <SignupPage />

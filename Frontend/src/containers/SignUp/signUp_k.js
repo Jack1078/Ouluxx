@@ -144,7 +144,7 @@ function SignUp() {
                             <Button
                                 id="google_signup_button"
                                 text="Continue with Google"
-                                color="danger"
+                                color="secondary"
                                 startIcon={<FaGoogle color="white" />}
                             />
                         </a>

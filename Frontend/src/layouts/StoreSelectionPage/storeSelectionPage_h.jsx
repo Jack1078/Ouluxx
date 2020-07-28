@@ -94,8 +94,12 @@ const StoreSelect = () => {
     const [zipcode, setZipcode] = useState('11791');
 
     return (
+
         <div className={classes.background}>
             <NavBar />
+            <div className={classes.logo_container}>
+                <img src={Logo} alt='Ouluxx logo' height="45px" />
+            </div>
             <div className={classes.zipcode_container}>
                 Select Store for Delivery in&nbsp;<span style={{ fontWeight: 'bold' }}>{zipcode}</span>
             </div>

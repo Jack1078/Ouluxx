@@ -22,30 +22,31 @@ const useStyles = makeStyles(theme => ({
     label: {
         color: theme.palette.secondary.main
     }
+
 }));
 
 function CustomizedTextField(props) {
-  const classes = useStyles();
-  const {id, label, ...other} = props
+    const classes = useStyles();
+    const { id, label, ...other } = props
 
-  return (
-    <div className={classes.root}>
-        <TextField
-            className={classes.margin}
-            label={label}
-            variant="outlined"
-            id={id}
-            fullWidth
-            InputProps={{
-                className: classes.input
-            }}
-            InputLabelProps={{
-                className: classes.label
-            }}
-            {...other}
-        />
-    </div>
-  );
+    return (
+        <div className={classes.root}>
+            <TextField
+                className={classes.margin}
+                label={label}
+                variant="outlined"
+                id={id}
+                fullWidth
+                InputProps={{
+                    className: classes.input
+                }}
+                InputLabelProps={{
+                    className: classes.label
+                }}
+                {...other}
+            />
+        </div>
+    );
 }
 
 CustomizedTextField.propTypes = {

@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import classes from './navBar_k.module.css';
 import { MdStoreMallDirectory, MdAccountCircle } from 'react-icons/md'
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { Row, Col, Container, Dropdown, Button } from 'react-bootstrap';
+import { Row, Col, Container, Dropdown, Button, Input } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import ZipCodeForm from '../components/zipcodeForm_c'
+import Textfield from '../components/textfield_c';
+
+
 
 
 
@@ -31,12 +35,26 @@ const NavBar = (props) => {
 
 
                     <div>
-                        <Button variant="outline-warning" type="submit" >
-                            <div className={classes.store_icon}>
-                                <div className={classes.btn_icon}><MdStoreMallDirectory /></div>
-                                <div className={classes.btn_txt}>Stores</div>
-                            </div>
-                        </Button>
+
+                        <div >
+                            <form>
+                                <Row >
+                                    <Col sm={10}>
+                                        <Textfield
+                                            className={classes.textfield}
+                                            label="Zip Code"
+                                            name="Zip"
+                                            size="small"
+                                            fontColor="white"
+                                        />
+                                    </Col>
+                                    <Col xs={1}>
+                                        <Button variant="warning" type="submit"> Search</Button>
+                                    </Col>
+                                </Row>
+                            </form>
+
+                        </div>
 
                     </div>
                     {/* <div
@@ -56,7 +74,7 @@ const NavBar = (props) => {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+                            <Dropdown.Item href="/accountpage">Profile</Dropdown.Item>
                             <Dropdown.Item href="#/action-2">Settings & Privacy</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
