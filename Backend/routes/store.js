@@ -22,28 +22,39 @@ The JSON looks like:
 	"storestate" : "<state>",
 	"storezipcode" : "<zipcode>",
 	"email" : "<email>",
+	"Categories" : ["<categories>"], 
 	"description" : "<description>"
 }
 
-Add a store. 
+Add a store. Must be logged in from a store account. 
 
 */
 
 router.post('/add', async function(req, res, next) {
 	console.log(req.body);
-	var newStore = new StoreModel({
-				Name : req.body.storename, 
-				Address : req.body.storeaddress, 
-				City : req.body.storecity, 
-				State : req.body.storestate, 
-				Zipcode : req.body.storezipcode, 
-				Email : req.body.email, 
-				Description : req.body.description
-			});
-	await newStore.save();
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
+	if (req.user && req.user.UserType === "STORE") {
+		var newStore = new StoreModel({
+			Name : req.body.storename, 
+			OwnerUserID : req.user._id.toString(), 
+			Address : req.body.storeaddress, 
+			City : req.body.storecity, 
+			State : req.body.storestate, 
+			Zipcode : req.body.storezipcode, 
+			Email : req.body.email, 
+			Categories : req.body.categories, 
+			Description : req.body.description
+		});
+		await UserModel.findOneAndUpdate(
+			{ _id: req.user._id },
+			{ "StoreID": newStore._id.toString() }
+		);
+		await newStore.save();
+		res.status(200).json({message:"Success"});
+	}
+	else
+	{
+		res.status(200).json({message: "Not logged in as a store account. "});
+	}
 });
 
 /*
@@ -54,17 +65,30 @@ A delete payload is as such:
 	"storeid" : "<storeid>" // this is stored on the store's page as the store id
 }
 
+// not needed if logged in as a store user. 
+
 Remove a store. 
 
 */
 
 router.post('/delete', async function(req, res, next) {
-	console.log(req.body);
-	await StoreModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.body.storeid)});
-	await InventoryItemModel.deleteMany({StoreID:req.body.storeid});
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
+	if (req.user && req.user.UserType === "STORE") {
+		await StoreModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.user.StoreID)});
+		await InventoryItemModel.deleteMany({StoreID:req.user.StoreID});
+		res.status(200).json({message:"Success"});
+	}
+	else if (req.user && req.user.UserType === "ADMIN")
+	{
+		await StoreModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.body.storeid)});
+		await InventoryItemModel.deleteMany({StoreID:req.body.storeid});
+		var obj = new Object();
+		obj.status = "Success";
+		res.json(JSON.stringify(obj));
+	}
+	else
+	{
+		res.status(401).json({message: "not allowed"});
+	}
 });
 
 /*
@@ -133,9 +157,7 @@ An add comment JSON is structured as this:
 
 { 
 	"storeid" : "<The ID of the store>", // This should be stored on the page. 
-	"comment" : "<comment string>", 
-	"userid" : "The users id, from logged in cookie"
-	"username" : "The users username, from logged in cookie"
+	"comment" : "<comment string>"
 }
 
 Add a comment to an item. 
@@ -144,18 +166,27 @@ Add a comment to an item.
 
 router.post('/add_comment', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	console.log(req.body);
-	var commentitem = { // create inventory item to add to inventory array
-		Body: req.body.comment, 
-		userID: req.body.userid,
-		Username: req.body.username
-	};
-	await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
-		{_id:mongoose.Types.ObjectId(req.body.storeid)}, 
-		{ $push: { Comments: commentitem } }
-	); 
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
+	if (req.user && req.user.UserType === "USER") {
+		var commentitem = { // create inventory item to add to inventory array
+			Body: req.body.comment, 
+			userID: req.user._id.toString(),
+			Username: req.user.username
+		};
+		await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
+			{_id:mongoose.Types.ObjectId(req.body.storeid)}, 
+			{ $push: { Comments: commentitem } }
+		); 
+		res.status(200).json({message:"Sucess"});
+	}
+	else if(req.user && req.user.UserType === "STORE")
+	{
+		res.status(200).json({message: "Done by a store, use a user account to make comments. "});
+	}
+	else
+	{
+		res.status(401).json({message:"Not allowed"})
+	}
+	
 });
 
 module.exports = router;

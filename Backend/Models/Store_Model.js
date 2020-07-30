@@ -13,6 +13,7 @@ const Store_Schema = new Schema({
 	Schema_Type : {type : String, default: "STORE"}, // Identifies this as a store item. 
 	Name : String, // The name of the store, defined by user
 	//StoreID : Number, // The ID of the store, defined by program based upon the name and the number of elements already labeled STORE
+	OwnerUserID : String, // the id of the store owners account. 
 	Address: String,
 	City: String,
 	State: String,
@@ -24,6 +25,7 @@ const Store_Schema = new Schema({
 		}], 
 		default : [] // starts as an empty list
 	}, 
+	Categories : {type : [], default : []}, 
 	Comments : { // if we want to add comments to the store. 
 		type: [{
 		 Body: String, Date: Date, UserID: String, Username: String

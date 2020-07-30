@@ -23,6 +23,8 @@ var usersRouter = require('./routes/users');
 var storeRouter = require('./routes/store');
 var inventoryRouter = require('./routes/inventory');
 var authRouter = require('./routes/auth');
+var purchaseRouter = require('./routes/purchase');
+
 const User = require('./Models/User_Model');
 const port = process.env.PORT || 4000;
 
@@ -84,6 +86,7 @@ app.use('/store', storeRouter);
 app.use('/inventory', inventoryRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/purchase', purchaseRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
