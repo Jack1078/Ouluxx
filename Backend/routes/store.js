@@ -6,9 +6,9 @@ var StoreModel = require('../Models/Store_Model');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-  console.log(req.body);
-  console.log("Hello");
+	res.render('index', { title: 'Express' });
+	console.log(req.body);
+	console.log("Hello");
 });
 
 /*
@@ -35,7 +35,7 @@ router.post('/add', async function(req, res, next) {
 	if (req.user && req.user.UserType === "STORE") {
 		var newStore = new StoreModel({
 			Name : req.body.storename, 
-			OwnerUserID : req.user._id.toString(), 
+			//OwnerUserID : req.user._id.toString(), 
 			Address : req.body.storeaddress, 
 			City : req.body.storecity, 
 			State : req.body.storestate, 
@@ -150,6 +150,24 @@ router.post('/get_store_with_property', async function(req, res, next) {
 			res.json(JSON.stringify(StoreModel))
 		});
 });
+
+/*
+A search for store function. matches with the provided string as a start point. 
+
+JSON: 
+{
+	"searchstring" : "<Partial string>"
+}
+
+*/
+
+router.post('/search', async function(req, res, next) {
+	console.log(req.body);
+	StoreModel.find({ Name: { $regex: "^"+req.body.searchstring, $options: "i" } }, function(err, stores) {
+		res.status(200).send(stores);
+	});
+});
+
 
 /*
 
