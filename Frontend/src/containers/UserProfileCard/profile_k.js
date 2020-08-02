@@ -8,12 +8,30 @@ import React, { useState } from 'react';
 import classes from './profile_k.module.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Input } from '@material-ui/core';
-import { Row, Col, Container, Card, Button, Modal } from 'react-bootstrap';
+import { Row, Col, Container, Card, Button, Modal, ListGroup } from 'react-bootstrap';
 import Textfield from '../../components/textfield_c';
-
+import { makeStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import InboxIcon from '@material-ui/icons/Inbox';
+import EmailIcon from '@material-ui/icons/Email';
+import PersonIcon from '@material-ui/icons/Person';
+import HomeIcon from '@material-ui/icons/Home';
+import MarkunreadMailboxIcon from '@material-ui/icons/MarkunreadMailbox';
 
 
 const Profile = () => {
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            width: '100%',
+            maxWidth: 360,
+            backgroundColor: theme.palette.background.paper,
+        },
+    }));
+    const themeclass = useStyles();
 
 
     const [email, setEmail] = useState("Not logged in!")
@@ -22,6 +40,9 @@ const Profile = () => {
     const [state, setState] = useState("")
     const [country, setCountry] = useState("")
     const [zip, setZip] = useState("")
+    const [fname, setFname] = useState("")
+    const [lname, setLname] = useState("")
+
 
 
     //return the fetch to return the promise
@@ -53,14 +74,17 @@ const Profile = () => {
         console.log(response);
         testing = response;
         //console.log(testing)
-        var n = testing.FirstName + " " + testing.LastName
+
+        var n = testing.FirstName + " " + testing.LastName;
+        var a = testing.Address + ", " + testing.State + " " + testing.Zipcode
         setEmail(testing.Email);
         setName(n);
         setZip(testing.Zipcode);
-        setAddress(testing.Address);
+        setAddress(a);
         setCountry(testing.name);
         setState(testing.State);
-
+        setFname(testing.FirstName);
+        setLname(testing.LastName);
     })
 
     //popup states
@@ -70,39 +94,101 @@ const Profile = () => {
 
     return (
         <>
-            <Card border="dark">
-                <Card.Body>
-                    <Card.Title><strong>Profile</strong></Card.Title>
-                    <ul className={classes.infolist}>
-                        <li>Name: {name}  </li>
-                        <li>Address: {address}</li>
-                        <li>State: {state}</li>
-                        <li>Zip Code: {zip} </li>
-                        <li>Country: {country} </li>
-                        <li>Email: {email} </li>
 
-                    </ul>
-                    <Button onClick={handleShow} variant="outline-primary" size="sm" className="float-right">Edit</Button>
+            <Card>
+                <Card.Header className={classes.backgroundheader}></Card.Header>
+                <Card.Body>
+                    <Card.Title><strong>Profile</strong>
+                        <Button onClick={handleShow} variant="outline-dark" size="sm" className="float-right">Edit</Button>
+                    </Card.Title>
+                    <div className={classes.root}>
+                        <List component="nav" aria-label="main mailbox folders">
+                            <ListItem
+                                button>
+                                <ListItemIcon>
+                                    <PersonIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={name} />
+                            </ListItem>
+                            <ListItem
+                                button>
+                                <ListItemIcon>
+                                    <HomeIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={address} />
+                            </ListItem>
+                            <ListItem
+                                button>
+                                <ListItemIcon>
+                                    <EmailIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={email} />
+                            </ListItem>
+                        </List>
+                    </div>
+
                 </Card.Body>
             </Card>
 
-            <Modal show={show} onHide={handleClose} animation={true} size="lg"
+            <Modal show={show} onHide={handleClose} animation={true} size="md"
                 dialogClassName="modal-90w"
                 aria-labelledby="example-custom-modal-styling-title"
                 centered>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Modal heading
+                        Update Info
         </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className={classes.form} action="/users/update" method="POST" >
 
                         <div className={classes.block}>
+                            <Row>
+                                <Col sm={6}>
+                                    <Textfield
+                                        id="FirstName-textfield"
+                                        label="First Name"
+                                        name="FirstName"
+
+                                    />
+                                </Col>
+                                <Col sm={6}>
+                                    <Textfield
+                                        id="LastName-textfield"
+                                        label="Last Name"
+                                        name="LastName"
+
+                                    />
+                                </Col>
+                            </Row>
                             <Textfield
-                                id="FirstName-textfield"
-                                label="First Name"
-                                name="FirstName"
+                                id="Address-textfield"
+                                label="Address"
+                                name="Address"
+                            />
+                            <Row>
+                                <Col sm={6}>
+                                    <Textfield
+                                        id="City-textfield"
+                                        label="City"
+                                        name="City"
+                                    />
+                                </Col>
+                                <Col sm={6}>
+
+                                    <Textfield
+                                        id="State-textfield"
+                                        label="State"
+                                        name="State"
+                                    />
+                                </Col>
+
+                            </Row>
+                            <Textfield
+                                id="Zipcode-textfield"
+                                label="Zip Code"
+                                name="Zipcode"
+
                             />
 
                             <Button className="float-right" style={{ color: "white" }} variant="warning" type="submit">Update</Button>

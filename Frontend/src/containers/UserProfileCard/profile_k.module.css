@@ -1,10 +1,15 @@
 * {
-    font-family: "Tahoma";
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .infolist {
     list-style: none;
-    text-align: left;
+    line-height: 2rem;
+    text-align: start;
+}
+
+.backgroundheader {
+    background-color: rgb(255, 202, 67);
 }
 
 .btntxt {
