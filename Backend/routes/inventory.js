@@ -4,6 +4,19 @@ const mongoose = require('mongoose');
 var InventoryItemModel = require('../Models/Item_Model'); 
 var StoreModel = require('../Models/Store_Model'); 
 
+const fs = require("fs");
+const multer = require('multer');
+
+var storage = multer.diskStorage({ 
+	destination: (req, file, cb) => { 
+		cb(null, 'uploads') 
+	}, 
+	filename: (req, file, cb) => { 
+		cb(null, file.fieldname + '-' + Date.now()) 
+	} 
+}); 
+
+const upload = multer({ storage: storage });
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -28,16 +41,21 @@ Add a single item to the DB.
 
 */
 
-router.post('/add', async function(req, res, next) {// add an item to the db, and add it to the store. 
+router.post('/add', upload.single('file'), async function(req, res, next) {// add an item to the db, and add it to the store. 
 	if (req.user && req.user.UserType === "STORE") {
 		var itemprice = parseFloat(req.body.itemprice);
 		var newitem = new InventoryItemModel({
-					Name : req.body.itemname, 
-					Price : itemprice, 
-					StoreName : req.body.itemstore, 
-					StoreID : req.user.StoreId, 
-					Category : req.body.categories
-				});
+			Name : req.body.itemname, 
+			Price : itemprice, 
+			StoreName : req.body.itemstore, 
+			StoreID : req.user.StoreId, 
+			Category : req.body.categories
+			IdentifierName : req.body.TrueIdentifier, 
+			img: { 
+				data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+				contentType: 'image/png'
+			}
+		});
 		var number_In_Inventory = -1;
 		if (req.body.inventory != null) {
 			number_In_Inventory = req.body.inventory;
@@ -59,6 +77,25 @@ router.post('/add', async function(req, res, next) {// add an item to the db, an
 		res.status(200).json({message:"Not logged in"});
 	}
 });
+
+router.post('/Image', upload.single('image'), function(req, res, next){
+	if (req.user && req.user.UserType === "STORE") {
+		fs.unlinkSync(InventoryItemModel.findOne({_id = mongoose.Types.ObjectId(req.body.itemid)}).img.data);
+		await InventoryItemModel.findOneAndUpdate(
+			{_id:mongoose.Types.ObjectId(req.body.itemid)}, 
+			{ img: { 
+				data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+				contentType: 'image/png'
+			}}
+		);
+		res.status(200).json({message:"Sucess"});
+	}
+	else
+	{
+		res.status(401).json({message: "not allowed"});
+	}
+});
+
 
 /*
 
@@ -130,7 +167,8 @@ router.post('/add_many', async function(req, res, next) {// add an item to the d
 				Price : itemprice, 
 				StoreName : value.itemstore, 
 				StoreID : req.user.StoreID, 
-				Category : value.categories
+				Category : value.categories, 
+				IdentifierName : req.body.TrueIdentifier
 			});
 			var number_In_Inventory = -1;
 			if (req.body.inventory != null) {
@@ -169,6 +207,7 @@ Removes item from database.
 
 router.post('/delete', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	if (req.user && req.user.UserType === "STORE") {
+		fs.unlinkSync(InventoryItemModel.findOne({_id = mongoose.Types.ObjectId(req.body.itemid)}).img.data);
 		await InventoryItemModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.body.itemid)});
 		await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
 			{_id:mongoose.Types.ObjectId(req.user.StoreId)}, 

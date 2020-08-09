@@ -13,7 +13,9 @@ const Stores = new Schema({
 	Schema_Type : {type : String, default: "STORE"}, // Identifies this as a store item. 
 	Name : String, // The name of the store, defined by user
 	//StoreID : Number, // The ID of the store, defined by program based upon the name and the number of elements already labeled STORE
+	IdentifierName : String, //used if the store has a specific name that is not the same as the name it is regularly reffered to as. 
 	OwnerUserID : String, // the id of the store owners account. 
+	img: { data: Buffer, contentType: String} // image that is stored
 	Address: String,
 	City: String,
 	State: String,

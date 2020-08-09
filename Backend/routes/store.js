@@ -1,8 +1,22 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
-var InventoryItemModel = require('../Models/Item_Model'); 
-var StoreModel = require('../Models/Store_Model'); 
+const InventoryItemModel = require('../Models/Item_Model'); 
+const StoreModel = require('../Models/Store_Model'); 
+
+const fs = require("fs");
+const multer = require('multer');
+
+var storage = multer.diskStorage({ 
+	destination: (req, file, cb) => { 
+		cb(null, 'uploads') 
+	}, 
+	filename: (req, file, cb) => { 
+		cb(null, file.fieldname + '-' + Date.now()) 
+	} 
+}); 
+
+const upload = multer({ storage: storage });
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -30,19 +44,24 @@ Add a store. Must be logged in from a store account.
 
 */
 
-router.post('/add', async function(req, res, next) {
+router.post('/add', upload.single('image'), async function(req, res, next) {
 	console.log(req.body);
 	if (req.user && req.user.UserType === "STORE") {
 		var newStore = new StoreModel({
 			Name : req.body.storename, 
-			//OwnerUserID : req.user._id.toString(), 
+			OwnerUserID : req.user._id.toString(), 
 			Address : req.body.storeaddress, 
 			City : req.body.storecity, 
 			State : req.body.storestate, 
 			Zipcode : req.body.storezipcode, 
 			Email : req.body.email, 
 			Categories : req.body.categories, 
-			Description : req.body.description
+			Description : req.body.description, 
+			IdentifierName : req.body.TrueIdentifier, 
+			img: { 
+				data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+				contentType: 'image/png'
+			}
 		});
 		await UserModel.findOneAndUpdate(
 			{ _id: req.user._id },
@@ -54,6 +73,24 @@ router.post('/add', async function(req, res, next) {
 	else
 	{
 		res.status(200).json({message: "Not logged in as a store account. "});
+	}
+});
+
+router.post('/Image', upload.single('image'), function(req, res, next){
+	if (req.user && req.user.UserType === "STORE") {
+		fs.unlinkSync(StoreModel.findOne({_id = mongoose.Types.ObjectId(req.user.StoreID)}).img.data);
+		await StoreModel.findOneAndUpdate(
+			{_id:mongoose.Types.ObjectId(req.user.StoreID)}, 
+			{ img: { 
+				data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+				contentType: 'image/png'
+			}}
+		);
+		res.status(200).json({message:"Sucess"});
+	}
+	else
+	{
+		res.status(401).json({message: "not allowed"});
 	}
 });
 
@@ -73,12 +110,14 @@ Remove a store.
 
 router.post('/delete', async function(req, res, next) {
 	if (req.user && req.user.UserType === "STORE") {
+		fs.unlinkSync(StoreModel.findOne({_id = mongoose.Types.ObjectId(req.user.StoreID)}).img.data);
 		await StoreModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.user.StoreID)});
 		await InventoryItemModel.deleteMany({StoreID:req.user.StoreID});
 		res.status(200).json({message:"Success"});
 	}
 	else if (req.user && req.user.UserType === "ADMIN")
 	{
+		fs.unlinkSync(StoreModel.findOne({_id = mongoose.Types.ObjectId(req.body.storeid)}).img.data);
 		await StoreModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.body.storeid)});
 		await InventoryItemModel.deleteMany({StoreID:req.body.storeid});
 		var obj = new Object();
@@ -122,7 +161,6 @@ If there are no stores, it returns null.
 */
 
 router.post('/get_all_stores', async function(req, res, next) {
-	console.log(req.body);
 	await StoreModel.find({},
 		function(err, StoreModel) {
 			res.json(JSON.stringify(StoreModel))
@@ -143,7 +181,6 @@ get stores with specific properties
 */
 
 router.post('/get_store_with_property', async function(req, res, next) {
-	console.log(req.body);
 	var propertyname = req.body.property;
 	await StoreModel.find({propertyname : req.body.value},
 		function(err, StoreModel) {
@@ -182,15 +219,15 @@ Add a comment to an item.
 
 */
 
-router.post('/add_comment', async function(req, res, next) {// add an item to the db, and add it to the store. 
+router.post('/add_comment', async function(req, res, next) {
 	console.log(req.body);
 	if (req.user && req.user.UserType === "USER") {
-		var commentitem = { // create inventory item to add to inventory array
+		var commentitem = { 
 			Body: req.body.comment, 
 			userID: req.user._id.toString(),
 			Username: req.user.username
 		};
-		await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
+		await StoreModel.findOneAndUpdate( 
 			{_id:mongoose.Types.ObjectId(req.body.storeid)}, 
 			{ $push: { Comments: commentitem } }
 		); 

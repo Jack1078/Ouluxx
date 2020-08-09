@@ -1,10 +1,9 @@
 /******************************************************************************
  * Name: Benjamin Salzberg													 *
- * Date: 7/2/2020															 *
+ * Date: 8/9/2020															 *
  * Version: 1.0.0															 *
- * Description: This file is the schema for the item object. It contains 	 *
- * information about the item such as name, price, store, etc.				 *
- * The category information will be kept within the item as an array.		 *
+ * Description: This file is the schema for the transaction object. It stores*
+ * information about the transactions that occur							 *
  ******************************************************************************/
 
 const mongoose = require('mongoose');
@@ -16,7 +15,6 @@ const Inventory_Item = new Schema({
 	//ItemID : Uint32Array, // The id of the item potentially unneeded as _id exists
 	Name : String, // name of the item, defined by user
 	IdentifierName : String, //used if the item has a specific name that is not the same as the name it is regularly reffered to as. 
-	img: { data: Buffer, contentType: String}, // image that is stored
 	Price : Number, // price of the item, defined by user
 	StoreName : String, // name of the store this belongs to
 	StoreID : String, // id of the store this belongs to
