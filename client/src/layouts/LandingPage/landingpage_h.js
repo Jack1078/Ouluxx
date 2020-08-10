@@ -1,6 +1,6 @@
 import React from 'react';
 import './landingpage.module.css'
-import ZipBox from '../../containers/zipbox_k'
+import ZipcodeForm from '../../containers/zipcodeForm'
 import Footer from '../../containers/footer_k'
 import About from './../../containers/About/about_k'
 
@@ -8,7 +8,7 @@ function LandingPage() {
   return (
 
     <div>
-      <ZipBox />
+      <ZipcodeForm />
       <About />
       <Footer />
     </div>

@@ -1,0 +1,78 @@
+/***************Header CSS***************/
+/* yellow text */
+.yellow {
+    color: #FBF24E
+};
+
+/* black text */
+.black {
+    color: #282C33;
+    padding: 10px;
+    font-size: 50px;
+}
+
+/*************************BOX CSS*******************************/
+
+ /* centered, thin border with shadow, text centered */
+.zipbox {
+    margin: auto;
+    width: 400px;
+    text-align: center;
+    color: #282C33;
+    border: 0px solid #282C33;
+    box-shadow: 0px 0px 10px;
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+};
+
+ /* bold text with brown coloring */
+.hyperlink {
+    color: #CE842D;
+    font-weight: bold;
+};
+
+.fontA {
+    font-family: Verdana;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.fontB {
+    font-family: Verdana;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/*************Form Css*************/
+
+/* grey border around text input, rounded edges, white background, slight padding */
+.zipcodeform {
+    border-color: grey;
+    width: 255px;
+    border-Radius: 4px;
+    color: black;
+    padding: 10px;
+}
+/* rounded edges, yellow backgorund, slight padding */
+.continuebutton {
+    /* width: 275px; */
+    /* margin: 10px; */
+    color: black;
+    background-color: #FFF552;
+    border-radius: 4px;
+    padding: 10px 115px;
+    margin: auto 10px;
+    /* width: ; */
+}
+
+.input {
+    font-family: Verdana;
+}
+
+.row {
+    background-color: cyan;
+    width: 100%;
+    margin: 15px;
+}
