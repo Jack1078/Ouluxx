@@ -22,12 +22,12 @@ const ProductsDisplay = (props) => {
                     {products.slice((currPage - 1) * products_per_page, currPage * products_per_page).map(product => (
                         <ProductIcon
                             name={product.name}
-                            img_url={product.img_url}
+                            // img_url={product.img_url}        //commented out waiting for new database
                             alt={product.name}
                             categories={product.categories}
                             onClick={() => console.log('clicked product...' + product.name)}
                             rating={product.rating}
-                            price={product.price}
+                            price={product.Price}
                             key={Math.random()}
                         />
                     ))}

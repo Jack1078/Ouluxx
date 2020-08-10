@@ -14,9 +14,7 @@ import Draggable from 'react-draggable';
  * Layout for the Store page
  */
 
-//create the promise, then work on the promise
-//all working on the response must occur in an async function like this. 
-var data = { "StoreID": "5f19dba9b8b917200936610d" };
+var data = { "StoreID": "5f19dba9b8b917200936610d" }; //need a way to automate this
 
 const products = [
     {
@@ -202,12 +200,8 @@ const StorePage = (props) => {
     const storeName = props.match.params.store;
     const storeImgUrl = 'cvs.png';
     const storeRating = 4;
-    const [currProducts, setCurrProducts] = useState(products);
+    const [currProducts, setCurrProducts] = useState([]);
     const [currPage, setCurrPage] = useState(1);
-    const [dat, setDat] = useState([]);                         //This is a test state to see how display products and get_products work
-    // console.log(dat);
-
-    // setDat(testing);
 
     // filter products based on categories
     const filterProductHandler = (category) => {
@@ -226,9 +220,12 @@ const StorePage = (props) => {
 
 
     useEffect(() => {
-        get_products(data);
         setCurrPage(1);
     }, [currProducts]);
+    
+    useEffect(() => {
+        get_products(data);
+    }, []);
 
     useEffect(() => {
         get_products(data);
@@ -249,8 +246,8 @@ const StorePage = (props) => {
         }).then((respData) => {
             var temp = JSON.parse(respData);
             // console.log("JSON.parse(respData) =", JSON.parse(respData));
-            setDat(dat.splice(0, dat.length, ...temp));
-            console.log("Data Recieved | Dat= ", dat);
+            setCurrProducts(currProducts.splice(0, currProducts.length, ...temp));
+            console.log("Data Recieved | Dat= ", currProducts);
             // return JSON.parse(respData);
         }).catch((err) => {
             console.log(err);
@@ -258,16 +255,16 @@ const StorePage = (props) => {
         });
     };
 
-    const displayProducts = (items) => { /* items should be an array of products*/
-        console.log("items: ", items);
-        if (!items.length) return null;
-        return items.map((item, index) => (
-            <div key={index}>
-                <h5>Name: {item.Name}</h5>
-                <p>Price: {item.Price}</p>
-            </div>
-        ));
-    };
+    // const displayProducts = (items) => { /* items should be an array of products*/
+    //     console.log("items: ", items);
+    //     if (!items.length) return null;
+    //     return items.map((item, index) => (
+    //         <div key={index}>
+    //             <h5>Name: {item.Name}</h5>
+    //             <p>Price: {item.Price}</p>
+    //         </div>
+    //     ));
+    // };
 
 
     return (
@@ -354,14 +351,6 @@ const StorePage = (props) => {
                     <div></div>
                 </div>
             </div>
-
-
-            <div>
-                <h1>Shalom, These are the stuffs</h1>
-                {displayProducts(dat)}
-            </div>
-
-
         </div >
     );
 };
