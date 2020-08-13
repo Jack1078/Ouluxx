@@ -156,7 +156,7 @@ router.post('/add_to_cart', async function (req, res, next) {
 		//must be logged in
 		var itemprice = parseFloat(req.body.Price);
 		var CartItem = {
-			UserID: req.body.userid,
+			UserID: req.user.userid,
 			ItemID: req.body.ItemID,
 			ItemName: req.body.ItemName,
 			Description: req.body.Description,

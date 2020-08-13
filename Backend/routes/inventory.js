@@ -4,20 +4,6 @@ const mongoose = require('mongoose');
 var InventoryItemModel = require('../Models/Item_Model'); 
 var StoreModel = require('../Models/Store_Model'); 
 
-const fs = require("fs");
-const multer = require('multer');
-
-var storage = multer.diskStorage({ 
-	destination: (req, file, cb) => { 
-		cb(null, 'uploads') 
-	}, 
-	filename: (req, file, cb) => { 
-		cb(null, file.fieldname + '-' + Date.now()) 
-	} 
-}); 
-
-const upload = multer({ storage: storage });
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -35,13 +21,15 @@ An item JSON is structured as this:
 	"itemstore" : "<The name of the store the item belongs to>", 
 	"categories" : ["<catagory 1>", "<category 2>", ...], 
 	"inventory" : <Integer> // this is an optional parameter
+	"TrueIdentifier" : <TrueIdentifier>, // this is something like the serial number of the product 
+	"Image" : <base64 Image>
 }
 
 Add a single item to the DB. 
 
 */
 
-router.post('/add', upload.single('file'), async function(req, res, next) {// add an item to the db, and add it to the store. 
+router.post('/add', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	if (req.user && req.user.UserType === "STORE") {
 		var itemprice = parseFloat(req.body.itemprice);
 		var newitem = new InventoryItemModel({
@@ -49,12 +37,9 @@ router.post('/add', upload.single('file'), async function(req, res, next) {// ad
 			Price : itemprice, 
 			StoreName : req.body.itemstore, 
 			StoreID : req.user.StoreId, 
-			Category : req.body.categories
+			Category : req.body.categories, 
 			IdentifierName : req.body.TrueIdentifier, 
-			img: { 
-				data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-				contentType: 'image/png'
-			}
+			img: req.body.Image
 		});
 		var number_In_Inventory = -1;
 		if (req.body.inventory != null) {
@@ -78,15 +63,20 @@ router.post('/add', upload.single('file'), async function(req, res, next) {// ad
 	}
 });
 
-router.post('/Image', upload.single('image'), function(req, res, next){
+/*
+Send image as base64 to server
+
+{
+	"Image" : <base64 image>
+}
+
+*/
+
+router.post('/Image', async function(req, res, next){
 	if (req.user && req.user.UserType === "STORE") {
-		fs.unlinkSync(InventoryItemModel.findOne({_id = mongoose.Types.ObjectId(req.body.itemid)}).img.data);
 		await InventoryItemModel.findOneAndUpdate(
 			{_id:mongoose.Types.ObjectId(req.body.itemid)}, 
-			{ img: { 
-				data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-				contentType: 'image/png'
-			}}
+			{ img: req.body.Image}
 		);
 		res.status(200).json({message:"Sucess"});
 	}
@@ -207,7 +197,6 @@ Removes item from database.
 
 router.post('/delete', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	if (req.user && req.user.UserType === "STORE") {
-		fs.unlinkSync(InventoryItemModel.findOne({_id = mongoose.Types.ObjectId(req.body.itemid)}).img.data);
 		await InventoryItemModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.body.itemid)});
 		await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
 			{_id:mongoose.Types.ObjectId(req.user.StoreId)}, 

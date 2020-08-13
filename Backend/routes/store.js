@@ -4,20 +4,6 @@ const mongoose = require('mongoose');
 const InventoryItemModel = require('../Models/Item_Model'); 
 const StoreModel = require('../Models/Store_Model'); 
 
-const fs = require("fs");
-const multer = require('multer');
-
-var storage = multer.diskStorage({ 
-	destination: (req, file, cb) => { 
-		cb(null, 'uploads') 
-	}, 
-	filename: (req, file, cb) => { 
-		cb(null, file.fieldname + '-' + Date.now()) 
-	} 
-}); 
-
-const upload = multer({ storage: storage });
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express' });
@@ -37,14 +23,15 @@ The JSON looks like:
 	"storezipcode" : "<zipcode>",
 	"email" : "<email>",
 	"Categories" : ["<categories>"], 
-	"description" : "<description>"
+	"description" : "<description>", 
+	"Image" : <Base64 Image>
 }
 
 Add a store. Must be logged in from a store account. 
 
 */
 
-router.post('/add', upload.single('image'), async function(req, res, next) {
+router.post('/add', async function(req, res, next) {
 	console.log(req.body);
 	if (req.user && req.user.UserType === "STORE") {
 		var newStore = new StoreModel({
@@ -58,10 +45,7 @@ router.post('/add', upload.single('image'), async function(req, res, next) {
 			Categories : req.body.categories, 
 			Description : req.body.description, 
 			IdentifierName : req.body.TrueIdentifier, 
-			img: { 
-				data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-				contentType: 'image/png'
-			}
+			img: req.body.Image
 		});
 		await UserModel.findOneAndUpdate(
 			{ _id: req.user._id },
@@ -76,15 +60,20 @@ router.post('/add', upload.single('image'), async function(req, res, next) {
 	}
 });
 
-router.post('/Image', upload.single('image'), function(req, res, next){
+/*
+Send image as base64 to server updates stores image
+
+{
+	"Image" : <base64 image>
+}
+
+*/
+
+router.post('/Image', async function(req, res, next){
 	if (req.user && req.user.UserType === "STORE") {
-		fs.unlinkSync(StoreModel.findOne({_id = mongoose.Types.ObjectId(req.user.StoreID)}).img.data);
 		await StoreModel.findOneAndUpdate(
 			{_id:mongoose.Types.ObjectId(req.user.StoreID)}, 
-			{ img: { 
-				data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-				contentType: 'image/png'
-			}}
+			{ img: req.body.Image}
 		);
 		res.status(200).json({message:"Sucess"});
 	}
@@ -110,14 +99,12 @@ Remove a store.
 
 router.post('/delete', async function(req, res, next) {
 	if (req.user && req.user.UserType === "STORE") {
-		fs.unlinkSync(StoreModel.findOne({_id = mongoose.Types.ObjectId(req.user.StoreID)}).img.data);
 		await StoreModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.user.StoreID)});
 		await InventoryItemModel.deleteMany({StoreID:req.user.StoreID});
 		res.status(200).json({message:"Success"});
 	}
 	else if (req.user && req.user.UserType === "ADMIN")
 	{
-		fs.unlinkSync(StoreModel.findOne({_id = mongoose.Types.ObjectId(req.body.storeid)}).img.data);
 		await StoreModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.body.storeid)});
 		await InventoryItemModel.deleteMany({StoreID:req.body.storeid});
 		var obj = new Object();
