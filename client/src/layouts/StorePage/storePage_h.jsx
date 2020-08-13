@@ -222,7 +222,7 @@ const StorePage = (props) => {
     useEffect(() => {
         setCurrPage(1);
     }, [currProducts]);
-    
+
     useEffect(() => {
         get_products(data);
     }, []);
@@ -247,7 +247,7 @@ const StorePage = (props) => {
             var temp = JSON.parse(respData);
             // console.log("JSON.parse(respData) =", JSON.parse(respData));
             setCurrProducts(currProducts.splice(0, currProducts.length, ...temp));
-            console.log("Data Recieved | Dat= ", currProducts);
+            // console.log("Data Recieved | Dat= ", currProducts);
             // return JSON.parse(respData);
         }).catch((err) => {
             console.log(err);

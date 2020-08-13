@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import style from './zipcodeForm.module.css';
-import { Link } from "react-router-dom";
-import { Button } from '@material-ui/core';
+import { Link, withRouter } from "react-router-dom";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import {
+    TextField,
+    Button,
+} from '@material-ui/core';
 
-// rounded edges, yellow backgorund, slight padding
-const continuebutton = {
-    width: 275,
-    borderRadius: 4,
-    backgroundColor: "#FFF552",
-    padding: 10,
-    marginTop: 5,
-    marginBottom: 0
-};
+
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#FFE165"
+        },
+    }
+})
 
 const ZipcodeForm = (props) => {
     const [state, setState] = useState({
@@ -27,48 +31,62 @@ const ZipcodeForm = (props) => {
     };
 
     const handleSubmit = (event) => {
+        console.log("Props: ", props)
         event.preventDefault();
-
-    }
+        props.history.push({
+            pathname: '/stores',
+            state
+        });
+    };
 
     console.log("State: ", state);
-    var userzipcode = 12345;
     return (
-
-        <div>
-            <h1 className={style.black}>Oulu<span className={style.yellow}>x</span>x</h1>
-            <div className={style.zipbox}>
-                <div >
-                    <h3 className={style.fontA}>Delivery made classy.</h3>
-                    <form onSubmit={handleSubmit}>
-                        <div className={style.row}>
-                            <label className={style.input}>
-                                <input type="text" name="zipcode" placeholder="Address or Zipcode"
-                                    className={style.zipcodeform} onChange={handleChange} />
-                            </label>
+        <ThemeProvider>
+            <div className={style.container}>
+                <div className={style.smallcontainer}>
+                    <div className={style.formbox}>
+                        <div className={style.header}>
+                            Oulu<span style={{ color:"#FBDE49", fontFamily:"Verdana"}}>x</span>x
                         </div>
-                        {/* <br /> */}
-                        {/* <input type="button" value="Continue" className={style.continuebutton} /> */}
-                        <div className={style.row}>
-                            {/* <Button style={continuebutton} type="submit" >Continue</Button> */}
-                            <Link
-                                    className={style.continuebutton}
-                                    to={{
-                                        pathname: "/stores",
-                                        state
-                                    }}>
-                                    Continue
-                                </Link>
+                        <div className={style.slogan}>
+                            Deilvery made classy since 2020
                         </div>
-                    </form>
-
-                    <p className={style.fontB}>Already have an account? <Link to="/signup" className={style.hyperlink}>Log In</Link> </p>
+                        <form onSubmit={handleSubmit}>
+                            <div>
+                                <TextField
+                                    id="input_zipcode"
+                                    name="zipcode"
+                                    type="text"
+                                    label="Zipcode"
+                                    placeholder="Enter your 5-digit zipcode here..."
+                                    className={style.textfield}
+                                    color="primary"
+                                    variant="outlined"
+                                    value={state.zipcode}
+                                    onChange={handleChange}
+                                    autoComplete="off"
+                                    required />
+                            </div>
+                            <div>
+                                <input type="submit" className={style.button} value="Continue" />  
+                            </div>
+                        </form>
+                        <div className={style.login}>
+                            Already have an account?&nbsp; 
+                            <Link 
+                            className={style.link}
+                            to="/signup"
+                            >
+                                Log in
+                            </Link>
+                        </div>
+                    </div>
 
                 </div>
             </div>
-        </div>
+        </ThemeProvider>
     );
 }
 
 
-export default ZipcodeForm;
+export default withRouter(ZipcodeForm);
