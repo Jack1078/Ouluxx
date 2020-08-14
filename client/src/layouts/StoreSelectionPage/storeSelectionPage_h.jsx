@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StoreIcon from '../../components/storeIcon_c';
 import classes from './storeSelectionPage_h.module.css';
 import Filter from '../../containers/Filter/filter_k';
@@ -40,27 +40,79 @@ const stores = [{
 
 const filters = ["All", "Drugstore", "Groceries", "Pet Supplies", "Meals"];
 
-const filteredStores = (stores, filter) => {
-    return stores.filter(store => filter === "All" ? true : store.categories.includes(filter))
-        .map(filtered_store => (
-            <StoreIcon
-                key={filtered_store.name}
-                name={filtered_store.name}
-                categories={filtered_store.categories}
-                img_url={filtered_store.img_url}
-                alt={filtered_store.name + " icon"}
-                onClick={() => console.log('Store Icon clicked')} />
-        ))
-}
+
 
 const StoreSelect = (props) => {
-    console.log("Props: ", props);
-    console.log("Zipcode: ", props.location.state.zipcode);
+    // console.log("Props: ", props);
+    // console.log("Zipcode: ", props.location.state.zipcode);
     var temp = '';
     if (props.location && props.location.state.zipcode)
         temp = props.location.state.zipcode;
     const [active, setActive] = useState('All');
     const [zipcode, setZipcode] = useState(temp);
+    const [currStores, setCurrStores] = useState([]);
+    // const [currPage, setCurrPage] = useState(1);
+
+    const data = {"Zipcode" : zipcode}
+
+    // useEffect(() => {
+    //     setCurrPage(1);
+    // }, [currStores]);
+
+    useEffect(() => {
+        get_stores(data);
+    }, []);
+
+    useEffect(() => {
+        get_stores(data);
+    }, []);
+
+    // var stores1 = [];
+    const get_stores = (json_data) => {
+        return fetch("/store/get_store_with_property", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json_data)
+        }).then((response) => {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server");
+            }
+            return response.json();
+        }).then((respData) => {
+            var temp = JSON.parse(respData);
+            // console.log("JSON.parse(respData) =", JSON.parse(respData));
+            setCurrStores(currStores.splice(0, currStores.length, ...temp));
+            // console.log("Data Recieved | Stores= ", currStores);
+            // return JSON.parse(respData);
+        }).catch((err) => {
+            console.log(err);
+            return (err);
+        });
+    };
+
+    const filteredStores = (stores, filter) => {
+        // console.log("Testing filter, Stores: ", stores);
+        return stores.filter(store => filter === "All" ? true : store.Categories.includes(filter))
+            .map(filtered_store => (
+                <StoreIcon
+                    name={filtered_store.Name}
+                    // img_url={filtered_store.img_url}
+                    alt={filtered_store.name + " icon"}
+                    categories={filtered_store.Categories} //categories needs to be added to work
+                    onClick={() => console.log('Store Icon clicked')}
+                    // onClick={handleSelection}
+                    key={filtered_store.name}
+                />
+            ))
+    }
+
+    const handleSelection = (name) => {
+        // console.log(event);
+        // props.history.push({
+            // pathname: `/stores/${name}`
+        // })
+    };
+    
 
     return (
         <div className={classes.background}>
@@ -89,7 +141,7 @@ const StoreSelect = (props) => {
                 Recommend Stores
             </div>
             <div className={classes.stores_container}>
-                {filteredStores(stores, active)}
+                {filteredStores(currStores, active)}
             </div>
         </div>
     );
