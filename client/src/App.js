@@ -7,6 +7,7 @@ import LandingPage from './layouts/LandingPage/landingpage_h';
 import SignupPage from './layouts/SignupPage/signup_h';
 import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import StorePage from './layouts/StorePage/storePage_h';
+import SharedPage from './layouts/SharedPage/shared_h';
 
 // default theme
 const theme = createMuiTheme({
@@ -27,6 +28,7 @@ function App() {
             <Route path="/stores" exact component={SelectionPage} />
             <Route path="/stores/:store" exact component={StorePage} />
             <Route path="/stores/:store/room/:roomID" exact component={StorePage} />
+            <Route path="/room/:roomID" exact component={SharedPage} />
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>
