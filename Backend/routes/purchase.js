@@ -42,12 +42,10 @@ No JSON payload. Must be logged in.
 
 router.post('/cart', async function(req, res, next){
 	if (req.user && req.user.UserType === "USER") {
-		var price = get_price(req);
-		var reciept_text = "";
-		var reciept_text_html = "";
+		var price = 0;
 		var current_time = new Date();
 		var itemlist = [];
-		//built the start of the reciept
+		var StoreItemSeperation = {};
 		// TODO
 		for(var Item of Object.entries(req.user.Cart))
 		{
@@ -56,14 +54,10 @@ router.post('/cart', async function(req, res, next){
 			// get item by ID
 			await InventoryItem.findById(mongoose.Types.ObjectId(Item[1].ItemID), function(err, item){
 				//console.log(item)
-				// generate the receipt
-				reciept_text+=Item[1].Quantity+" of "+item.Name+" with an individual price of "+Item[1].Price+" for a total of "+Item[1].Subtotal;
-				//prep for next item
-				reciept_text+="\n\n";
-				// generate the html version of the reciept. 
-				reciept_text_html+=Item[1].Quantity+" of "+item.Name+" with an individual price of "+Item[1].Price+" for a total of "+Item[1].Subtotal;
-				//prep for next item
-				reciept_text_html+="<br><br>";
+				if (!StoreItemSeperation[item.StoreID]) {
+					StoreItemSeperation[item.StoreID] = [];
+				}
+				StoreItemSeperation[item.StoreID].push({itemid: item._id.toString(), Quantity:Item[1].Quantity, Subtotal:Item[1].Subtotal});
 				itemlist.push({
 					ITemID : Item[1].ItemID,
 					ItemName : item.Name,
@@ -74,33 +68,57 @@ router.post('/cart', async function(req, res, next){
 			});
 			
 		}
-		//build the rest of the reciept
-		// TODO
-
+		console.log(StoreItemSeperation);
 		var newTransaction = new TransactionModel({
-			Transaction_ID : req.user.Name+current_time.toString(), 
+			Transaction_ID : req.user.username+current_time.toString(), 
 			Total : price, 
 			USERID : req.user._id.toString(), 
-			Items : itemlist
+			Items : itemlist, 
+			IDList : StoreItemSeperation
 		});
 		await newTransaction.save();
 		// TODO contact the seller and inform them of the purchase 
 
 		// TODO Perform the purchase
-		console.log(newTransaction.Total*100);
+		//console.log(newTransaction.Total*100);
 		var confirm_purchase = true; // confirm with the vendor that the purchase was possible. 
 		if(confirm_purchase) // perform the purchase
 		{
+			var price = 0.0;
+			var totalprice = 0.0;
+			var StorePriceSeperation = {};
+			for(var storeID in StoreItemSeperation)
+			{
+				if (!StorePriceSeperation[storeID]) {
+					StorePriceSeperation[storeID] = [];
+				}
+				for (var item in StoreItemSeperation[storeID]) {
+					price+=StoreItemSeperation[storeID][item].Subtotal;
+				}
+				StorePriceSeperation[storeID] = price;
+				totalprice+=price;
+				price = 0.0;
+			}
 			const paymentIntent = await stripe.paymentIntents.create({
-				amount: newTransaction.Total*100,
-				currency: "usd"
+				amount: totalprice*100,
+				currency: "usd" 
 			});
-			// TODO contact driver and inform them of the purchase and route location. 
+			for(var key in StorePriceSeperation)
+			{
+				await UserModel.find({StoreID : key}, async function(err, store){
+					console.log(StorePriceSeperation[key])
+					const transfer = await stripe.transfers.create({
+						amount: StorePriceSeperation[key], 
+						currency: 'usd',
+						destination: store[0].ConnectedStripeAccountID,
+						transfer_group: newTransaction._id.toString()
+					});
+				});
+			}
 			res.send({
 				clientSecret: paymentIntent.client_secret, 
 				clientemail: req.user.Email
 			});
-
 		}
 		else
 		{

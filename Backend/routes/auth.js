@@ -11,6 +11,9 @@ const secrets = require('../secrets/secrets');
 const { google } = require('googleapis');
 const { OAuth2 } = google.auth;
 
+const stripe = require("stripe")("sk_test_51H9FkuAbZ4xKEbr326AkRBlO00kQIzg85LhxLvbJbNtBA9pwNgMTuB8LGRSD8cbbMWmHtkgnwlvwDJv8lr1fQCqM00sqtb6R2D");
+const uuidv4 = require('uuid').v4;
+
 const UserModel = require('../Models/User_Model');
 const ItemModel = require('../Models/Item_Model');
 
@@ -37,6 +40,59 @@ var transporter = nodemailer.createTransport({
 		clientSecret: secrets.googlesecretid
 	}
 });
+
+
+router.get('/stripesignuptest', function(req, res, next) {
+	res.render('stripeonboardtest');
+});
+
+router.get("/get-oauth-link", async (req, res) => {
+	const state = uuidv4();
+	req.session.state = state
+	const args = new URLSearchParams({
+		state,
+		client_id: "ca_HplvuRXdF4jKizaHRd205mMDXrn5KKQ2",
+		scope: "read_write",
+		response_type: "code",
+	})
+	const url = 'https://connect.stripe.com/oauth/authorize?'+args.toString();
+	return res.send({url});
+});
+
+router.get("/authorize-oauth", async (req, res) => {
+	const { code, state } = req.query;
+
+	// Assert the state matches the state you provided in the OAuth link (optional).
+	if(req.session.state !== state) {
+		return res.status(403).json({ error: 'Incorrect state parameter: ' + state });
+	}
+
+	// Send the authorization code to Stripe's API.
+	stripe.oauth.token({
+		grant_type: 'authorization_code',
+		code
+	}).then(
+		async (response) => {
+			var connected_account_id = response.stripe_user_id;
+			await UserModel.findOneAndUpdate(
+				{ _id: req.user._id },
+				{ "ConnectedStripeAccountID": connected_account_id }
+			);
+
+			// Render some HTML or redirect to a different page.
+			return res.redirect(301, '/success.html')
+		},
+		(err) => {
+			if (err.type === 'StripeInvalidGrantError') {
+				return res.status(400).json({error: 'Invalid authorization code: ' + code});
+			} else {
+				return res.status(500).json({error: 'An unknown error occurred.'});
+			}
+		}
+	);
+});
+
+
 
 /*
 	Must be logged in to function, the query is the url constant above + the token generated in register
@@ -263,45 +319,54 @@ JSON request looks like this.
 
 router.post('/register', async function (req, res) { // add and register a user, hashes password
 	//console.log(req.body);
-	var UserTypeSet = "USER";
-	if (req.body.isstore) {
-		UserTypeSet = "STORE"
+	if (req.user) {
+		res.status(403);
 	}
-	user = new UserModel({
-		Email: req.body.Email,
-		username: req.body.username,
-		FirstName: req.body.FirstName,
-		LastName: req.body.LastName,
-		Address: req.body.Address,
-		City: req.body.City,
-		State: req.body.State,
-		Zipcode: req.body.Zipcode,
-		UserType: UserTypeSet
-	});
-	const token = jwt.sign({userId : user._id, username:req.body.username}, secretkey, {expiresIn: '672h'}); // give 4 weeks for authorizing email
-	user.VerifyEmailToken = token;
-	await UserModel.register(user, req.body.password, async function (err) {
-		if (err) {
-			console.log("Error: ", err);
-			res.json({ success: false, message: "Your account could not be saved. Error: ", err })
+	else
+	{
+		var UserTypeSet = "USER";
+		if (req.body.isstore) {
+			UserTypeSet = "STORE"
 		}
-		else {
-			let info = await transporter.sendMail({
-				from: '"Ouluxx!" <software@ouluxx.com>', // sender address
-				to: user.Email, // list of receivers
-				subject: "Welcome to Ouluxx!", // Subject line
-				text: "Welcome to Ouluxx! We hope you have a good time making use of our services. Please use this address to verify your email " + url + token, // plain text body
-				html: "<p>Welcome to Ouluxx! We hope you have a good time making use of our services. Please press this link to verify your email address <a href = \"" + url + token + "\">HERE</a></p><br><hr><br><h9>Or click here: "+ url + token + "</h9>", // html body
-				auth: {
-					user: 'software@ouluxx.com',
-					refreshToken: secrets.googleoauth2refreshtoken
-				}
-			});
-			req.login(user, function(err) {
-				res.json({ success: true, message: "Authentication successful", User: req.user});
-			});
-		}
-	});
+		user = new UserModel({
+			Email: req.body.Email,
+			username: req.body.username,
+			FirstName: req.body.FirstName,
+			LastName: req.body.LastName,
+			Address: req.body.Address,
+			City: req.body.City,
+			State: req.body.State,
+			Zipcode: req.body.Zipcode,
+			UserType: UserTypeSet
+		});
+		const token = jwt.sign({userId : user._id, username:req.body.username}, secretkey, {expiresIn: '672h'}); // give 4 weeks for authorizing email
+		user.VerifyEmailToken = token;
+		await UserModel.register(user, req.body.password, async function (err) {
+			if (err) {
+				console.log("Error: ", err);
+				res.json({ success: false, message: "Your account could not be saved. Error: ", err })
+			}
+			else {
+				let info = await transporter.sendMail({
+					from: '"Ouluxx!" <software@ouluxx.com>', // sender address
+					to: user.Email, // list of receivers
+					subject: "Welcome to Ouluxx!", // Subject line
+					text: "Welcome to Ouluxx! We hope you have a good time making use of our services. Please use this address to verify your email " + url + token, // plain text body
+					html: "<p>Welcome to Ouluxx! We hope you have a good time making use of our services. Please press this link to verify your email address <a href = \"" + url + token + "\">HERE</a></p><br><hr><br><h9>Or click here: "+ url + token + "</h9>", // html body
+					auth: {
+						user: 'software@ouluxx.com',
+						refreshToken: secrets.googleoauth2refreshtoken
+					}
+				});
+				req.login(user, function(err) {
+					// TODO
+					// if store add redirect for funding details
+					res.json({ success: true, message: "Authentication successful", User: req.user});
+				});
+			}
+		});
+	}
+	
 });
 
 /*
@@ -339,7 +404,7 @@ router.get('/facebook/callback',
 		console.log(req.body);
 		//res.json({success:true, message:"Authentication successful", User:req.user});
 		res.redirect('http://localhost:4000/SUCCESS');
-  });
+	});
 
 
 /*
@@ -348,8 +413,8 @@ Google authentication, registers a user and authenticates a user if using the Go
 
 
 router.get("/google", passport.authenticate("google", {
-    scope: ["profile", "email"]
-  }));
+		scope: ["profile", "email"]
+	}));
 
 /*
  TODO redirect to frontend address page. 

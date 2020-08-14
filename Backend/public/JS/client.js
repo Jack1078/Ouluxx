@@ -1,8 +1,4 @@
 var stripe = Stripe("pk_test_51H9FkuAbZ4xKEbr3KPB6PFACE77QmkMkMcBO71YOSbiu8OAOAdUNEKDkdnOrMDH9JnBmobPWPgI4M8KjUxxxlquC00Y46vK1Yw");
-// The items the customer wants to buy
-var purchase = {
-	items: [{ id: "xl-tshirt" }]
-};
 // Disable the button until we have Stripe set up on the page
 document.querySelector("button").disabled = true;
 fetch("/purchase/cart", {

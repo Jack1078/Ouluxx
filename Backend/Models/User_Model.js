@@ -32,7 +32,8 @@ const User = new mongoose.Schema({
 	active: { type: Boolean, default: true },
 	Zipcode: Number,   //This does not verify if the zipcode is strictly XXXXX format
 	UserType: String, // This is either USER or STORE. 
-	StoreID : String,  // this is only instantiated if the user is a store. it also starts out as nothing until they make a store. 
+	StoreID : String,  // this is only instantiated if the user is a store. it also starts out as nothing until they make a store.
+	ConnectedStripeAccountID : String,  
 	Cart: {
 		type: [{
 			ItemID: String,			 // uses the _id property of the item
