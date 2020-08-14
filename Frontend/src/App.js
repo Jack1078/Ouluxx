@@ -8,7 +8,7 @@ import LoginPage from './layouts/LoginPage/login_h';
 import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import { Route, Link } from 'react-router-dom';
 //import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch} from 'react-router-dom';
 
 // default theme
 const theme = createMuiTheme({

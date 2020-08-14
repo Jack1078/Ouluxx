@@ -9,7 +9,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import uuid from 'react-uuid';
 import Draggable from 'react-draggable';
-
+ 
 /**
  * Layout for the Store page
  */
@@ -247,7 +247,7 @@ const StorePage = (props) => {
             var temp = JSON.parse(respData);
             // console.log("JSON.parse(respData) =", JSON.parse(respData));
             setCurrProducts(currProducts.splice(0, currProducts.length, ...temp));
-            // console.log("Data Recieved | Dat= ", currProducts);
+            // console.log("Data Recieved | Products= ", currProducts);
             // return JSON.parse(respData);
         }).catch((err) => {
             console.log(err);

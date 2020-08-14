@@ -32,7 +32,7 @@ const MiniCart = (props) => {
             // console.log("JSON.parse(respData) =", JSON.parse(respData));
             var temp = JSON.parse(respData);
             setCart(cart.splice(0, cart.length, ...temp[0].Cart));
-            console.log("Data Recieved | Cart= ", cart);
+            // console.log("Data Recieved | Cart= ", cart);
         }).catch((err) => {
             console.log(err);
             return (err);
@@ -81,7 +81,7 @@ const MiniCart = (props) => {
                 CHECK OUT
             </div>
 
-            
+
         </div>
     );
 }

@@ -30,7 +30,7 @@ const button_theme = createMuiTheme({
 })
 
 
-const userLogIn = () {
+const userLogIn = () => {
     return (
         <>
             <div className={classes.container2}>
