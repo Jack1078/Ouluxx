@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import StoreIcon from '../../components/storeIcon_c';
 import classes from './storeSelectionPage_h.module.css';
 import Filter from '../../containers/Filter/filter_k';
@@ -7,72 +7,141 @@ import Logo from '../../images/logo.png';
  * Layout for the Store Selection page
  */
 
-const stores = [{name: "fairway",
-            categories: ["Groceries","Produce","Organic"],
-            img_url: "fairway.png"},
-            {name: "CVS Pharmacy@",
-            categories: ["Personal Care","Drugstore","Groceries"],
-            img_url: "cvs.png"},
-            {name: "HMart",
-            categories: ["Specialty","Prepared Meals","Ethnic"],
-            img_url: "hmart.png"},
-            {name: "Petco",
-            categories: ["Pet Supplies"],
-            img_url: "petco.png"},
-            {name: "ABC",
-            categories: ["Groceries","Produce","Organic"],
-            img_url: "fairway.png"},
-            {name: "DEF",
-            categories: ["Personal Care","Drugstore","Groceries"],
-            img_url: "cvs.png"},];
+const stores = [{
+    name: "fairway",
+    categories: ["Groceries", "Produce", "Organic"],
+    img_url: "fairway.png"
+},
+{
+    name: "CVS Pharmacy@",
+    categories: ["Personal Care", "Drugstore", "Groceries"],
+    img_url: "cvs.png"
+},
+{
+    name: "HMart",
+    categories: ["Specialty", "Prepared Meals", "Ethnic"],
+    img_url: "hmart.png"
+},
+{
+    name: "Petco",
+    categories: ["Pet Supplies"],
+    img_url: "petco.png"
+},
+{
+    name: "ABC",
+    categories: ["Groceries", "Produce", "Organic"],
+    img_url: "fairway.png"
+},
+{
+    name: "DEF",
+    categories: ["Personal Care", "Drugstore", "Groceries"],
+    img_url: "cvs.png"
+},];
 
-const filters = ["All","Drugstore","Groceries","Pet Supplies", "Meals"];
+const filters = ["All", "Drugstore", "Groceries", "Pet Supplies", "Meals"];
 
-const filteredStores = (stores, filter) => {
-    return stores.filter(store => filter==="All"?true:store.categories.includes(filter))
-    .map(filtered_store => (
-        <StoreIcon
-        key={filtered_store.name}
-        name={filtered_store.name}
-        categories={filtered_store.categories}
-        img_url={filtered_store.img_url}
-        alt={filtered_store.name+" icon"}
-        onClick={()=>console.log('Store Icon clicked')}/>   
-    ))
-}
 
-const StoreSelect = () => {
+
+const StoreSelect = (props) => {
+    // console.log("Props: ", props);
+    // console.log("Zipcode: ", props.location.state.zipcode);
+    var temp = '';
+    if (props.location && props.location.state.zipcode)
+        temp = props.location.state.zipcode;
     const [active, setActive] = useState('All');
-    const [zipcode, setZipcode] = useState('11791');
+    const [zipcode, setZipcode] = useState(temp);
+    const [currStores, setCurrStores] = useState([]);
+    // const [currPage, setCurrPage] = useState(1);
+
+    const data = {"Zipcode" : zipcode}
+
+    // useEffect(() => {
+    //     setCurrPage(1);
+    // }, [currStores]);
+
+    useEffect(() => {
+        get_stores(data);
+    }, []);
+
+    useEffect(() => {
+        get_stores(data);
+    }, []);
+
+    // var stores1 = [];
+    const get_stores = (json_data) => {
+        return fetch("/store/get_store_with_property", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json_data)
+        }).then((response) => {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server");
+            }
+            return response.json();
+        }).then((respData) => {
+            var temp = JSON.parse(respData);
+            // console.log("JSON.parse(respData) =", JSON.parse(respData));
+            setCurrStores(currStores.splice(0, currStores.length, ...temp));
+            // console.log("Data Recieved | Stores= ", currStores);
+            // return JSON.parse(respData);
+        }).catch((err) => {
+            console.log(err);
+            return (err);
+        });
+    };
+
+    const filteredStores = (stores, filter) => {
+        // console.log("Testing filter, Stores: ", stores);
+        return stores.filter(store => filter === "All" ? true : store.Categories.includes(filter))
+            .map(filtered_store => (
+                <StoreIcon
+                    name={filtered_store.Name}
+                    // img_url={filtered_store.img_url}
+                    alt={filtered_store.name + " icon"}
+                    categories={filtered_store.Categories} //categories needs to be added to work
+                    onClick={() => console.log('Store Icon clicked')}
+                    // onClick={handleSelection}
+                    key={filtered_store.name}
+                />
+            ))
+    }
+
+    const handleSelection = (name) => {
+        // console.log(event);
+        // props.history.push({
+            // pathname: `/stores/${name}`
+        // })
+    };
+    
 
     return (
         <div className={classes.background}>
             <div className={classes.logo_container}>
-                <img src={Logo} alt='Ouluxx logo' height="45px"/>
+                <img src={Logo} alt='Ouluxx logo' height="45px" />
             </div>
             <div className={classes.zipcode_container}>
-                Select Store for Delivery in&nbsp;<span style={{fontWeight: 'bold'}}>{zipcode}</span>
+                Select Store for Delivery in&nbsp;<span style={{ fontWeight: 'bold' }}>{zipcode}</span>
             </div>
             <div className={classes.filter_container}>
                 <Filter
                     active={active}
-                    onChange={active=>setActive(active)}
+                    onChange={active => setActive(active)}
                 >
-                    {filters.map((filter)=>{
-                        return(
+                    {filters.map((filter) => {
+                        return (
                             <div key={filter}>
                                 {filter}
                             </div>
                         );
                     })}
-                </Filter> 
+                </Filter>
             </div>
-            
+
             <div className={classes.recommend_container}>
                 Recommend Stores
             </div>
             <div className={classes.stores_container}>
-                {filteredStores(stores, active)}
+                {filteredStores(currStores, active)}
             </div>
         </div>
     );

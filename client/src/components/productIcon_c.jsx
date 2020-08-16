@@ -60,7 +60,7 @@ const ProductIcon = (props) => {
             className={classes.container}
             onClick={() => onClick()}
             {...other}>
-            <img className={classes.img} src={require(`../images/${img_url}`)} alt={alt}></img>
+            {/* <img className={classes.img} src={require(`../images/${img_url}`)} alt={alt}></img> */}  {/* commented out until new database is implemented*/}
             <span className={classes.name}>{name}</span>
             <span className={classes.price}>${price.toFixed(2)}</span>
             <div className={classes.rating_container}>

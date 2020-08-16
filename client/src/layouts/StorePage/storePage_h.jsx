@@ -10,10 +10,12 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import uuid from 'react-uuid';
 import Draggable from 'react-draggable';
-
+ 
 /**
  * Layout for the Store page
  */
+
+var data = { "StoreID": "5f19dba9b8b917200936610d" }; //need a way to automate this
 
 const products = [
     {
@@ -150,6 +152,8 @@ const products = [
         price: 13.5,
     }];
 
+//Items that are in the cart are contained here
+// These items should be fetched from a users cart
 const orders = [
     {
         num: 1,
@@ -191,11 +195,13 @@ const orders = [
 
 const categories = ['All', 'shirt', 't-shirt', 'clothing', 'plant'];
 
+
+
 const StorePage = (props) => {
     const storeName = props.match.params.store;
     const storeImgUrl = 'cvs.png';
     const storeRating = 4;
-    const [currProducts, setCurrProducts] = useState(products);
+    const [currProducts, setCurrProducts] = useState([]);
     const [currPage, setCurrPage] = useState(1);
 
     // filter products based on categories
@@ -213,9 +219,54 @@ const StorePage = (props) => {
             setCurrPage(currPage - 1);
     }
 
+
     useEffect(() => {
         setCurrPage(1);
     }, [currProducts]);
+
+    useEffect(() => {
+        get_products(data);
+    }, []);
+
+    useEffect(() => {
+        get_products(data);
+    }, []);
+
+    //Items here are products within a store
+    //These items should be fetched from a store's inventory
+    const get_products = (json_data) => {
+        return fetch("/inventory/get_store_items", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json_data)
+        }).then((response) => {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server");
+            }
+            return response.json();
+        }).then((respData) => {
+            var temp = JSON.parse(respData);
+            // console.log("JSON.parse(respData) =", JSON.parse(respData));
+            setCurrProducts(currProducts.splice(0, currProducts.length, ...temp));
+            // console.log("Data Recieved | Products= ", currProducts);
+            // return JSON.parse(respData);
+        }).catch((err) => {
+            console.log(err);
+            return (err);
+        });
+    };
+
+    // const displayProducts = (items) => { /* items should be an array of products*/
+    //     console.log("items: ", items);
+    //     if (!items.length) return null;
+    //     return items.map((item, index) => (
+    //         <div key={index}>
+    //             <h5>Name: {item.Name}</h5>
+    //             <p>Price: {item.Price}</p>
+    //         </div>
+    //     ));
+    // };
+
 
     return (
         <div>
