@@ -13,8 +13,8 @@ const Store_Schema = new Schema({
 	Schema_Type: { type: String, default: "STORE" }, // Identifies this as a store item. 
 	Name: String, // The name of the store, defined by user
 	//StoreID : Number, // The ID of the store, defined by program based upon the name and the number of elements already labeled STORE
-	IdentifierName : String, //used if the store has a specific name that is not the same as the name it is regularly reffered to as. 
-	OwnerUserID : String, // the id of the store owners account. 
+	IdentifierName: String, //used if the store has a specific name that is not the same as the name it is regularly reffered to as. 
+	OwnerUserID: String, // the id of the store owners account. 
 	img: String, // image that is stored
 	Address: String,
 	City: String,
@@ -23,12 +23,12 @@ const Store_Schema = new Schema({
 	Email: String, // email address of the store, defined by user (a method to communicate with the store. Potentially an identifier for the store. )
 	Inventory: { // A list of items. The item is added to this list to connect it with the database. More data on items is found in the Item_Schema. 
 		type: [{ // contains the item ID, the items name, the date the item is added, and the number in the inventory. 
-			ItemID: String , ItemName: String, Date: Date, NumberInInventory: Number 
-		}], 
-		default : [] // starts as an empty list
-	}, 
-	Categories : {type : [], default : []}, 
-	Comments : { // if we want to add comments to the store. 
+			ItemID: String, ItemName: String, Date: Date, NumberInInventory: Number
+		}],
+		default: [] // starts as an empty list
+	},
+	Categories: { type: [], default: [] },
+	Comments: { // if we want to add comments to the store. 
 		type: [{
 			Body: String, Date: Date, UserID: String, Username: String
 		}],
@@ -40,4 +40,4 @@ const Store_Schema = new Schema({
 	Hidden: { type: Boolean, default: false } // determine if the object is hidden, if someone does not want their store hosted, etc. 
 });
 
-module.exports = mongoose.model('Stores', Stores);
+module.exports = mongoose.model('Stores', Store_Schema);

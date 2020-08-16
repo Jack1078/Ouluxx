@@ -22,7 +22,7 @@ The JSON looks like:
 	"storestate" : "<state>",
 	"storezipcode" : "<zipcode>",
 	"email" : "<email>",
-	"Categories" : ["<categories>"], 
+	"categories" : ["<categories>"], 
 	"description" : "<description>", 
 	"Image" : <Base64 Image>
 }
