@@ -149,13 +149,13 @@ router.post('/request_reset', async function (req, res, next)
 				{ "resetPasswordToken": token }
 			);
 			let info = await transporter.sendMail({
-				from: '"Ouluxx!" <software@ouluxx.com>', // sender address
+				from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
 				to: user.Email, // list of receivers
 				subject: "Password Reset Request", // Subject line
 				text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n' + reseturl + token + '\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n',
 				html: "You are receiving this because you (or someone else) have requested the reset of the password for your account.<br><a href = \""+reseturl+token+"\">Please click on this link</a><br><br>If you did not request this, please ignore this email and your password will remain unchanged.<hr><br><h9>You may copy this link and paste it into your browser " + reseturl + token + "</h9><br>", // html body
 				auth: {
-					user: 'software@ouluxx.com',
+					user: 'Team@ouluxx.com',
 					refreshToken: secrets.googleoauth2refreshtoken
 				}
 			});
@@ -206,13 +206,13 @@ router.post("/reset_password", async function(req, res, next){
 					else
 					{
 						let info = await transporter.sendMail({
-							from: '"Ouluxx!" <software@ouluxx.com>', // sender address
+							from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
 							to: user.Email, // list of receivers
 							subject: "Password Reset", // Subject line
 							text: "You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at "+supportemail+". Otherwise, you may ignore this email. \n",
 							html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:"+supportemail+"\">"+supportemail+"</a>. Otherwise, you may ignore this email. </p>", // html body
 							auth: {
-								user: 'software@ouluxx.com',
+								user: 'Team@ouluxx.com',
 								refreshToken: secrets.googleoauth2refreshtoken
 							}
 						});
@@ -253,13 +253,13 @@ router.post("/change_password", async function(req, res, next){
 						res.status(500).json({message:"Error: "+err});
 					}
 					let info = await transporter.sendMail({
-						from: '"Ouluxx!" <software@ouluxx.com>', // sender address
+						from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
 						to: user.Email, // list of receivers
 						subject: "Password Changed", // Subject line
 						text: "You are receiving this because you (or someone else) has changed the password associated with this email account. If this was in error, please reach out to us at "+supportemail+". Otherwise, you may ignore this email. \n",
 						html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:"+supportemail+"\">"+supportemail+"</a>. Otherwise, you may ignore this email. </p>", // html body
 						auth: {
-							user: 'software@ouluxx.com',
+							user: 'Team@ouluxx.com',
 							refreshToken: secrets.googleoauth2refreshtoken
 						}
 					});
@@ -275,13 +275,13 @@ router.post("/change_password", async function(req, res, next){
 				);
 				await user.save();
 				let info = await transporter.sendMail({
-					from: '"Ouluxx!" <software@ouluxx.com>', // sender address
+					from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
 					to: user.Email, // list of receivers
 					subject: "Password Changed", // Subject line
 					text: "You are receiving this because you (or someone else) has changed the password associated with this email account. If this was in error, please reach out to us at "+supportemail+". Otherwise, you may ignore this email. \n",
 					html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:"+supportemail+"\">"+supportemail+"</a>. Otherwise, you may ignore this email. </p>", // html body
 					auth: {
-						user: 'software@ouluxx.com',
+						user: 'Team@ouluxx.com',
 						refreshToken: secrets.googleoauth2refreshtoken
 					}
 				});
@@ -348,13 +348,13 @@ router.post('/register', async function (req, res) { // add and register a user,
 			}
 			else {
 				let info = await transporter.sendMail({
-					from: '"Ouluxx!" <software@ouluxx.com>', // sender address
+					from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
 					to: user.Email, // list of receivers
 					subject: "Welcome to Ouluxx!", // Subject line
 					text: "Welcome to Ouluxx! We hope you have a good time making use of our services. Please use this address to verify your email " + url + token, // plain text body
 					html: "<p>Welcome to Ouluxx! We hope you have a good time making use of our services. Please press this link to verify your email address <a href = \"" + url + token + "\">HERE</a></p><br><hr><br><h9>Or click here: "+ url + token + "</h9>", // html body
 					auth: {
-						user: 'software@ouluxx.com',
+						user: 'Team@ouluxx.com',
 						refreshToken: secrets.googleoauth2refreshtoken
 					}
 				});
