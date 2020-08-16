@@ -11,6 +11,10 @@ const secrets = require('../secrets/secrets');
 const { google } = require('googleapis');
 const { OAuth2 } = google.auth;
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+
 const stripe = require("stripe")("sk_test_51H9FkuAbZ4xKEbr326AkRBlO00kQIzg85LhxLvbJbNtBA9pwNgMTuB8LGRSD8cbbMWmHtkgnwlvwDJv8lr1fQCqM00sqtb6R2D");
 const uuidv4 = require('uuid').v4;
 
@@ -101,22 +105,28 @@ router.get("/authorize-oauth", async (req, res) => {
 
 router.get('/verify', async function (req, res, next){
 	if (!req.user.verifiedemail) {
-		if(req.user.VerifyEmailToken === req.query.token)
-		{
-			await UserModel.findOneAndUpdate(
-				{ _id: req.user._id },
-				{ "verifiedemail": req.user.VerifyEmailToken === req.query.token }
-			);
-			await UserModel.findOneAndUpdate(
-				{ _id: req.user._id },
-				{ "VerifyEmailToken": "" }
-			);
-			res.json({ success: true, message: "Verification successful", User: req.user});
-		}
+		bcrypt.compare(req.query.token, req.user.VerifyEmailToken, function(err, result) {
+		    if(result)
+			{
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ "verifiedemail": req.user.VerifyEmailToken === req.query.token }
+				);
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ "VerifyEmailToken": "" }
+				);
+				res.json({ success: true, message: "Verification successful", User: req.user});
+			}
+			else
+			{
+				res.json({ success: false, message: "Verification unsuccessful"});
+			}
+		});
 	}
 	else
 	{
-		res.json({ success: true, message: "Email has already been verified. ", User: req.user});
+		res.json({ success: false, message: "Email has already been verified. ", User: req.user});
 	}
 });
 
@@ -144,10 +154,18 @@ router.post('/request_reset', async function (req, res, next)
 				{ "resetPasswordExpires": Date.now() + 3600000 }
 			);
 			const token = jwt.sign({userId : user._id, Email:req.body.email, password:user.password}, secretkey, {expiresIn: '1h'});
-			await UserModel.findOneAndUpdate(
-				{ _id: user._id },
-				{ "resetPasswordToken": token }
-			);
+			bcrypt.genSalt(saltRounds, function(err, salt) {
+				bcrypt.hash(token, salt, function(err, hash) {
+					await UserModel.findOneAndUpdate(
+						{ _id: user._id },
+						{ "resetPasswordTokenSalt": salt }
+					);
+					await UserModel.findOneAndUpdate(
+						{ _id: user._id },
+						{ "resetPasswordToken": hash }
+					);
+				});
+			});
 			let info = await transporter.sendMail({
 				from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
 				to: user.Email, // list of receivers
@@ -183,47 +201,53 @@ router.get("/reset_password", async function(req, res, next){
 /*
 	does not need to be logged in. 
 	Gets from a form with 3 parts, password, confirmpassword, and token. The token should not be alterable and should be included from the get request. 
+	TODO, change to require the email of the user. 
 	See current form in Backend/views/Password_reset.ejs
 */
 
 router.post("/reset_password", async function(req, res, next){
 	console.log(req.body);
-	UserModel.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: { $gt: Date.now() } }, async function(err, user) {
+	
+
+	UserModel.findOne({ Email: req.body.Email, resetPasswordExpires: { $gt: Date.now() } }, async function(err, user) {
 		if (!user) {
 			res.status(500).json({message: 'This user does not exist, or the token has expired'});
 		}
 		else
 		{
-			if (req.body.new_password === req.body.confirm_password) {
-				await user.setPassword(req.body.new_password);
-				await user.save();
-				req.login(user, async function(err){
-					if(err)
-					{
-						console.log(err);
-						res.status(500).json({message:err+" error"});
-					}
-					else
-					{
-						let info = await transporter.sendMail({
-							from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
-							to: user.Email, // list of receivers
-							subject: "Password Reset", // Subject line
-							text: "You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at "+supportemail+". Otherwise, you may ignore this email. \n",
-							html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:"+supportemail+"\">"+supportemail+"</a>. Otherwise, you may ignore this email. </p>", // html body
-							auth: {
-								user: 'Team@ouluxx.com',
-								refreshToken: secrets.googleoauth2refreshtoken
-							}
-						});
-						res.render('index', { title: 'Password Reset'}); /*this is effectivcely a redirect*/
-					}
-				});
-			}
-			else
-			{
-				res.render('Password_reset', { title: 'Password Reset', token:req.body.token });
-			}
+			bcrypt.compare(req.body.token, user.resetPasswordToken, function(err, result) {
+				if (result && req.body.new_password === req.body.confirm_password) {
+					await user.setPassword(req.body.new_password);
+					await user.save();
+					req.login(user, async function(err){
+						if(err)
+						{
+							console.log(err);
+							res.status(500).json({message:err+" error"});
+						}
+						else
+						{
+							let info = await transporter.sendMail({
+								from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
+								to: user.Email, // list of receivers
+								subject: "Password Reset", // Subject line
+								text: "You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at "+supportemail+". Otherwise, you may ignore this email. \n",
+								html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:"+supportemail+"\">"+supportemail+"</a>. Otherwise, you may ignore this email. </p>", // html body
+								auth: {
+									user: 'Team@ouluxx.com',
+									refreshToken: secrets.googleoauth2refreshtoken
+								}
+							});
+							res.render('index', { title: 'Password Reset'}); /*this is effectivcely a redirect*/
+						}
+					});
+				}
+				else
+				{
+					res.render('Password_reset', { title: 'Password Reset', token:req.body.token });
+				}
+			});
+
 		}
 	});
 });
@@ -340,7 +364,14 @@ router.post('/register', async function (req, res) { // add and register a user,
 			UserType: UserTypeSet
 		});
 		const token = jwt.sign({userId : user._id, username:req.body.username}, secretkey, {expiresIn: '672h'}); // give 4 weeks for authorizing email
-		user.VerifyEmailToken = token;
+		bcrypt.genSalt(saltRounds, function(err, salt) {
+			bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+				user.VerifyEmailTokenSalt = salt;
+				user.VerifyEmailToken = hash;
+			});
+		});
+
+		
 		await UserModel.register(user, req.body.password, async function (err) {
 			if (err) {
 				console.log("Error: ", err);
