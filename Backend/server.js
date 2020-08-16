@@ -72,6 +72,7 @@ module.exports = app;
 /* when a socket is connected to the server */
 /**
  * EMITS: (socket.emit)
+ *  host_exist      -> signals the current socket that host already exist
  *  create_peers    -> signals the connected socket (sender of join_room) 
  *                      to create peers that are in the room
  *  room_full       -> signals the connected socket (sender of join_room) 
@@ -96,9 +97,16 @@ io.on('connection', socket => {
   console.log(socket.id + " connected ------------");
   let host = false;
 
-  socket.on('join_room', roomID => {
+  socket.on('join_room', payload => {
+    const {
+      roomID,
+      isHost
+    } = payload;
     const num_clients = numClientsInRoom(roomID);
-    if (num_clients < MAX_PER_ROOM) {
+    // if host already exist, emit 'host_exist'
+    if (isHost && num_clients > 0) {
+      socket.emit('host_exist');
+    } else if (num_clients < MAX_PER_ROOM) {
       // join room with roomID
       socket.join(roomID);
       console.log(socket.id + " joined room " + roomID + " : " + num_clients);
@@ -131,7 +139,8 @@ io.on('connection', socket => {
   socket.on('answer', payload => {
     io.to(payload.callerID).emit('back_answer', {
       signal: payload.signal,
-      id: socket.id
+      id: socket.id,
+      isHost: host
     })
   })
   /* ********************  */

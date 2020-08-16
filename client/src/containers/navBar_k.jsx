@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classes from './navBar_k.module.css';
 import { MdStoreMallDirectory, MdAccountCircle } from 'react-icons/md'
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -55,13 +54,6 @@ const NavBar = (props) => {
         </div>
 
     );
-}
-
-NavBar.propTypes = {
-    logoOnClick: PropTypes.func.isRequired,
-    storeOnClick: PropTypes.func.isRequired,
-    accountOnClick: PropTypes.func.isRequired,
-    cartOnClick: PropTypes.func.isRequired,
 }
 
 export default NavBar;
