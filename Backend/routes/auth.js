@@ -105,7 +105,7 @@ router.get("/authorize-oauth", async (req, res) => {
 
 router.get('/verify', async function (req, res, next){
 	if (!req.user.verifiedemail) {
-		bcrypt.compare(req.query.token, req.user.VerifyEmailToken, function(err, result) {
+		bcrypt.compare(req.query.token, req.user.VerifyEmailToken, async function(err, result) {
 		    if(result)
 			{
 				await UserModel.findOneAndUpdate(
@@ -154,8 +154,8 @@ router.post('/request_reset', async function (req, res, next)
 				{ "resetPasswordExpires": Date.now() + 3600000 }
 			);
 			const token = jwt.sign({userId : user._id, Email:req.body.email, password:user.password}, secretkey, {expiresIn: '1h'});
-			bcrypt.genSalt(saltRounds, function(err, salt) {
-				bcrypt.hash(token, salt, function(err, hash) {
+			bcrypt.genSalt(saltRounds, async function(err, salt) {
+				bcrypt.hash(token, salt, async function(err, hash) {
 					await UserModel.findOneAndUpdate(
 						{ _id: user._id },
 						{ "resetPasswordTokenSalt": salt }
@@ -215,7 +215,7 @@ router.post("/reset_password", async function(req, res, next){
 		}
 		else
 		{
-			bcrypt.compare(req.body.token, user.resetPasswordToken, function(err, result) {
+			bcrypt.compare(req.body.token, user.resetPasswordToken, async function(err, result) {
 				if (result && req.body.new_password === req.body.confirm_password) {
 					await user.setPassword(req.body.new_password);
 					await user.save();
@@ -365,7 +365,7 @@ router.post('/register', async function (req, res) { // add and register a user,
 		});
 		const token = jwt.sign({userId : user._id, username:req.body.username}, secretkey, {expiresIn: '672h'}); // give 4 weeks for authorizing email
 		bcrypt.genSalt(saltRounds, function(err, salt) {
-			bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+			bcrypt.hash(token, salt, function(err, hash) {
 				user.VerifyEmailTokenSalt = salt;
 				user.VerifyEmailToken = hash;
 			});
