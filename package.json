@@ -1,0 +1,20 @@
+{
+  "name": "ouluxx",
+  "version": "1.0.0",
+  "description": "Ouluxx website",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm start --prefix client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jack1078/Ouluxx.git"
+  },
+  "author": "Ouluxx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jack1078/Ouluxx/issues"
+  },
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}

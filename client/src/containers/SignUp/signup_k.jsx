@@ -29,7 +29,6 @@ const button_theme = createMuiTheme({
     }
 })
 
-
 function SignUp() {
     return (
         <div className={classes.container}>
@@ -79,30 +78,7 @@ function SignUp() {
                     <Textfield
                         className={classes.textfield}
                         id="email-textfield"
-                        label="Email"
-                        name="Email"
-                        required
-                    />
-                </div>
-                <div className={classes.block}>
-                    <Textfield
-                        className={classes.textfield}
-                        label="Password"
-                        name="password"
-                        type="password"
-                        required
-                    />
-                </div>
-
-                <div className={classes.block}>
-
-                    <Textfield
-                        className={classes.textfield}
-                        label="Zip Code"
-                        name="Zipcode"
-                        type="text"
-                        required
-                    />
+                        label="Email" />
                 </div>
 
 

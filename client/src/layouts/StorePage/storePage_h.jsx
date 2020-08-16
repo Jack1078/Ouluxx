@@ -5,6 +5,7 @@ import MiniCart from '../../containers/miniCart_k';
 import NavBar from '../../containers/navBar_k';
 import Textfield from '../../components/textfield_c';
 import VideoRoom from '../../containers/VideoRoom/videoroom_k';
+import SharedPage from '../SharedPage/shared_h';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import uuid from 'react-uuid';
@@ -269,9 +270,7 @@ const StorePage = (props) => {
 
     return (
         <div>
-
             <NavBar />
-
             <Draggable>
                 <div className={classes.videoroom_sticky}>
                     {props.match.params.roomID ? (
@@ -352,6 +351,7 @@ const StorePage = (props) => {
                 </div>
             </div>
         </div >
+
     );
 };
 

@@ -1,25 +1,19 @@
 .container {
-    height: 100%;
-    width: fit-content;
-    background-color: transparent;
+    height: 100vh;
+    width: 100vw;
 }
 
-.inner_container {
+.main_video {
+    width: 100%;
+    height: 100%;
+}
+
+.video_container {
     height: 100%;
     width: fit-content;
     display: flex;
     flex-direction: row;
-}
-
-.btn_copy {
-    cursor: pointer;
-    background-color: #ffee00;
-    color: #555;
-    padding: 0.2em 0 0.2em 0;
-}
-
-.btn_copy:hover {
-    background-color: #ecdd02;
+    background-color: transparent;
 }
 
 .btn_container {
@@ -76,4 +70,11 @@
 .video {
     width: 20em;
     height: auto;
+}
+
+.videoroom_sticky {
+    position: fixed;
+    top: 5em;
+    right: 0;
+    z-index: 100;
 }
