@@ -12,12 +12,10 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
+const flash = require('connect-flash');
 const jwt = require("jsonwebtoken");
 
 const UserModel = require('../Models/User_Model');
-
-const url = 'mongodb://127.0.0.1:27017/Ouluxx'
 
 router.get('/', function (req, res, next) {
 	//this processes the GET request. 
@@ -38,26 +36,18 @@ router.get('/', function (req, res, next) {
 	"userid": "<The Users ID>"
 }
 */
-
+//used for getting a not logged in user. To get a logged in user, use req.user. 
 router.post('/get_user', async function (req, res, next) {
 	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-
-	await UserModel.findOne({ _id: mongoose.Types.ObjectId(req.body.userid) },
-		function (err, UserModel) {
-			res.json(JSON.stringify(UserModel))
-		});
-
-	// mongoose.connection.close();
-
+	await UserModel.findOne({ _id: mongoose.Types.ObjectId(req.body.userid) }, function (err, UserModel) {
+		res.json(JSON.stringify(UserModel))
+	});
 });
 
 //updates user information in the database
 /* JSON Request looks like this:
 	All fields except userid are optional
 {
-	"userid": "<User ID>",
-	"Email": "<User New Email>",
 	"username": "<User's New Username>",
 	"FirstName": "<User's New First Name>",
 	"LastName": "<User's New Last Name>",
@@ -69,89 +59,89 @@ router.post('/get_user', async function (req, res, next) {
 */
 
 router.post('/update', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-
-	for (const [key, value] of Object.entries(req.body)) {
-		if (key.toString().toUpperCase().includes("ID")) {
-			console.log(key); // cannot be changed
-		} else if (key.toString().toUpperCase() === "EMAIL") { //usually has a process to change emails
-			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
-				{ "Email": value.toString() }
-			);
-		} else if (key.toString().toUpperCase() === "USERNAME") { //need to verify if the username is already taken
-			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
-				{ "username": value.toString() }
-			);
-		} else if (key.toString().toUpperCase() === "FIRSTNAME") {
-			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
-				{ "FirstName": value.toString() }
-			);
-		} else if (key.toString().toUpperCase() === "LASTNAME") {
-			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
-				{ "LastName": value.toString() }
-			);
-		} else if (key.toString().toUpperCase() === "ADDRESS") {
-			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
-				{ "Address": value.toString() }
-			);
-		} else if (key.toString().toUpperCase() === "CITY") {
-			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
-				{ "City": value.toString() }
-			);
-		} else if (key.toString().toUpperCase() === "STATE") {
-			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
-				{ "State": value.toString() }
-			);
-		} else if (key.toString().toUpperCase() === "ZIPCODE") {
-			await UserModel.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.body.userid) },
-				{ "Zipcode": value.toString() }
-			);
-		} else {
-			//ignore
+	if (req.user && req.user.UserType === "USER") {
+		// logged in
+		for (const [key, value] of Object.entries(req.body)) {
+			if (key.toString().toUpperCase().includes("ID")) {
+				console.log(key); // cannot be changed
+				//not currently changing emails
+			/*} else if (key.toString().toUpperCase() === "EMAIL") { //usually has a process to change emails
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id) },
+					{ "Email": value.toString() }
+				);*/
+			} else if (key.toString().toUpperCase() === "USERNAME") { //need to verify if the username is already taken
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ "username": value.toString() }
+				);
+			} else if (key.toString().toUpperCase() === "FIRSTNAME") {
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ "FirstName": value.toString() }
+				);
+			} else if (key.toString().toUpperCase() === "LASTNAME") {
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ "LastName": value.toString() }
+				);
+			} else if (key.toString().toUpperCase() === "ADDRESS") {
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ "Address": value.toString() }
+				);
+			} else if (key.toString().toUpperCase() === "CITY") {
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ "City": value.toString() }
+				);
+			} else if (key.toString().toUpperCase() === "STATE") {
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ "State": value.toString() }
+				);
+			} else if (key.toString().toUpperCase() === "ZIPCODE") {
+				await UserModel.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ "Zipcode": value.toString() }
+				);
+			} else {
+				//ignore
+			}
 		}
+		var obj = new Object();
+		obj.status = "Success";
+		res.json(JSON.stringify(obj));
 	}
-
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-
-	// mongoose.connection.close();
-
+	else
+	{
+		res.status(401).json({message: "Authentication required"});
+	}
+	
 });
 
 //delete user from database
-/* JSON Request looks like this:
-{
-	"userid": "<The Users ID>"
-}
+/* 
+must be logged in. 
 */
 
 router.post('/delete', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	await UserModel.findOneAndRemove({ _id: mongoose.Types.ObjectId(req.body.userid) });
-
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-
-	// mongoose.connection.close();
+	if (req.user) {
+		await UserModel.findOneAndRemove({ _id: req.user._id });
+		var obj = new Object();
+		obj.status = "Success";
+		res.json(JSON.stringify(obj));
+	}
+	else
+	{
+		res.status(401).json({message: "Authentication required"});
+	}
 });
 
 /************************** CART FUNCTIONS *************************************/
 /*
 JSON is structured like this:
 {
-	"userid":"<User's ID>",
 	"ItemID":"<Item ID to add>",
 	"ItemName": "<Name of Item to add>",
 	"Description": "<Description of item to add>",
@@ -161,73 +151,83 @@ JSON is structured like this:
 */
 //adds an item to the user's cart
 router.post('/add_to_cart', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	if (req.user && req.user.UserType === "USER") 
+	{
+		//must be logged in
+		var itemprice = parseFloat(req.body.Price);
+		var CartItem = {
+			UserID: req.user.userid,
+			ItemID: req.body.ItemID,
+			ItemName: req.body.ItemName,
+			Description: req.body.Description,
+			Quantity: req.body.Quantity,
+			Price: itemprice,
+			Subtotal: (req.body.Price * req.body.Quantity)
+		};
 
-	var itemprice = parseFloat(req.body.Price);
-
-	var CartItem = {
-		UserID: req.body.userid,
-		ItemID: req.body.ItemID,
-		ItemName: req.body.ItemName,
-		Description: req.body.Description,
-		Quantity: req.body.Quantity,
-		Price: itemprice,
-		Subtotal: (req.body.Price * req.body.Quantity)
-	};
-
-	await UserModel.findOneAndUpdate(
-		{ _id: mongoose.Types.ObjectId(req.body.userid) },
-		{ $push: { Cart: CartItem } }
-	);
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-
-	// mongoose.connection.close();
+		await UserModel.findOneAndUpdate(
+			{ _id: req.user._id },
+			{ $push: { Cart: CartItem } }
+		);
+		var obj = new Object();
+		obj.status = "Success";
+		res.json(JSON.stringify(obj));
+	}
+	else
+	{
+		res.status(401).json({message: "Authentication required"});
+	}
 });
 
 //retrieves the items in the user's cart
 /* JSON Request looks like this:
 {
-	"userid": "<The Users ID>"
 }
 */
 router.post('/get_cart', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-
-	await UserModel.find({ _id: mongoose.Types.ObjectId(req.body.userid) }, { Cart: 1 },
-		function (err, UserModel) {
+	if (req.user && req.user.UserType === 'USER') {
+		await UserModel.find({ _id: req.user._id }, { Cart: 1 },function (err, UserModel) {
 			res.json(JSON.stringify(UserModel))
 		});
-
-	// mongoose.connection.close();
-
+	}
+	else
+	{
+		res.status(401).json({message: "Authentication required"});
+	}
 });
 
 //updates the quantity of an object in the user's cart
+
+/*
+JSON looks like: 
+{
+	ItemID: "<ItemID>",
+	Quantity: "<Value>"
+}
+*/
+
 router.post('/update_cart', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-
-	await UserModel.findOneAndUpdate(
-		{
-			_id: mongoose.Types.ObjectId(req.body.userid),
-			'Cart.ItemID': req.body.ItemID
-		},
-		{
-			$set: {
-				'Cart.$.Quantity': req.body.Quantity
+	if (req.user && req.user.UserType === "USER") {
+		await UserModel.findOneAndUpdate(
+			{
+				_id: req.user._id,
+				'Cart.ItemID': req.body.ItemID
+			},
+			{
+				$set: {
+					'Cart.$.Quantity': req.body.Quantity
+				}
 			}
-		}
-	);
+		);
 
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-
-	// mongoose.connection.close();
+		var obj = new Object();
+		obj.status = "Success";
+		res.json(JSON.stringify(obj));
+	}
+	else
+	{
+		res.status(401).json({message: "Authentication required"});
+	}
 });
 
 //removes an item from the user's cart
@@ -238,21 +238,22 @@ router.post('/update_cart', async function (req, res, next) {
 }
 */
 router.post('/remove_from_cart', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	if (req.user && req.user.UserType === "USER") {
+		await UserModel.findOneAndUpdate(
+			{
+				_id: req.user._id
+			},
+			{ $pull: { Cart: { ItemID: req.body.ItemID } } }
+		);
 
-	await UserModel.findOneAndUpdate(
-		{
-			_id: mongoose.Types.ObjectId(req.body.userid)
-		},
-		{ $pull: { Cart: { ItemID: req.body.ItemID } } }
-	);
-
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-
-	// mongoose.connection.close();
+		var obj = new Object();
+		obj.status = "Success";
+		res.json(JSON.stringify(obj));
+	}
+	else
+	{
+		res.status(401).json({message: "Authentication required"});
+	}
 });
 
 module.exports = router;

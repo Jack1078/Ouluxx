@@ -19,8 +19,10 @@ const User = new mongoose.Schema({
 	facebookid: String,
 	googleid: String, 
 	verifiedemail: {type: Boolean, default: false},
+	VerifyEmailTokenSalt: String, 
 	VerifyEmailToken: String,
 	resetPasswordToken: String,
+	resetPasswordTokenSalt: String, 
 	resetPasswordExpires: Date,
 	Password: String,
 	FirstName: String,
@@ -28,9 +30,12 @@ const User = new mongoose.Schema({
 	Address: String,
 	City: String,
 	State: String,
+	Created_Password: {type: Boolean, default: true},
 	active: { type: Boolean, default: true },
 	Zipcode: Number,   //This does not verify if the zipcode is strictly XXXXX format
-	UserType: String, // This is either user or store. 
+	UserType: String, // This is either USER or STORE. 
+	StoreID : String,  // this is only instantiated if the user is a store. it also starts out as nothing until they make a store.
+	ConnectedStripeAccountID : String,  
 	Cart: {
 		type: [{
 			ItemID: String,			 // uses the _id property of the item

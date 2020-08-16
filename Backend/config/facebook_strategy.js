@@ -50,6 +50,7 @@ var Strategy = new FacebookStrategy({
 							facebookid: profile.id, 
 							FirstName: profile.name.givenName,
 							LastName: profile.name.familyName,
+							Created_Password: false,
 							UserType : "USER"
 						});
 					}
@@ -60,6 +61,7 @@ var Strategy = new FacebookStrategy({
 							facebookid: profile.id, 
 							FirstName: profile.name.givenName,
 							LastName: profile.name.familyName,
+							Created_Password: false,
 							UserType : "USER"
 						});
 					}

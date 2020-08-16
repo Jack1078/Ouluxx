@@ -15,6 +15,8 @@ const Inventory_Item = new Schema({
 	Schema_Type : {type : String, default: "ITEM"}, // Identifies this as an Inventory item. 
 	//ItemID : Uint32Array, // The id of the item potentially unneeded as _id exists
 	Name : String, // name of the item, defined by user
+	IdentifierName : String, //used if the item has a specific name that is not the same as the name it is regularly reffered to as. 
+	img: String, // image that is stored
 	Price : Number, // price of the item, defined by user
 	StoreName : String, // name of the store this belongs to
 	StoreID : String, // id of the store this belongs to

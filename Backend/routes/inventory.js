@@ -4,8 +4,6 @@ const mongoose = require('mongoose');
 var InventoryItemModel = require('../Models/Item_Model');
 var StoreModel = require('../Models/Store_Model');
 
-const url = 'mongodb://127.0.0.1:27017/Ouluxx'
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
 	res.render('index', { title: 'Express' });
@@ -21,45 +19,73 @@ An item JSON is structured as this:
 	"itemname" : "<Item's Name>", 
 	"itemprice" : "<Item's Price>", 
 	"itemstore" : "<The name of the store the item belongs to>", 
-	"storeid" : "The ID of the store the item belongs to", // This should be stored on the cookie of the logged in store. 
 	"categories" : ["<catagory 1>", "<category 2>", ...], 
 	"inventory" : <Integer> // this is an optional parameter
+	"TrueIdentifier" : <TrueIdentifier>, // this is something like the serial number of the product 
+	"Image" : <base64 Image>
 }
 
 Add a single item to the DB. 
 
 */
 
-router.post('/add', async function (req, res, next) {// add an item to the db, and add it to the store. 
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	var itemprice = parseFloat(req.body.itemprice);
-	var newitem = new InventoryItemModel({
-		Name: req.body.itemname,
-		Price: itemprice,
-		StoreName: req.body.itemstore,
-		StoreID: req.body.storeid,
-		Category: req.body.categories
-	});
-	var number_In_Inventory = -1;
-	if (req.body.inventory != null) {
-		number_In_Inventory = req.body.inventory;
+router.post('/add', async function(req, res, next) {// add an item to the db, and add it to the store. 
+	if (req.user && req.user.UserType === "STORE") {
+		var itemprice = parseFloat(req.body.itemprice);
+		var newitem = new InventoryItemModel({
+			Name : req.body.itemname, 
+			Price : itemprice, 
+			StoreName : req.body.itemstore, 
+			StoreID : req.user.StoreId, 
+			Category : req.body.categories, 
+			IdentifierName : req.body.TrueIdentifier, 
+			img: req.body.Image
+		});
+		var number_In_Inventory = -1;
+		if (req.body.inventory != null) {
+			number_In_Inventory = req.body.inventory;
+		}
+		var StoreItem = { // create inventory item to add to inventory array
+			ItemID: newitem._id, 
+			ItemName: req.body.itemname, 
+			NumberInInventory: number_In_Inventory
+		};
+		await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
+			{_id:mongoose.Types.ObjectId(req.user.StoreId)}, 
+			{ $push: { Inventory: StoreItem } }
+		); 
+		await newitem.save();
+		res.status(200).json({message:"Success"});
 	}
-	var StoreItem = { // create inventory item to add to inventory array
-		ItemID: newitem._id,
-		ItemName: req.body.itemname,
-		NumberInInventory: number_In_Inventory
-	};
-	await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
-		{ _id: mongoose.Types.ObjectId(req.body.storeid) },
-		{ $push: { Inventory: StoreItem } }
-	);
-	await newitem.save();
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-	// mongoose.connection.close();
+	else
+	{
+		res.status(200).json({message:"Not logged in"});
+	}
 });
+
+/*
+Send image as base64 to server
+
+{
+	"Image" : <base64 image>
+}
+
+*/
+
+router.post('/Image', async function(req, res, next){
+	if (req.user && req.user.UserType === "STORE") {
+		await InventoryItemModel.findOneAndUpdate(
+			{_id:mongoose.Types.ObjectId(req.body.itemid)}, 
+			{ img: req.body.Image}
+		);
+		res.status(200).json({message:"Sucess"});
+	}
+	else
+	{
+		res.status(401).json({message: "not allowed"});
+	}
+});
+
 
 /*
 
@@ -76,22 +102,23 @@ Add a comment to an item.
 
 */
 
-router.post('/add_comment', async function (req, res, next) {// add an item to the db, and add it to the store. 
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	var commentitem = { // create inventory item to add to inventory array
-		Body: req.body.comment,
-		userID: req.body.userid,
-		Username: req.body.username
-	};
-	await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
-		{ _id: mongoose.Types.ObjectId(req.body.itemid) },
-		{ $push: { Comments: commentitem } }
-	);
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-	// mongoose.connection.close();
+router.post('/add_comment', async function(req, res, next) {// add an item to the db, and add it to the store. 
+	if (req.user && req.user.UserType === "USER") {
+		var commentitem = { // create inventory item to add to inventory array
+			Body: req.body.comment, 
+			userID: req.user._id.toString(),
+			Username: req.body.username
+		};
+		await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
+			{_id:mongoose.Types.ObjectId(req.body.itemid)}, 
+			{ $push: { Comments: commentitem } }
+		);
+		res.status(200).json({message:"Success"});
+	}
+	else
+	{
+		res.status(200).json({message:"Not logged in"});
+	}
 });
 
 /*
@@ -99,12 +126,10 @@ router.post('/add_comment', async function (req, res, next) {// add an item to t
 A list of many items to be added looks like this
 
 {
-	"storeid" : "The ID of the store the item belongs to", // This should be stored on the cookie of the logged in store. 
 	"Item_1" : 
 	{
 		"itemname" : "<Item's Name>", 
 		"itemprice" : "<Item's Price>", 
-		"itemstore" : "<The name of the store the item belongs to>", 
 		"categories" : ["<catagory 1>", "<category 2>", ...], 
 		"inventory" : <Integer> // this is an optional parameter
 	}, 
@@ -112,7 +137,6 @@ A list of many items to be added looks like this
 	{
 		"itemname" : "<Item's Name>", 
 		"itemprice" : "<Item's Price>", 
-		"itemstore" : "<The name of the store the item belongs to>", 
 		"categories" : ["<catagory 1>", "<category 2>", ...], 
 		"inventory" : <Integer> // this is an optional parameter
 	}, 
@@ -123,40 +147,40 @@ Adds many entries to the database. Is designed for information to be parsed on t
 
 */
 
-router.post('/add_many', async function (req, res, next) {// add an item to the db, and add it to the store. 
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-
-	for (const [key, value] of Object.entries(req.body.items)) {
-		var itemprice = parseFloat(value.itemprice);
-		var newitem = new InventoryItemModel({
-			Name: value.itemname,
-			Price: itemprice,
-			StoreName: value.itemstore,
-			StoreID: value.storeid,
-			Category: value.categories
-		});
-		var number_In_Inventory = -1;
-		if (req.body.inventory != null) {
-			number_In_Inventory = value.inventory;
+router.post('/add_many', async function(req, res, next) {// add an item to the db, and add it to the store. 
+	if (req.user && req.user.UserType === "STORE") {
+		for(const [key, value] of Object.entries(req.body.items))
+		{
+			var itemprice = parseFloat(value.itemprice);
+			var newitem = new InventoryItemModel({
+				Name : value.itemname, 
+				Price : itemprice, 
+				StoreName : value.itemstore, 
+				StoreID : req.user.StoreID, 
+				Category : value.categories, 
+				IdentifierName : req.body.TrueIdentifier
+			});
+			var number_In_Inventory = -1;
+			if (req.body.inventory != null) {
+				number_In_Inventory = value.inventory;
+			}
+			var StoreItem = { // create inventory item to add to inventory array
+				ItemID: newitem._id, 
+				ItemName: value.itemname, 
+				NumberInInventory: number_In_Inventory
+			};
+			await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
+				{_id:mongoose.Types.ObjectId(req.user.StoreId)}, 
+				{ $push: { Inventory: StoreItem } }
+			); 
+			await newitem.save();
 		}
-		var StoreItem = { // create inventory item to add to inventory array
-			ItemID: newitem._id,
-			ItemName: value.itemname,
-			NumberInInventory: number_In_Inventory
-		};
-		await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
-			{ _id: mongoose.Types.ObjectId(req.body.storeid) },
-			{ $push: { Inventory: StoreItem } }
-		);
-		await newitem.save();
+		res.status(200).json({message:"Success"});
 	}
-
-
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-	// mongoose.connection.close();
+	else
+	{
+		res.status(401).json({message:"Not allowed"})
+	}
 });
 
 /*
@@ -171,18 +195,19 @@ Removes item from database.
 
 */
 
-router.post('/delete', async function (req, res, next) {// add an item to the db, and add it to the store. 
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	await InventoryItemModel.findOneAndRemove({ _id: mongoose.Types.ObjectId(req.body.itemid) });
-	await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
-		{ _id: mongoose.Types.ObjectId(req.body.storeid) },
-		{ $pull: { Inventory: { ItemID: req.body.itemid } } }
-	);
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-	// mongoose.connection.close();
+router.post('/delete', async function(req, res, next) {// add an item to the db, and add it to the store. 
+	if (req.user && req.user.UserType === "STORE") {
+		await InventoryItemModel.findOneAndRemove({_id: mongoose.Types.ObjectId(req.body.itemid)});
+		await StoreModel.findOneAndUpdate( // update the model by adding the new item to inventory
+			{_id:mongoose.Types.ObjectId(req.user.StoreId)}, 
+			{ $pull: { Inventory: {ItemID : req.body.itemid} } }
+		);
+		res.status(200).send("Success");
+	}
+	else
+	{
+		res.status(401).json({message:"Not allowed"})
+	}
 });
 
 /*
@@ -205,49 +230,52 @@ Updates entries in the MongoDB database.
 
 */
 
-router.post('/update', async function (req, res, next) {// add an item to the db, and add it to the store. 
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	for (const [key, value] of Object.entries(req.body)) {
-		//console.log(key, value);
-		if ((key.toString().toUpperCase().includes("ID") && !(key.toString().toUpperCase() === "HIDDEN"))
-			|| key.toString().toUpperCase().includes("Name")) {
-			console.log(key); // cannot be changed
+router.post('/update', async function(req, res, next) {// add an item to the db, and add it to the store. 
+	if (req.user &&req.user.StoreID) {
+		for (const [key, value] of Object.entries(req.body)) {
+			if ((key.toString().toUpperCase().includes("ID") && !(key.toString().toUpperCase() === "HIDDEN")) 
+				|| key.toString().toUpperCase().includes("Name")) {
+				console.log(key); // cannot be changed
+			}
+			else if (key.toString().toUpperCase() === "PRICE") {
+				await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
+					{_id : mongoose.Types.ObjectId(req.body.itemid) }, 
+					{ "Price" : parseFloat(value.toString()) }
+				);
+			}
+			else if (key.toString().toUpperCase() === "HIDDEN") {
+				console.log(key);
+				console.log(value);
+				await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
+					{_id : mongoose.Types.ObjectId(req.body.itemid) }, 
+					{ "Hidden" : value.toString()==="true" }
+				);
+			}
+			else if (key.toString().includes("Add_Category")) 
+			{
+				await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
+					{ _id : mongoose.Types.ObjectId(req.body.itemid) }, 
+					{ $push: { "Category" : value.toString() } }
+				); 
+			}
+			else if (key.toString().includes("Remove_Category")) 
+			{
+				await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
+					{ _id : mongoose.Types.ObjectId(req.body.itemid) }, 
+					{ $pull: { "Category" : value.toString() } }
+				); 
+			}
+			else
+			{
+				//console.log("other"); //ignore
+			}
 		}
-		else if (key.toString().toUpperCase() === "PRICE") {
-			await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
-				{ _id: mongoose.Types.ObjectId(req.body.itemid) },
-				{ "Price": parseFloat(value.toString()) }
-			);
-		}
-		else if (key.toString().toUpperCase() === "HIDDEN") {
-			console.log(key);
-			console.log(value);
-			await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
-				{ _id: mongoose.Types.ObjectId(req.body.itemid) },
-				{ "Hidden": value.toString() === "true" }
-			);
-		}
-		else if (key.toString().includes("Add_Category")) {
-			await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
-				{ _id: mongoose.Types.ObjectId(req.body.itemid) },
-				{ $push: { "Category": value.toString() } }
-			);
-		}
-		else if (key.toString().includes("Remove_Category")) {
-			await InventoryItemModel.findOneAndUpdate( // update the model by adding the new item to inventory
-				{ _id: mongoose.Types.ObjectId(req.body.itemid) },
-				{ $pull: { "Category": value.toString() } }
-			);
-		}
-		else {
-			//console.log("other"); //ignore
-		}
+		res.status(200).send("Success");
 	}
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));
-	// mongoose.connection.close();
+	else
+	{
+		res.status(401).json({message:"Not allowed"})
+	}
 });
 
 /*
@@ -263,14 +291,11 @@ If there is no item with the given id, it returns null.
 
 */
 
-router.post('/get_item', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	await InventoryItemModel.findOne({ _id: mongoose.Types.ObjectId(req.body.itemid) },
-		function (err, InventoryItemModel) {
+router.post('/get_item', async function(req, res, next) {
+	await InventoryItemModel.findOne({_id: mongoose.Types.ObjectId(req.body.itemid)}, 
+		function(err, InventoryItemModel) {
 			res.json(JSON.stringify(InventoryItemModel))
 		});
-	// mongoose.connection.close();
 });
 
 /*
@@ -286,14 +311,11 @@ If there are no items with the given id, it returns null.
 
 */
 
-router.post('/get_store_items', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	await InventoryItemModel.find({ storeid: req.body.storeid },
-		function (err, InventoryItemModel) {
+router.post('/get_store_items', async function(req, res, next) {
+	await InventoryItemModel.find({storeid: req.body.storeid}, 
+		function(err, InventoryItemModel) {
 			res.json(JSON.stringify(InventoryItemModel))
 		});
-	// mongoose.connection.close();
 });
 
 /*
@@ -305,14 +327,11 @@ If there are no items, it returns null.
 
 */
 
-router.post('/get_all_items', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-	await InventoryItemModel.find({},
-		function (err, InventoryItemModel) {
+router.post('/get_all_items', async function(req, res, next) {
+	await InventoryItemModel.find({}, 
+		function(err, InventoryItemModel) {
 			res.json(JSON.stringify(InventoryItemModel))
 		});
-	// mongoose.connection.close();
 });
 
 /*
@@ -328,31 +347,12 @@ get stores with specific properties
 
 */
 
-router.post('/get_item_with_property', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+router.post('/get_item_with_property', async function(req, res, next) {
 	var propertyname = req.body.property;
 	await InventoryItemModel.find({ propertyname: req.body.value },
 		function (err, InventoryItemModel) {
 			res.json(JSON.stringify(InventoryItemModel))
 		});
-	// mongoose.connection.close();
 });
-
-/*router.post('/testadd', async function(req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-	var newitem = new InventoryItemModel({
-				name : req.body.itemname, 
-				price : req.body.itemprice, 
-				storename : req.body.itemstore, 
-				storeid : req.body.itemstoreid
-			});
-	await newitem.save();
-	var obj = new Object();
-	obj.status = "Success";
-	res.json(JSON.stringify(obj));	
-	// mongoose.connection.close();
-});*/
 
 module.exports = router;
