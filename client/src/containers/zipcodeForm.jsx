@@ -1,21 +1,10 @@
 import React, { useState } from 'react';
 import style from './zipcodeForm.module.css';
 import { Link, withRouter } from "react-router-dom";
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/core/styles';
 import {
     TextField,
-    Button,
 } from '@material-ui/core';
-
-
-
-const theme = createMuiTheme({
-    palette: {
-        primary: {
-            main: "#FFE165"
-        },
-    }
-})
 
 const ZipcodeForm = (props) => {
     const [state, setState] = useState({
@@ -46,7 +35,7 @@ const ZipcodeForm = (props) => {
                 <div className={style.smallcontainer}>
                     <div className={style.formbox}>
                         <div className={style.header}>
-                            Oulu<span style={{ color:"#FBDE49", fontFamily:"Verdana"}}>x</span>x
+                            Oulu<span style={{ color: "#FBDE49", fontFamily: "Verdana" }}>x</span>x
                         </div>
                         <div className={style.slogan}>
                             Deilvery made classy since 2020
@@ -68,14 +57,14 @@ const ZipcodeForm = (props) => {
                                     required />
                             </div>
                             <div>
-                                <input type="submit" className={style.button} value="Continue" />  
+                                <input type="submit" className={style.button} value="Continue" />
                             </div>
                         </form>
                         <div className={style.login}>
-                            Already have an account?&nbsp; 
-                            <Link 
-                            className={style.link}
-                            to="/signup"
+                            Already have an account?&nbsp;
+                            <Link
+                                className={style.link}
+                                to="/signup"
                             >
                                 Log in
                             </Link>

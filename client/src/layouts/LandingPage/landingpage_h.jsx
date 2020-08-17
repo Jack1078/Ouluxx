@@ -1,12 +1,10 @@
 import React from 'react';
-import './landingpage.module.css'
 import ZipcodeForm from '../../containers/zipcodeForm'
 import Footer from '../../containers/footer_k'
-import About from './../../containers/About/about_k'
+import About from '../../containers/About/about_k'
 
 function LandingPage() {
   return (
-
     <div>
       <ZipcodeForm />
       <About />
