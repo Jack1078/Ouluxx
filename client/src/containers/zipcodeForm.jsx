@@ -31,12 +31,15 @@ const ZipcodeForm = (props) => {
     };
 
     const handleSubmit = (event) => {
-        console.log("Props: ", props)
+        console.log("Props: ", props);
         event.preventDefault();
-        props.history.push({
-            pathname: '/stores',
-            state
-        });
+        if (state.zipcode.length === 5 && (/[0-9]/).test(state.zipcode))
+            props.history.push({
+                pathname: '/stores',
+                state
+            });
+        else
+            alert("Please enter a valid zipcode")
     };
 
     console.log("State: ", state);
@@ -46,7 +49,7 @@ const ZipcodeForm = (props) => {
                 <div className={style.smallcontainer}>
                     <div className={style.formbox}>
                         <div className={style.header}>
-                            Oulu<span style={{ color:"#FBDE49", fontFamily:"Verdana"}}>x</span>x
+                            Oulu<span style={{ color: "#FBDE49", fontFamily: "Verdana" }}>x</span>x
                         </div>
                         <div className={style.slogan}>
                             Deilvery made classy since 2020
@@ -68,14 +71,14 @@ const ZipcodeForm = (props) => {
                                     required />
                             </div>
                             <div>
-                                <input type="submit" className={style.button} value="Continue" />  
+                                <input type="submit" className={style.button} value="Continue" />
                             </div>
                         </form>
                         <div className={style.login}>
-                            Already have an account?&nbsp; 
-                            <Link 
-                            className={style.link}
-                            to="/signup"
+                            Already have an account?&nbsp;
+                            <Link
+                                className={style.link}
+                                to="/signup"
                             >
                                 Log in
                             </Link>
