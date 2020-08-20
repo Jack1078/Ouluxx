@@ -20,6 +20,9 @@ const Inventory_Item = new Schema({
 	Price : Number, // price of the item, defined by user
 	StoreName : String, // name of the store this belongs to
 	StoreID : String, // id of the store this belongs to
+	totalprice: Number, 
+	taxprice: Number, 
+	markupprice: Number, 
 	Comments : { // comments on the item
 		type: [{
 			 Body: String, Date : { type: Date, default: Date.now }, UserID: String, Username: String
