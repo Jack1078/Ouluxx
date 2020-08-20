@@ -125,7 +125,7 @@ const ProductIcon = (props) => {
                 className={classes.container}
                 onClick={handleShow}
                 {...other}>
-                <img className={classes.img} src={require(`../images/${img_url}`)} alt={alt}></img>
+                {/* <img className={classes.img} src={require(`../images/${img_url}`)} alt={alt}></img> */}
                 <span className={classes.name}>{name}</span>
                 <span className={classes.price}>${price.toFixed(2)}</span>
                 <div className={classes.rating_container}>
@@ -146,7 +146,7 @@ const ProductIcon = (props) => {
                                 <Col xs={6} >
                                     <Row className="justify-content-md-center">
                                         <div>
-                                            <img className={classes.img_pop} src={require(`../images/${img_url}`)} alt={alt}></img>
+                                            {/* <img className={classes.img_pop} src={require(`../images/${img_url}`)} alt={alt}></img> */}
                                         </div>
                                         <ButtonGroup>
                                             <Button variant="light" >S</Button>

@@ -5,7 +5,7 @@ import { MdStoreMallDirectory, MdAccountCircle } from 'react-icons/md'
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Row, Col, Container, Dropdown, Button, Input } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import ZipCodeForm from '../components/zipcodeForm_c'
+import ZipCodeForm from './../containers/zipcodeForm';
 import Textfield from '../components/textfield_c';
 
 

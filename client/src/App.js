@@ -9,10 +9,9 @@ import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import StorePage from './layouts/StorePage/storePage_h';
 import SharedPage from './layouts/SharedPage/shared_h';
 import AccountPage from './layouts/AccountPage/accountPage_h';
+import LoginPage from './layouts/LoginPage/login_h';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // default theme
 const theme = createMuiTheme({
