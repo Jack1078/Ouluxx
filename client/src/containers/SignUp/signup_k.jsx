@@ -38,7 +38,7 @@ function SignUp() {
             </div>
 
             {/* Email Sign up */}
-            <form className={classes.form} action="/users/register" method="POST" >
+            <form className={classes.form} action="/auth/register" method="POST" >
 
                 {/* Logo */}
                 <span className={classes.title}>
