@@ -43,12 +43,18 @@
 }
 
 .btn_icon {
-    display: inline-block;
-    transform: translateY(25%);
+    display: flex;
+    font-size: 22px;
+}
+
+.store_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .btn_txt {
-    display: inline-block;
+    display: flex;
     margin-left: 5px;
-    transform: translateY(15%);
 }

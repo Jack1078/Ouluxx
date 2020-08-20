@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy; 
+const LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 const jwt = require("jsonwebtoken");
 
@@ -21,7 +21,10 @@ const uuidv4 = require('uuid').v4;
 const UserModel = require('../Models/User_Model');
 const ItemModel = require('../Models/Item_Model');
 
-router.get('/', function(req, res, next) {
+const url = 'mongodb://127.0.0.1:27017/Ouluxx'
+
+
+router.get('/', function (req, res, next) {
 	res.render('index', { title: 'Auth' });
 	console.log(req.body);
 	console.log("Hello");
@@ -405,7 +408,8 @@ Log the user in with a local strategy. It returns unauthorized if it fails.
 */
 
 router.post('/login', passport.authenticate('local', { failureFlash: true }), function (req, res) {
-	res.json({ success: true, message: "LOGIN SUCCESS", User: req.user });
+	res.redirect('/selectionpage');
+	//res.json({ success: true, message: "LOGIN SUCCESS", User: req.user });
 });
 
 /*
@@ -414,7 +418,8 @@ Logs out the user, does nothing if no user logged in.
 
 router.post('/logout', function (req, res) {
 	req.logout();
-	res.json({ success: true, message: "LOGOUT SUCCESS" });
+	res.redirect('/login');
+	//res.json({ success: true, message: "LOGOUT SUCCESS" });
 });
 
 /*
@@ -422,7 +427,7 @@ facebook authentication, registers a user and authenticates a user if using the 
 */
 
 router.get('/facebook',
-	passport.authenticate('facebook', { scope : ['email'] }));
+	passport.authenticate('facebook', { scope: ['email'] }));
 
 /*
 facebook callback login helper. 
@@ -430,8 +435,9 @@ facebook callback login helper.
 
 router.get('/facebook/callback',
 	passport.authenticate('facebook', { failureRedirect: 'http://localhost:4000/' }),
-	function(req, res) {
+	function (req, res) {
 		// Successful authentication, redirect home.
+		res.redirect('http://localhost:3000/selectionpage');
 		console.log(req.body);
 		//res.json({success:true, message:"Authentication successful", User:req.user});
 		res.redirect('http://localhost:4000/SUCCESS');
@@ -456,11 +462,11 @@ Google authentication helper.
 */
 
 router.get("/google/callback", passport.authenticate('google', { failureRedirect: 'http://localhost:4000/' }),
-	function(req, res) {
-		// Successful authentication, redirect home.
+	function (req, res) {
+		res.redirect('http://localhost:3000/selectionpage');
 		console.log(req.body);
 		//res.json({success:true, message:"Authentication successful", User:req.user});
-		res.redirect('http://localhost:4000/SUCCESS');
-});
+		//res.redirect('http://localhost:4000/SUCCESS');
+	});
 
 module.exports = router;

@@ -15,6 +15,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
 const jwt = require("jsonwebtoken");
 
+
 const UserModel = require('../Models/User_Model');
 
 router.get('/', function (req, res, next) {

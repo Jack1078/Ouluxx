@@ -1,0 +1,17 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.infolist {
+    list-style: none;
+    line-height: 2rem;
+    text-align: start;
+}
+
+.backgroundheader {
+    background-color: rgb(255, 202, 67);
+}
+
+.btntxt {
+    color: white;
+}

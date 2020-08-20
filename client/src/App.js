@@ -8,6 +8,11 @@ import SignupPage from './layouts/SignupPage/signup_h';
 import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import StorePage from './layouts/StorePage/storePage_h';
 import SharedPage from './layouts/SharedPage/shared_h';
+import AccountPage from './layouts/AccountPage/accountPage_h';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // default theme
 const theme = createMuiTheme({
@@ -29,6 +34,8 @@ function App() {
             <Route path="/stores/:store" exact component={StorePage} />
             <Route path="/stores/:store/room/:roomID" exact component={StorePage} />
             <Route path="/room/:roomID" exact component={SharedPage} />
+            <Route path="/accountpage" component={AccountPage} />
+            <Route path="/login" component={LoginPage} />
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>
