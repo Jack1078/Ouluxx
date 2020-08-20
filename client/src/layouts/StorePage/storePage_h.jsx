@@ -5,7 +5,6 @@ import MiniCart from '../../containers/miniCart_k';
 import NavBar from '../../containers/navBar_k';
 import Textfield from '../../components/textfield_c';
 import VideoRoom from '../../containers/VideoRoom/videoroom_k';
-import SharedPage from '../SharedPage/shared_h';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import uuid from 'react-uuid';
@@ -17,185 +16,7 @@ import Draggable from 'react-draggable';
 
 var data = { "StoreID": "5f19dba9b8b917200936610d" }; //need a way to automate this
 
-const products = [
-    {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }];
-
-//Items that are in the cart are contained here
-// These items should be fetched from a users cart
-const orders = [
-    {
-        num: 1,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 2,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 3,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 4,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 5,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 6,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    }
-];
-
 const categories = ['All', 'shirt', 't-shirt', 'clothing', 'plant'];
-
-
 
 const StorePage = (props) => {
     const storeName = props.match.params.store;
@@ -257,18 +78,6 @@ const StorePage = (props) => {
             return (err);
         });
     };
-
-    // const displayProducts = (items) => { /* items should be an array of products*/
-    //     console.log("items: ", items);
-    //     if (!items.length) return null;
-    //     return items.map((item, index) => (
-    //         <div key={index}>
-    //             <h5>Name: {item.Name}</h5>
-    //             <p>Price: {item.Price}</p>
-    //         </div>
-    //     ));
-    // };
-
 
     return (
         <div>

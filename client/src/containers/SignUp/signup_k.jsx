@@ -12,7 +12,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import BackButton from '../../components/BackButton/backButton_c';
 import { FaGoogle } from 'react-icons/fa';
 import logo from '../../images/logo.png';
-import classes from './signUp_k.module.css';
+import classes from './signup_k.module.css';
 //import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Input } from '@material-ui/core';
 import { Row, Col, Container } from 'react-bootstrap';

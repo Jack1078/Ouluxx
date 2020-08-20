@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Ouluxx website",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm start --prefix client\""
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run dev --prefix Backend\" \"npm start --prefix client\""
   },
   "repository": {
     "type": "git",

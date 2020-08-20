@@ -1,5 +1,4 @@
 import React from 'react';
-import SignUpContainer from '../../containers/SignUp/signup_k';
 import LoginContainer from '../../containers/Login/login_k';
 import AboutContainer from '../../containers/About/about_k';
 import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k';

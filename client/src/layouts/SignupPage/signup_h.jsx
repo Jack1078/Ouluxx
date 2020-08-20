@@ -1,12 +1,11 @@
 import React from 'react';
-import SignUpContainer from '../../containers/SignUp/signup_k';
+import SignUpContainer from '../../containers/Signup/signup_k';
 import AboutContainer from '../../containers/About/about_k';
 import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k';
 import Button from '../../components/button_c';
 import classes from './signup_h.module.css';
-import Footer from './../../containers/footer_k';
-import LoginPage from '../LoginPage/login_h';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Footer from '../../containers/footer_k';
+import { Link } from 'react-router-dom';
 
 /**
  * Layout for the email sign up page
