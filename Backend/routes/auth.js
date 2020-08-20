@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy; 
+const LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 const jwt = require("jsonwebtoken");
 
 var nodemailer = require('nodemailer');
-const secrets = require('../secrets/secrets'); 
+const secrets = require('../secrets/secrets');
 const { google } = require('googleapis');
 const { OAuth2 } = google.auth;
 
@@ -21,7 +21,7 @@ const uuidv4 = require('uuid').v4;
 const UserModel = require('../Models/User_Model');
 const ItemModel = require('../Models/Item_Model');
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 	res.render('index', { title: 'Auth' });
 	console.log(req.body);
 	console.log("Hello");
@@ -46,7 +46,7 @@ var transporter = nodemailer.createTransport({
 });
 
 
-router.get('/stripesignuptest', function(req, res, next) {
+router.get('/stripesignuptest', function (req, res, next) {
 	res.render('stripeonboardtest');
 });
 
@@ -59,15 +59,15 @@ router.get("/get-oauth-link", async (req, res) => {
 		scope: "read_write",
 		response_type: "code",
 	})
-	const url = 'https://connect.stripe.com/oauth/authorize?'+args.toString();
-	return res.send({url});
+	const url = 'https://connect.stripe.com/oauth/authorize?' + args.toString();
+	return res.send({ url });
 });
 
 router.get("/authorize-oauth", async (req, res) => {
 	const { code, state } = req.query;
 
 	// Assert the state matches the state you provided in the OAuth link (optional).
-	if(req.session.state !== state) {
+	if (req.session.state !== state) {
 		return res.status(403).json({ error: 'Incorrect state parameter: ' + state });
 	}
 
@@ -88,9 +88,9 @@ router.get("/authorize-oauth", async (req, res) => {
 		},
 		(err) => {
 			if (err.type === 'StripeInvalidGrantError') {
-				return res.status(400).json({error: 'Invalid authorization code: ' + code});
+				return res.status(400).json({ error: 'Invalid authorization code: ' + code });
 			} else {
-				return res.status(500).json({error: 'An unknown error occurred.'});
+				return res.status(500).json({ error: 'An unknown error occurred.' });
 			}
 		}
 	);
@@ -103,11 +103,10 @@ router.get("/authorize-oauth", async (req, res) => {
 	This verifies the user's email. 
 */
 
-router.get('/verify', async function (req, res, next){
+router.get('/verify', async function (req, res, next) {
 	if (!req.user.verifiedemail) {
-		bcrypt.compare(req.query.token, req.user.VerifyEmailToken, async function(err, result) {
-		    if(result)
-			{
+		bcrypt.compare(req.query.token, req.user.VerifyEmailToken, async function (err, result) {
+			if (result) {
 				await UserModel.findOneAndUpdate(
 					{ _id: req.user._id },
 					{ "verifiedemail": req.user.VerifyEmailToken === req.query.token }
@@ -116,17 +115,15 @@ router.get('/verify', async function (req, res, next){
 					{ _id: req.user._id },
 					{ "VerifyEmailToken": "" }
 				);
-				res.json({ success: true, message: "Verification successful", User: req.user});
+				res.json({ success: true, message: "Verification successful", User: req.user });
 			}
-			else
-			{
-				res.json({ success: false, message: "Verification unsuccessful"});
+			else {
+				res.json({ success: false, message: "Verification unsuccessful" });
 			}
 		});
 	}
-	else
-	{
-		res.json({ success: false, message: "Email has already been verified. ", User: req.user});
+	else {
+		res.json({ success: false, message: "Email has already been verified. ", User: req.user });
 	}
 });
 
@@ -140,22 +137,20 @@ router.get('/verify', async function (req, res, next){
 	} 
 */
 
-router.post('/request_reset', async function (req, res, next)
-{
-	await UserModel.findOne({Email: req.body.Email}, async function(err, user){
+router.post('/request_reset', async function (req, res, next) {
+	await UserModel.findOne({ Email: req.body.Email }, async function (err, user) {
 		if (err) {
 			console.log(err);
-			res.status(500).json({message: 'This user does not exist'});
+			res.status(500).json({ message: 'This user does not exist' });
 		}
-		else
-		{
+		else {
 			await UserModel.findOneAndUpdate(
 				{ _id: user._id },
 				{ "resetPasswordExpires": Date.now() + 3600000 }
 			);
-			const token = jwt.sign({userId : user._id, Email:req.body.email, password:user.password}, secretkey, {expiresIn: '1h'});
-			bcrypt.genSalt(saltRounds, async function(err, salt) {
-				bcrypt.hash(token, salt, async function(err, hash) {
+			const token = jwt.sign({ userId: user._id, Email: req.body.email, password: user.password }, secretkey, { expiresIn: '1h' });
+			bcrypt.genSalt(saltRounds, async function (err, salt) {
+				bcrypt.hash(token, salt, async function (err, hash) {
 					await UserModel.findOneAndUpdate(
 						{ _id: user._id },
 						{ "resetPasswordTokenSalt": salt }
@@ -171,13 +166,13 @@ router.post('/request_reset', async function (req, res, next)
 				to: user.Email, // list of receivers
 				subject: "Password Reset Request", // Subject line
 				text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n' + reseturl + token + '\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n',
-				html: "You are receiving this because you (or someone else) have requested the reset of the password for your account.<br><a href = \""+reseturl+token+"\">Please click on this link</a><br><br>If you did not request this, please ignore this email and your password will remain unchanged.<hr><br><h9>You may copy this link and paste it into your browser " + reseturl + token + "</h9><br>", // html body
+				html: "You are receiving this because you (or someone else) have requested the reset of the password for your account.<br><a href = \"" + reseturl + token + "\">Please click on this link</a><br><br>If you did not request this, please ignore this email and your password will remain unchanged.<hr><br><h9>You may copy this link and paste it into your browser " + reseturl + token + "</h9><br>", // html body
 				auth: {
 					user: 'Team@ouluxx.com',
 					refreshToken: secrets.googleoauth2refreshtoken
 				}
 			});
-			res.status(200).json({message:"Success"});
+			res.status(200).json({ message: "Success" });
 		}
 	})
 });
@@ -186,14 +181,13 @@ router.post('/request_reset', async function (req, res, next)
 	This link is auto-generated by the post request /auth/request_reset
 */
 
-router.get("/reset_password", async function(req, res, next){
-	UserModel.findOne({ resetPasswordToken: req.query.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+router.get("/reset_password", async function (req, res, next) {
+	UserModel.findOne({ resetPasswordToken: req.query.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
 		if (!user) {
-			res.status(500).json({message: 'This user does not exist, or the password reset token has expired'});
+			res.status(500).json({ message: 'This user does not exist, or the password reset token has expired' });
 		}
-		else
-		{
-			res.render('Password_reset', { title: 'Password Reset', token:req.query.token });
+		else {
+			res.render('Password_reset', { title: 'Password Reset', token: req.query.token });
 		}
 	});
 });
@@ -205,46 +199,42 @@ router.get("/reset_password", async function(req, res, next){
 	See current form in Backend/views/Password_reset.ejs
 */
 
-router.post("/reset_password", async function(req, res, next){
+router.post("/reset_password", async function (req, res, next) {
 	console.log(req.body);
-	
 
-	UserModel.findOne({ Email: req.body.Email, resetPasswordExpires: { $gt: Date.now() } }, async function(err, user) {
+
+	UserModel.findOne({ Email: req.body.Email, resetPasswordExpires: { $gt: Date.now() } }, async function (err, user) {
 		if (!user) {
-			res.status(500).json({message: 'This user does not exist, or the token has expired'});
+			res.status(500).json({ message: 'This user does not exist, or the token has expired' });
 		}
-		else
-		{
-			bcrypt.compare(req.body.token, user.resetPasswordToken, async function(err, result) {
+		else {
+			bcrypt.compare(req.body.token, user.resetPasswordToken, async function (err, result) {
 				if (result && req.body.new_password === req.body.confirm_password) {
 					await user.setPassword(req.body.new_password);
 					await user.save();
-					req.login(user, async function(err){
-						if(err)
-						{
+					req.login(user, async function (err) {
+						if (err) {
 							console.log(err);
-							res.status(500).json({message:err+" error"});
+							res.status(500).json({ message: err + " error" });
 						}
-						else
-						{
+						else {
 							let info = await transporter.sendMail({
 								from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
 								to: user.Email, // list of receivers
 								subject: "Password Reset", // Subject line
-								text: "You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at "+supportemail+". Otherwise, you may ignore this email. \n",
-								html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:"+supportemail+"\">"+supportemail+"</a>. Otherwise, you may ignore this email. </p>", // html body
+								text: "You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at " + supportemail + ". Otherwise, you may ignore this email. \n",
+								html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:" + supportemail + "\">" + supportemail + "</a>. Otherwise, you may ignore this email. </p>", // html body
 								auth: {
 									user: 'Team@ouluxx.com',
 									refreshToken: secrets.googleoauth2refreshtoken
 								}
 							});
-							res.render('index', { title: 'Password Reset'}); /*this is effectivcely a redirect*/
+							res.render('index', { title: 'Password Reset' }); /*this is effectivcely a redirect*/
 						}
 					});
 				}
-				else
-				{
-					res.render('Password_reset', { title: 'Password Reset', token:req.body.token });
+				else {
+					res.render('Password_reset', { title: 'Password Reset', token: req.body.token });
 				}
 			});
 
@@ -266,32 +256,31 @@ JSON looks like
 
 */
 
-router.post("/change_password", async function(req, res, next){
+router.post("/change_password", async function (req, res, next) {
 	console.log(req.body);
 	if (req.user) {
 		// logged in
 		if (req.body.new_password === req.body.confirm_password) {
 			if (req.user.Created_Password) {
-				req.user.changePassword(req.body.old_password, req.body.new_password, async function(err){
+				req.user.changePassword(req.body.old_password, req.body.new_password, async function (err) {
 					if (err) {
-						res.status(500).json({message:"Error: "+err});
+						res.status(500).json({ message: "Error: " + err });
 					}
 					let info = await transporter.sendMail({
 						from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
 						to: user.Email, // list of receivers
 						subject: "Password Changed", // Subject line
-						text: "You are receiving this because you (or someone else) has changed the password associated with this email account. If this was in error, please reach out to us at "+supportemail+". Otherwise, you may ignore this email. \n",
-						html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:"+supportemail+"\">"+supportemail+"</a>. Otherwise, you may ignore this email. </p>", // html body
+						text: "You are receiving this because you (or someone else) has changed the password associated with this email account. If this was in error, please reach out to us at " + supportemail + ". Otherwise, you may ignore this email. \n",
+						html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:" + supportemail + "\">" + supportemail + "</a>. Otherwise, you may ignore this email. </p>", // html body
 						auth: {
 							user: 'Team@ouluxx.com',
 							refreshToken: secrets.googleoauth2refreshtoken
 						}
 					});
-					res.status(200).json({message:"Password changed"});/*redirect('index', {title:"Password Changed"})*/
+					res.status(200).json({ message: "Password changed" });/*redirect('index', {title:"Password Changed"})*/
 				});
 			}
-			else
-			{
+			else {
 				await user.setPassword(req.body.new_password);
 				await UserModel.findOneAndUpdate(
 					{ _id: user._id },
@@ -302,20 +291,19 @@ router.post("/change_password", async function(req, res, next){
 					from: '"Ouluxx!" <Team@ouluxx.com>', // sender address
 					to: user.Email, // list of receivers
 					subject: "Password Changed", // Subject line
-					text: "You are receiving this because you (or someone else) has changed the password associated with this email account. If this was in error, please reach out to us at "+supportemail+". Otherwise, you may ignore this email. \n",
-					html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:"+supportemail+"\">"+supportemail+"</a>. Otherwise, you may ignore this email. </p>", // html body
+					text: "You are receiving this because you (or someone else) has changed the password associated with this email account. If this was in error, please reach out to us at " + supportemail + ". Otherwise, you may ignore this email. \n",
+					html: "<p>You are receiving this because you (or someone else) has reset the password associated with this email account. If this was in error, please reach out to us at <a href = \"mailto:" + supportemail + "\">" + supportemail + "</a>. Otherwise, you may ignore this email. </p>", // html body
 					auth: {
 						user: 'Team@ouluxx.com',
 						refreshToken: secrets.googleoauth2refreshtoken
 					}
 				});
-				res.status(200).json({message:"Password changed"});/*redirect('index', {title:"Password Changed"})*/
+				res.status(200).json({ message: "Password changed" });/*redirect('index', {title:"Password Changed"})*/
 			}
-			
+
 		}
-		else
-		{
-			res.status(200).json({message: "Passwords do not match"});
+		else {
+			res.status(200).json({ message: "Passwords do not match" });
 		}
 	} else {
 		// not logged in
@@ -346,8 +334,7 @@ router.post('/register', async function (req, res) { // add and register a user,
 	if (req.user) {
 		res.status(403);
 	}
-	else
-	{
+	else {
 		var UserTypeSet = "USER";
 		if (req.body.isstore) {
 			UserTypeSet = "STORE"
@@ -363,15 +350,15 @@ router.post('/register', async function (req, res) { // add and register a user,
 			Zipcode: req.body.Zipcode,
 			UserType: UserTypeSet
 		});
-		const token = jwt.sign({userId : user._id, username:req.body.username}, secretkey, {expiresIn: '672h'}); // give 4 weeks for authorizing email
-		bcrypt.genSalt(saltRounds, function(err, salt) {
-			bcrypt.hash(token, salt, function(err, hash) {
+		const token = jwt.sign({ userId: user._id, username: req.body.username }, secretkey, { expiresIn: '672h' }); // give 4 weeks for authorizing email
+		bcrypt.genSalt(saltRounds, function (err, salt) {
+			bcrypt.hash(token, salt, function (err, hash) {
 				user.VerifyEmailTokenSalt = salt;
 				user.VerifyEmailToken = hash;
 			});
 		});
 
-		
+
 		await UserModel.register(user, req.body.password, async function (err) {
 			if (err) {
 				console.log("Error: ", err);
@@ -383,21 +370,21 @@ router.post('/register', async function (req, res) { // add and register a user,
 					to: user.Email, // list of receivers
 					subject: "Welcome to Ouluxx!", // Subject line
 					text: "Welcome to Ouluxx! We hope you have a good time making use of our services. Please use this address to verify your email " + url + token, // plain text body
-					html: "<p>Welcome to Ouluxx! We hope you have a good time making use of our services. Please press this link to verify your email address <a href = \"" + url + token + "\">HERE</a></p><br><hr><br><h9>Or click here: "+ url + token + "</h9>", // html body
+					html: "<p>Welcome to Ouluxx! We hope you have a good time making use of our services. Please press this link to verify your email address <a href = \"" + url + token + "\">HERE</a></p><br><hr><br><h9>Or click here: " + url + token + "</h9>", // html body
 					auth: {
 						user: 'Team@ouluxx.com',
 						refreshToken: secrets.googleoauth2refreshtoken
 					}
 				});
-				req.login(user, function(err) {
+				req.login(user, function (err) {
 					// TODO
 					// if store add redirect for funding details
-					res.json({ success: true, message: "Authentication successful", User: req.user});
+					res.json({ success: true, message: "Authentication successful", User: req.user });
 				});
 			}
 		});
 	}
-	
+
 });
 
 /*
@@ -422,7 +409,7 @@ facebook authentication, registers a user and authenticates a user if using the 
 */
 
 router.get('/facebook',
-	passport.authenticate('facebook', { scope : ['email'] }));
+	passport.authenticate('facebook', { scope: ['email'] }));
 
 /*
 facebook callback login helper. 
@@ -430,7 +417,7 @@ facebook callback login helper.
 
 router.get('/facebook/callback',
 	passport.authenticate('facebook', { failureRedirect: 'http://localhost:4000/' }),
-	function(req, res) {
+	function (req, res) {
 		// Successful authentication, redirect home.
 		console.log(req.body);
 		//res.json({success:true, message:"Authentication successful", User:req.user});
@@ -444,8 +431,8 @@ Google authentication, registers a user and authenticates a user if using the Go
 
 
 router.get("/google", passport.authenticate("google", {
-		scope: ["profile", "email"]
-	}));
+	scope: ["profile", "email"]
+}));
 
 /*
  TODO redirect to frontend address page. 
@@ -456,11 +443,11 @@ Google authentication helper.
 */
 
 router.get("/google/callback", passport.authenticate('google', { failureRedirect: 'http://localhost:4000/' }),
-	function(req, res) {
+	function (req, res) {
 		// Successful authentication, redirect home.
 		console.log(req.body);
 		//res.json({success:true, message:"Authentication successful", User:req.user});
 		res.redirect('http://localhost:4000/SUCCESS');
-});
+	});
 
 module.exports = router;

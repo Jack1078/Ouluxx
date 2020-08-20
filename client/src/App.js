@@ -9,6 +9,10 @@ import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import StorePage from './layouts/StorePage/storePage_h';
 import SharedPage from './layouts/SharedPage/shared_h';
 import CartPage from './layouts/CartPage/cart_h';
+import AccountPage from './layouts/AccountPage/accountPage_h';
+import LoginPage from './layouts/LoginPage/login_h';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // default theme
 const theme = createMuiTheme({
@@ -31,6 +35,8 @@ function App() {
             <Route path="/stores/:store/room/:roomID" exact component={StorePage} />
             <Route path="/room/:roomID" exact component={SharedPage} />
             <Route path="/cart" exact component={CartPage} />
+            <Route path="/accountpage" component={AccountPage} />
+            <Route path="/login" component={LoginPage} />
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>
