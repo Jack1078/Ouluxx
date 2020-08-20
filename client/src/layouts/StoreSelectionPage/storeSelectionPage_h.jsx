@@ -43,17 +43,17 @@ const filters = ["All", "Drugstore", "Groceries", "Pet Supplies", "Meals"];
 
 
 const StoreSelect = (props) => {
-    // console.log("Props: ", props);
+    console.log("Props: ", props);
     // console.log("Zipcode: ", props.location.state.zipcode);
     var temp = '';
-    if (props.location && props.location.state.zipcode)
+    if (props.location && props.location.state && props.location.state.zipcode)
         temp = props.location.state.zipcode;
     const [active, setActive] = useState('All');
     const [zipcode, setZipcode] = useState(temp);
     const [currStores, setCurrStores] = useState([]);
     // const [currPage, setCurrPage] = useState(1);
 
-    const data = {"Zipcode" : zipcode}
+    const data = { "Zipcode": zipcode }
 
     // useEffect(() => {
     //     setCurrPage(1);
@@ -82,7 +82,7 @@ const StoreSelect = (props) => {
             var temp = JSON.parse(respData);
             // console.log("JSON.parse(respData) =", JSON.parse(respData));
             setCurrStores(currStores.splice(0, currStores.length, ...temp));
-            // console.log("Data Recieved | Stores= ", currStores);
+            console.log("Data Recieved | Stores= ", currStores);
             // return JSON.parse(respData);
         }).catch((err) => {
             console.log(err);
@@ -109,10 +109,10 @@ const StoreSelect = (props) => {
     const handleSelection = (name) => {
         // console.log(event);
         // props.history.push({
-            // pathname: `/stores/${name}`
+        // pathname: `/stores/${name}`
         // })
     };
-    
+
 
     return (
         <div className={classes.background}>

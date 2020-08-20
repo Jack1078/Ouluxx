@@ -13,6 +13,10 @@ import BackButton from '../../components/BackButton/backButton_c';
 import { FaGoogle } from 'react-icons/fa';
 import logo from '../../images/logo.png';
 import classes from './signup_k.module.css';
+//import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Input } from '@material-ui/core';
+import { Row, Col, Container } from 'react-bootstrap';
+
 
 /**
  * Email sign up container
@@ -34,7 +38,7 @@ function SignUp() {
             </div>
 
             {/* Email Sign up */}
-            <form className={classes.form}>
+            <form className={classes.form} action="/auth/register" method="POST" >
 
                 {/* Logo */}
                 <span className={classes.title}>

@@ -20,12 +20,15 @@ const ZipcodeForm = (props) => {
     };
 
     const handleSubmit = (event) => {
-        console.log("Props: ", props)
+        console.log("Props: ", props);
         event.preventDefault();
-        props.history.push({
-            pathname: '/stores',
-            state
-        });
+        if (state.zipcode.length === 5 && (/[0-9]/).test(state.zipcode))
+            props.history.push({
+                pathname: '/stores',
+                state
+            });
+        else
+            alert("Please enter a valid zipcode")
     };
 
     console.log("State: ", state);

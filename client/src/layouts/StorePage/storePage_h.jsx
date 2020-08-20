@@ -16,197 +16,20 @@ import Draggable from 'react-draggable';
 
 var data = { "StoreID": "5f19dba9b8b917200936610d" }; //need a way to automate this
 
-const products = [
-    {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "plant",
-        categories: ["plant"],
-        img_url: "plant.jpeg",
-        rating: 3.2,
-        price: 420.69,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }, {
-        name: "red T-shirt",
-        categories: ["shirt", "t-shirt", "clothing"],
-        img_url: "t-shirt.jpeg",
-        rating: 4.5,
-        price: 100.32,
-    }, {
-        name: "shirt",
-        categories: ["shirt", "clothing"],
-        img_url: "shirt.jpeg",
-        rating: 5,
-        price: 13.5,
-    }];
-
-//Items that are in the cart are contained here
-// These items should be fetched from a users cart
-const orders = [
-    {
-        num: 1,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 2,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 3,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 4,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 5,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    },
-    {
-        num: 6,
-        name: "red T-shirt",
-        price: 100.32,
-        img_url: "t-shirt.jpeg",
-    }
-];
-
 const categories = ['All', 'shirt', 't-shirt', 'clothing', 'plant'];
-
-
 
 const StorePage = (props) => {
     const storeName = props.match.params.store;
     const storeImgUrl = 'cvs.png';
     const storeRating = 4;
-    const [currProducts, setCurrProducts] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [currProducts, setCurrProducts] = useState(products);
     const [currPage, setCurrPage] = useState(1);
 
     // filter products based on categories
     const filterProductHandler = (category) => {
         setCurrProducts(products.filter(product =>
-            category === "All" ? true : product.categories.includes(category)
+            category === "All" ? true : product.Category.includes(category)
         ));
     }
 
@@ -246,26 +69,15 @@ const StorePage = (props) => {
         }).then((respData) => {
             var temp = JSON.parse(respData);
             // console.log("JSON.parse(respData) =", JSON.parse(respData));
-            setCurrProducts(currProducts.splice(0, currProducts.length, ...temp));
-            // console.log("Data Recieved | Products= ", currProducts);
+            setProducts(products.splice(0, products.length, ...temp));
+            console.log("Data Recieved | Products= ", products);
+            console.log("Data Recieved | Current Products= ", currProducts);
             // return JSON.parse(respData);
         }).catch((err) => {
             console.log(err);
             return (err);
         });
     };
-
-    // const displayProducts = (items) => { /* items should be an array of products*/
-    //     console.log("items: ", items);
-    //     if (!items.length) return null;
-    //     return items.map((item, index) => (
-    //         <div key={index}>
-    //             <h5>Name: {item.Name}</h5>
-    //             <p>Price: {item.Price}</p>
-    //         </div>
-    //     ));
-    // };
-
 
     return (
         <div>
@@ -344,7 +156,7 @@ const StorePage = (props) => {
                 <div className={classes.grid_2r}>
                     <div></div>
                     <MiniCart
-                        orders={orders}
+                    // orders={orders}
                     />
                     <div></div>
                 </div>
