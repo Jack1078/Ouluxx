@@ -20,19 +20,18 @@ function Description() {
                 <img src={shop_img} alt="shopping car" />
                 <img src={bag_img} alt="a bag" />
                 <h3>Brands you love</h3>
-                <h3>Same day delivery</h3>
-                <h3>Save time and money</h3>
+                <h3>Support small businesses</h3>
+                <h3>Save time and money</h3> 
                 <div className={classes.text}>
                     Browse and find our next favorite product from stores you already shop from
-                    our mobile app and website
+                    and stores you have yet to find, 
                 </div>
-                <div className={classes.text}>
-                    We make deliveries to cities like Washington, DC,
-                    Silver Spring, College Park and many more.
+                <div className={classes.text}> 
+                    Due to Covid-19 small businesses need your help to stay in businesses.
+                    You can support your local stores right here!
                 </div>
-                <div className={classes.text}>
+                <div className={classes.text}> 
                     Find deals on popular products and brands<br />
-                    &mdash; delivered right to your door
                 </div>
             </div>
 
@@ -40,9 +39,9 @@ function Description() {
             <div className={[classes.grid, classes.two_per_row].join(' ')}>
 
                 <div className={[classes.box, classes.img, classes.deliveryGuy_img].join(' ')}></div>
-                <div className={classes.box}>
-                    <h3>The Best Brands Instantly Delivered to You </h3>
-                    <div className={classes.text}>The Brand you love, we bring to you when you need them the most.</div>
+                <div className={classes.box}> {/* //! */}
+                    <h3>Local brands in the palm of your hand </h3>
+                    <div className={classes.text}>All the brands you love together in one marketplace</div>
                     <div className={[classes.margin_top, classes.margin_left].join(' ')}>
                         <Button
                             className={classes.button}
@@ -75,7 +74,7 @@ function Description() {
                 <div className={[classes.margin_auto, classes.button_delivery].join(' ')}>
                     <Button
                         id="delivery_button"
-                        text="Get Delivery now"
+                        text="Sign up now"
                         color="primary"
                         fontColor="white"
                         component={Link} to="/signup" />
