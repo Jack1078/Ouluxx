@@ -12,7 +12,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import BackButton from '../../components/BackButton/backButton_c';
 import { FaGoogle } from 'react-icons/fa';
 import logo from '../../images/logo.png';
-import classes from './signup_k.module.css';
+import classes from './signup_k.module.css'; 
 //import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Input } from '@material-ui/core';
 import { Row, Col, Container } from 'react-bootstrap';
@@ -80,11 +80,11 @@ function SignUp() {
                     <Textfield
                         className={classes.textfield}
                         id="email-textfield"
-                        label="Email" 
+                        label="Email"
                         name="Email"
-                        // required
-                        />
-                        
+                    // required
+                    />
+
                 </div>
 
                 <div className={classes.block}>
@@ -93,7 +93,7 @@ function SignUp() {
                         label="Username"
                         name="username"
                         type="text"
-                        // required
+                    // required
                     />
                 </div>
 
@@ -103,7 +103,7 @@ function SignUp() {
                         label="Password"
                         name="password"
                         type="password"
-                        // required
+                    // required
 
                     />
                 </div>
@@ -114,7 +114,7 @@ function SignUp() {
                         label="Zipcode"
                         name="Zipcode"
                         type="text"
-                        // required
+                    // required
                     />
                 </div>
 
@@ -141,7 +141,7 @@ function SignUp() {
                 {/* Sign up with facebook or google account */}
                 <MuiThemeProvider theme={button_theme}>
                     <div className={classes.block}>
-                        <a href="http://localhost:4000/auth/facebook" >
+                        <a href="http://localhost:8000/auth/facebook" >
                             <Button
                                 id="facebook_signup_button"
                                 text="Continue with Facebook"
@@ -151,7 +151,7 @@ function SignUp() {
                         </a>
                     </div>
                     <div className={classes.block}>
-                        <a href="http://localhost:4000/auth/google" >
+                        <a href="http://localhost:8000/auth/google" >
                             <Button
                                 id="google_signup_button"
                                 text="Continue with Google"
