@@ -50,10 +50,6 @@ const StorePage = (props) => {
         get_products(data);
     }, []);
 
-    useEffect(() => {
-        get_products(data);
-    }, []);
-
     //Items here are products within a store
     //These items should be fetched from a store's inventory
     const get_products = (json_data) => {

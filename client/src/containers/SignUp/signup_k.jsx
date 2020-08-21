@@ -106,7 +106,7 @@ function SignUp() {
                 {/* Sign up with facebook or google account */}
                 <MuiThemeProvider theme={button_theme}>
                     <div className={classes.block}>
-                        <a href="http://localhost:4000/auth/facebook" >
+                        <a href="http://localhost:8000/auth/facebook" >
                             <Button
                                 id="facebook_signup_button"
                                 text="Continue with Facebook"
@@ -116,7 +116,7 @@ function SignUp() {
                         </a>
                     </div>
                     <div className={classes.block}>
-                        <a href="http://localhost:4000/auth/google" >
+                        <a href="http://localhost:8000/auth/google" >
                             <Button
                                 id="google_signup_button"
                                 text="Continue with Google"

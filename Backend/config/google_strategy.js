@@ -7,7 +7,7 @@ const secrets = require('../secrets/secrets');
 var Google_Strategy = new GoogleStrategy({
 		clientID: secrets.googleclientid,
 		clientSecret: secrets.googlesecretid,
-		callbackURL: "http://localhost:4000/auth/google/callback"
+		callbackURL: "http://localhost:8000/auth/google/callback"
 	}, 
 	function (accessToken, refreshToken, profile, done) {
 		let profileInfo = profile._json;
@@ -64,7 +64,7 @@ var Google_Strategy = new GoogleStrategy({
 						else
 						{
 							//res.json({success:true, message:"Authentication successful", User:req.user});
-							//res.redirect('http://localhost:4000/SUCCESS');
+							//res.redirect('http://localhost:8000/SUCCESS');
 							return done(null, user);
 						} 
 					});

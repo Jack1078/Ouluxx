@@ -29,8 +29,8 @@ router.get('/', function (req, res, next) {
 
 
 const OAUTH_PLAYGROUND = 'https://developers.google.com/oauthplayground';
-const url = "http://localhost:4000/auth/verify?token=";
-const reseturl = "http://localhost:4000/auth/reset_password?token=";
+const url = "http://localhost:8000/auth/verify?token=";
+const reseturl = "http://localhost:8000/auth/reset_password?token=";
 const supportemail = "email@email.com";
 const secretkey = "7BA9089A4146368B9257498CE6DE27C2ABB095B8AA77C4018322F1AB43AB9103";
 
@@ -416,12 +416,12 @@ facebook callback login helper.
 */
 
 router.get('/facebook/callback',
-	passport.authenticate('facebook', { failureRedirect: 'http://localhost:4000/' }),
+	passport.authenticate('facebook', { failureRedirect: 'http://localhost:8000/' }),
 	function (req, res) {
 		// Successful authentication, redirect home.
 		console.log(req.body);
 		//res.json({success:true, message:"Authentication successful", User:req.user});
-		res.redirect('http://localhost:4000/SUCCESS');
+		res.redirect('http://localhost:8000/SUCCESS');
 	});
 
 
@@ -442,12 +442,12 @@ router.get("/google", passport.authenticate("google", {
 Google authentication helper. 
 */
 
-router.get("/google/callback", passport.authenticate('google', { failureRedirect: 'http://localhost:4000/' }),
+router.get("/google/callback", passport.authenticate('google', { failureRedirect: 'http://localhost:8000/' }),
 	function (req, res) {
 		// Successful authentication, redirect home.
 		console.log(req.body);
 		//res.json({success:true, message:"Authentication successful", User:req.user});
-		res.redirect('http://localhost:4000/SUCCESS');
+		res.redirect('http://localhost:8000/SUCCESS');
 	});
 
 module.exports = router;
