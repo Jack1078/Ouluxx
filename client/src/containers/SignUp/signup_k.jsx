@@ -80,7 +80,42 @@ function SignUp() {
                     <Textfield
                         className={classes.textfield}
                         id="email-textfield"
-                        label="Email" />
+                        label="Email" 
+                        name="Email"
+                        // required
+                        />
+                        
+                </div>
+
+                <div className={classes.block}>
+                    <Textfield
+                        className={classes.textfield}
+                        label="Username"
+                        name="username"
+                        type="text"
+                        // required
+                    />
+                </div>
+
+                <div className={classes.block}>
+                    <Textfield
+                        className={classes.textfield}
+                        label="Password"
+                        name="password"
+                        type="password"
+                        // required
+
+                    />
+                </div>
+
+                <div className={classes.block}>
+                    <Textfield
+                        className={classes.textfield}
+                        label="Zipcode"
+                        name="Zipcode"
+                        type="text"
+                        // required
+                    />
                 </div>
 
 

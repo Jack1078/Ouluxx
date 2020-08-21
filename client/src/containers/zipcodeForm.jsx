@@ -33,13 +33,13 @@ const ZipcodeForm = (props) => {
     const handleSubmit = (event) => {
         console.log("Props: ", props);
         event.preventDefault();
-        if (state.zipcode.length === 5 && (/[0-9]/).test(state.zipcode))
-            props.history.push({
-                pathname: '/stores',
-                state
-            });
-        else
-            alert("Please enter a valid zipcode")
+        // if (state.zipcode.length === 5 && (/[0-9]/).test(state.zipcode))
+        props.history.push({
+            pathname: '/stores',
+            state
+        });
+        // else
+        //     alert("Please enter a valid zipcode")
     };
 
     console.log("State: ", state);
@@ -65,6 +65,9 @@ const ZipcodeForm = (props) => {
                                     className={style.textfield}
                                     color="primary"
                                     variant="outlined"
+                                    inputProps={{ pattern: "^[0-9]{5}" }}
+                                    helperText={state.zipcode === "" ? "" : "Please enter your 5-digit zipcode"}
+                                    error={state.zipcode.length > 5 || (/[^0-9]/g).test(state.zipcode)}
                                     value={state.zipcode}
                                     onChange={handleChange}
                                     autoComplete="off"
