@@ -43,7 +43,7 @@ const User = new mongoose.Schema({
 			Description: String,
 			Quantity: Number,
 			Price: Number,
-			Subtotal: Number,
+			// Subtotal: Number,    // can be updated on the front end
 			// Date_Ordered: {		// Needs to update at checkout, not when added to cart
 			// 	type: Date,
 			// 	default: Date.now
