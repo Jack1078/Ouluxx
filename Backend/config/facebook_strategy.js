@@ -7,7 +7,7 @@ const secrets = require('../secrets/secrets');
 var Strategy = new FacebookStrategy({
 	clientID: secrets.facebookclientid,
 	clientSecret: secrets.facebooksecretid,
-	callbackURL: "http://localhost:4000/auth/facebook/callback", 
+	callbackURL: "http://localhost:8000/auth/facebook/callback", 
 	profileFields: ['email','id', 'first_name', 'last_name']
 	},
 	function(accessToken, refreshToken, profile, done) {
