@@ -46,9 +46,7 @@ router.post('/get_user', async function (req, res, next) {
 });
 
 router.post('/get_logged_in', async function (req, res, next) {
-	await UserModel.findOne({ _id: req.user._id) }, function (err, UserModel) {
-		res.json(JSON.stringify(UserModel))
-	});
+	res.json(JSON.stringify(req.user));
 });
 
 //updates user information in the database
