@@ -152,12 +152,14 @@ JSON is structured like this:
 */
 //adds an item to the user's cart
 router.post('/add_to_cart', async function (req, res, next) {
+	// console.log(req.body);
+	// console.log(req.user);
 	if (req.user && req.user.UserType === "USER") 
 	{
 		//must be logged in
 		var itemprice = parseFloat(req.body.Price);
 		var CartItem = {
-			UserID: req.user.userid,
+			UserID: req.user._id,
 			ItemID: req.body.ItemID,
 			ItemName: req.body.ItemName,
 			Description: req.body.Description,
