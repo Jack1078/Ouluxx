@@ -1,17 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classes from './navBar_k.module.css';
-import { MdStoreMallDirectory, MdAccountCircle } from 'react-icons/md'
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { Row, Col, Container, Dropdown, Button, Input } from 'react-bootstrap';
+import { MdAccountCircle } from 'react-icons/md'
+import { Row, Col, Dropdown, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import ZipCodeForm from './../containers/zipcodeForm';
 import Textfield from '../components/textfield_c';
-
-
-
-
-
 
 /**
  * Navigation bar
@@ -58,14 +51,6 @@ const NavBar = (props) => {
                         </div>
 
                     </div>
-                    {/* <div
-                        className={[classes.btn, classes.store_btn].join(' ')}
-                        onClick={() => storeOnClick()}>
-                        <Row className="justify-content-center">
-                            <div className={classes.btn_icon}><MdStoreMallDirectory /></div>
-                            <div className={classes.btn_txt}>Stores</div>
-                        </Row>
-                    </div> */}
 
                     <div></div>
                     <Dropdown>
@@ -84,14 +69,6 @@ const NavBar = (props) => {
                             <Button variant="outline-danger" type="submit">Log Out</Button>
                         </div>
                     </form>
-                    {/* <div
-                        className={classes.btn}
-                        onClick={() => cartOnClick()}>
-                        <Row className="justify-content-center">
-                            <div className={classes.btn_icon}><AiOutlineShoppingCart /></div>
-                            <div className={classes.btn_txt}>Cart</div>
-                        </Row>
-                    </div> */}
                     <div></div>
 
                 </div>
