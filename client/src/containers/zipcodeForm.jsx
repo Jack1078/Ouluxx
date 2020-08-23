@@ -33,13 +33,10 @@ const ZipcodeForm = (props) => {
     const handleSubmit = (event) => {
         console.log("Props: ", props);
         event.preventDefault();
-        // if (state.zipcode.length === 5 && (/[0-9]/).test(state.zipcode))
         props.history.push({
-            pathname: '/stores',
+            pathname: '/signup',
             state
         });
-        // else
-        //     alert("Please enter a valid zipcode")
     };
 
     console.log("State: ", state);
@@ -81,7 +78,7 @@ const ZipcodeForm = (props) => {
                             Already have an account?&nbsp;
                             <Link
                                 className={style.link}
-                                to="/signup"
+                                to="/login"
                             >
                                 Log in
                             </Link>

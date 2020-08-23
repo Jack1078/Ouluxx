@@ -362,6 +362,7 @@ router.post('/register', async function (req, res) { // add and register a user,
 		await UserModel.register(user, req.body.password, async function (err) {
 			if (err) {
 				console.log("Error: ", err);
+				// res.redirect(303, '/signup'); //! need to add a message along with redirecting back to original page
 				res.json({ success: false, message: "Your account could not be saved. Error: ", err })
 			}
 			else {
@@ -379,7 +380,8 @@ router.post('/register', async function (req, res) { // add and register a user,
 				req.login(user, function (err) {
 					// TODO
 					// if store add redirect for funding details
-					res.json({ success: true, message: "Authentication successful", User: req.user });
+					res.redirect(303, '/stores'); //! need to add a message along with redirecting back to original page
+					// res.json({ success: true, message: "Authentication successful", User: req.user });
 				});
 			}
 		});
@@ -391,8 +393,9 @@ router.post('/register', async function (req, res) { // add and register a user,
 Log the user in with a local strategy. It returns unauthorized if it fails. 
 */
 
-router.post('/login', passport.authenticate('local', { failureFlash: true }), function (req, res) {
-	res.json({ success: true, message: "LOGIN SUCCESS", User: req.user });
+router.post('/login', passport.authenticate('local', { failureRedirect: "/login" }), function (req, res) {
+	res.redirect(303, '/stores');
+	// res.json({ success: true, message: "LOGIN SUCCESS", User: req.user });
 });
 
 /*
@@ -401,7 +404,8 @@ Logs out the user, does nothing if no user logged in.
 
 router.post('/logout', function (req, res) {
 	req.logout();
-	res.json({ success: true, message: "LOGOUT SUCCESS" });
+	res.redirect(303, '/');
+	// res.json({ success: true, message: "LOGOUT SUCCESS" });
 });
 
 /*
