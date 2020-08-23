@@ -43,7 +43,7 @@ const filters = ["All", "Drugstore", "Groceries", "Pet Supplies", "Meals"];
 
 
 const StoreSelect = (props) => {
-    console.log("Props: ", props);
+    // console.log("Props: ", props);
     // console.log("Zipcode: ", props.location.state.zipcode);
     var temp = '';
     if (props.location && props.location.state && props.location.state.zipcode)
@@ -60,6 +60,7 @@ const StoreSelect = (props) => {
     // }, [currStores]);
 
     useEffect(() => {
+        const user = get_user();
         get_stores(data);
     }, []);
 
@@ -67,10 +68,30 @@ const StoreSelect = (props) => {
         get_stores(data);
     }, []);
 
-    // var stores1 = [];
+    const get_user = () => {
+        return fetch("/users/get_logged_in", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            // body: JSON.stringify(json_data)
+        }).then((response) => {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server");
+            }
+            return response.json();
+        }).then((respData) => {
+            var temp = JSON.parse(respData);
+            // console.log("JSON.parse(respData) =", JSON.parse(respData));
+            setZipcode(temp.Zipcode)
+        }).catch((err) => {
+            console.log(err);
+            return (err);
+        });
+    };
+
+
     const get_stores = (json_data) => {
         return fetch("/store/get_store_with_property", {
-            method: 'GET',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(json_data)
         }).then((response) => {
@@ -80,9 +101,9 @@ const StoreSelect = (props) => {
             return response.json();
         }).then((respData) => {
             var temp = JSON.parse(respData);
-            // console.log("JSON.parse(respData) =", JSON.parse(respData));
+            console.log("JSON.parse(respData) =", JSON.parse(respData));
             setCurrStores(currStores.splice(0, currStores.length, ...temp));
-            console.log("Data Recieved | Stores= ", currStores);
+            // console.log("Data Recieved | Stores= ", currStores);
             // return JSON.parse(respData);
         }).catch((err) => {
             console.log(err);
