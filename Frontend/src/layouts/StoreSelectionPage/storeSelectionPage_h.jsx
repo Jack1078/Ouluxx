@@ -5,6 +5,8 @@ import classes from './storeSelectionPage_h.module.css';
 import Filter from '../../containers/Filter/filter_k';
 import Logo from '../../images/logo.png';
 import NavBar from '../../containers/navBar_k';
+import Footer from './../../containers/footer_k';
+
 
 /**
  * Layout for the Store Selection page
@@ -93,38 +95,85 @@ const StoreSelect = () => {
     const [active, setActive] = useState('All');
     const [zipcode, setZipcode] = useState('11791');
 
+
+
+    const [address, setAddress] = useState("")
+    const [state, setState] = useState("")
+    const [country, setCountry] = useState("")
+    const [zip, setZip] = useState("")
+
+
+
+    //return the fetch to return the promise
+    const Get_User = (json_data) => {
+        return fetch("/users/get_user", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            // body: JSON.stringify(json_data),
+        }).then((response) => {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server");
+            }
+            return response.json();
+        }).then((respData) => {
+            console.log(JSON.parse(respData));
+
+            return JSON.parse(respData);
+        }).catch((err) => {
+            console.log(err);
+            return (err);
+        });
+    };
+
+
+    //create the promise, then work on the promise
+    //all working on the response must occur in an async function like this. 
+    var testing = Get_User();
+    testing.then((response) => {
+        console.log(response);
+        testing = response;
+        //console.log(testing)
+        setZip(testing.Zipcode);
+        setCountry(testing.name);
+        setState(testing.State);
+    })
+
+
     return (
+        <>
+            <div className={classes.background}>
 
-        <div className={classes.background}>
-            <NavBar />
-            <div className={classes.logo_container}>
-                <img src={Logo} alt='Ouluxx logo' height="45px" />
-            </div>
-            <div className={classes.zipcode_container}>
-                Select Store for Delivery in&nbsp;<span style={{ fontWeight: 'bold' }}>{zipcode}</span>
-            </div>
-            <div className={classes.filter_container}>
-                <Filter
-                    active={active}
-                    onChange={active => setActive(active)}
-                >
-                    {filters.map((filter) => {
-                        return (
-                            <div key={filter}>
-                                {filter}
-                            </div>
-                        );
-                    })}
-                </Filter>
-            </div>
+                <div className={classes.logo_container}>
+                    <img src={Logo} alt='Ouluxx logo' height="45px" />
+                </div>
+                <div className={classes.zipcode_container}>
+                    Select Store for Delivery in&nbsp;<span style={{ fontWeight: 'bold' }}>{zipcode}</span>
+                </div>
+                <div className={classes.filter_container}>
+                    <Filter
+                        active={active}
+                        onChange={active => setActive(active)}
+                    >
+                        {filters.map((filter) => {
+                            return (
+                                <div key={filter}>
+                                    {filter}
+                                </div>
+                            );
+                        })}
+                    </Filter>
+                </div>
 
-            <div className={classes.recommend_container}>
-                Recommend Stores
+                <div className={classes.recommend_container}>
+                    Recommend Stores
             </div>
-            <div className={classes.stores_container}>
-                {filteredStores(stores, active)}
+                <div className={classes.stores_container}>
+                    {filteredStores(stores, active)}
+                </div>
             </div>
-        </div>
+            <Footer />
+
+        </>
     );
 
 }
