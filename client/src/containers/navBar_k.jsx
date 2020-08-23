@@ -28,11 +28,11 @@ const NavBar = (props) => {
             <div className={classes.nav_bar}>
                 <div className={classes.grid_5c}>
 
-                    <div
-                        className={classes.logo}
-                        onClick={() => logoOnClick()}>
-                        <strong> OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong></div>
-
+                    <a href="/stores" style={{textDecoration:"none", color:"white"}}>
+                        <div className={classes.logo}>
+                            <strong> OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>
+                        </div>
+                    </a>
 
                     <div>
 
