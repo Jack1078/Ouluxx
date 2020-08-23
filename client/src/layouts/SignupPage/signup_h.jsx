@@ -16,7 +16,7 @@ import Navbar from '../../containers/navBar_k';
 function SignUp() {
     return (
         <div>
-            <Navbar />
+
             <section className={classes.background_image}>
                 <div className={classes.margin_left}>
                     <Link to="/login"><Button
