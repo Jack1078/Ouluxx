@@ -339,8 +339,9 @@ router.post('/register', async function (req, res) { // add and register a user,
 		if (req.body.isstore) {
 			UserTypeSet = "STORE"
 		}
+		var email = req.body.Email.toLowerCase();
 		user = new UserModel({
-			Email: req.body.Email,
+			Email: email,
 			username: req.body.username,
 			FirstName: req.body.FirstName,
 			LastName: req.body.LastName,
@@ -350,7 +351,7 @@ router.post('/register', async function (req, res) { // add and register a user,
 			Zipcode: req.body.Zipcode,
 			UserType: UserTypeSet
 		});
-		const token = jwt.sign({ userId: user._id, username: req.body.username }, secretkey, { expiresIn: '672h' }); // give 4 weeks for authorizing email
+		const token = jwt.sign({ userId: user._id, email: email }, secretkey, { expiresIn: '672h' }); // give 4 weeks for authorizing email
 		bcrypt.genSalt(saltRounds, function (err, salt) {
 			bcrypt.hash(token, salt, function (err, hash) {
 				user.VerifyEmailTokenSalt = salt;
