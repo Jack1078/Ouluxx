@@ -1,0 +1,12 @@
+.footer {
+    background-color: #181818;
+    color: white;
+    height: 40vh;
+    padding-top: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.logo {
+    font-size: 4rem;
+    color: white;
+}
