@@ -70,7 +70,7 @@ const StoreSelect = (props) => {
     // var stores1 = [];
     const get_stores = (json_data) => {
         return fetch("/store/get_store_with_property", {
-            method: 'POST',
+            method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(json_data)
         }).then((response) => {
