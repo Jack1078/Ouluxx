@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
+var zipcodes = require('zipcodes');
 const InventoryItemModel = require('../Models/Item_Model'); 
 const StoreModel = require('../Models/Store_Model'); 
 
@@ -178,8 +179,12 @@ router.post('/get_store_with_property', async function (req, res, next) {
 	// 	});
 	for (const [key, value] of Object.entries(req.body)) {
 		if (key.toString().toUpperCase() === "ZIPCODE") {
+			var rad = zipcodes.radius(Number(value), 10);
+			for (var i = 0; i < rad.length; i++) {
+				rad[i] = rad[i].toString();
+			}
 			await StoreModel.find(
-				{ "Zipcode": value.toString() },
+				{ "Zipcode": {$in: rad} },
 				function (err, StoreModel) {
 					res.json(JSON.stringify(StoreModel))
 				});
