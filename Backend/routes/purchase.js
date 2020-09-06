@@ -57,9 +57,9 @@ router.post('/cart', async function(req, res, next){
 				if (!StoreItemSeperation[item.StoreID]) {
 					StoreItemSeperation[item.StoreID] = [];
 				}
-				StoreItemSeperation[item.StoreID].push({itemid: item._id.toString(), Quantity:Item[1].Quantity, Subtotal:Item[1].Subtotal});
+				StoreItemSeperation[item.StoreID].push({itemid: item._id.toString(), Quantity:Item[1].Quantity, baseprice:item.price,totalprice:item.totalprice,Subtotal:Item[1].Subtotal});
 				itemlist.push({
-					ITemID : Item[1].ItemID,
+					ItemID : Item[1].ItemID,
 					ItemName : item.Name,
 					Quantity: Item[1].Quantity,
 					Price: Item[1].Price,
@@ -79,12 +79,12 @@ router.post('/cart', async function(req, res, next){
 		await newTransaction.save();
 		// TODO contact the seller and inform them of the purchase 
 
-		// TODO Perform the purchase
-		//console.log(newTransaction.Total*100);
+		// Perform the purchase
 		var confirm_purchase = true; // confirm with the vendor that the purchase was possible. 
 		if(confirm_purchase) // perform the purchase
 		{
 			var price = 0.0;
+			var baseprice = 0.0;
 			var totalprice = 0.0;
 			var StorePriceSeperation = {};
 			for(var storeID in StoreItemSeperation)
@@ -93,11 +93,13 @@ router.post('/cart', async function(req, res, next){
 					StorePriceSeperation[storeID] = [];
 				}
 				for (var item in StoreItemSeperation[storeID]) {
-					price+=StoreItemSeperation[storeID][item].Subtotal;
+					price+=(StoreItemSeperation[storeID][item].totalprice)*(StoreItemSeperation[storeID][item].Quantity);
+					baseprice+=(StoreItemSeperation[storeID][item].baseprice)*(StoreItemSeperation[storeID][item].Quantity);
 				}
-				StorePriceSeperation[storeID] = price;
+				StorePriceSeperation[storeID] = baseprice;
 				totalprice+=price;
 				price = 0.0;
+				tempprice = 0.0;
 			}
 			const paymentIntent = await stripe.paymentIntents.create({
 				amount: totalprice*100,
@@ -105,10 +107,12 @@ router.post('/cart', async function(req, res, next){
 			});
 			for(var key in StorePriceSeperation)
 			{
+				var transactionfee = 99;
+				var stripeoverhead = ((StorePriceSeperation[key]*0.03)+30)
 				await UserModel.find({StoreID : key}, async function(err, store){
 					console.log(StorePriceSeperation[key])
 					const transfer = await stripe.transfers.create({
-						amount: StorePriceSeperation[key], 
+						amount: (StorePriceSeperation[key]-stripeoverhead-transactionfee), 
 						currency: 'usd',
 						destination: store[0].ConnectedStripeAccountID,
 						transfer_group: newTransaction._id.toString()

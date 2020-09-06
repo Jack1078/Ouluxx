@@ -29,9 +29,15 @@ Add a single item to the DB.
 
 */
 
+const markup = 0.07;
+const MDtaxrate = 0.06;
+
 router.post('/add', async function(req, res, next) {// add an item to the db, and add it to the store. 
 	if (req.user && req.user.UserType === "STORE") {
 		var itemprice = parseFloat(req.body.itemprice);
+		var taxprice = itemprice*(1.00+MDtaxrate);
+		var markupprice = itemprice*(1.00+markup);
+		var totalprice = itemprice+(itemprice*markup)+(itemprice*MDtaxrate)
 		var newitem = new InventoryItemModel({
 			Name : req.body.itemname, 
 			Price : itemprice, 
@@ -39,7 +45,10 @@ router.post('/add', async function(req, res, next) {// add an item to the db, an
 			StoreID : req.user.StoreId, 
 			Category : req.body.categories, 
 			IdentifierName : req.body.TrueIdentifier, 
-			img: req.body.Image
+			img: req.body.Image, 
+			totalprice: totalprice, 
+			taxprice: taxprice, 
+			markupprice: markupprice
 		});
 		var number_In_Inventory = -1;
 		if (req.body.inventory != null) {

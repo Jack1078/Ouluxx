@@ -6,6 +6,7 @@ import Button from '../../components/button_c';
 import classes from './signup_h.module.css';
 import Footer from '../../containers/footer_k';
 import { Link } from 'react-router-dom';
+import Navbar from '../../containers/navBar_k';
 
 /**
  * Layout for the email sign up page
@@ -25,6 +26,7 @@ const SignUp = (props) => {
 
     return (
         <div>
+
             <section className={classes.background_image}>
                 <div className={classes.margin_left}>
                     <Link to="/login"><Button
