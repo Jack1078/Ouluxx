@@ -31,7 +31,7 @@ const ZipcodeForm = (props) => {
     };
 
     const handleSubmit = (event) => {
-        console.log("Props: ", props);
+        // console.log("Props: ", props);
         event.preventDefault();
         props.history.push({
             pathname: '/signup',
@@ -39,7 +39,7 @@ const ZipcodeForm = (props) => {
         });
     };
 
-    console.log("State: ", state);
+    // console.log("State: ", state);
     return (
         <ThemeProvider>
             <div className={style.container}>

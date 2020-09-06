@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import classes from './navBar_k.module.css';
 import { MdStoreMallDirectory, MdAccountCircle } from 'react-icons/md'
@@ -19,6 +19,26 @@ import Textfield from '../components/textfield_c';
  */
 
 const NavBar = (props) => {
+    const [state, setState] = useState({
+        zipcode: ''
+    });
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setState((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (event) => {
+        // console.log("Props: ", props);
+        event.preventDefault();
+        props.history.push({
+            pathname: '/stores',
+            state
+        });
+    };
 
     const { logoOnClick, storeOnClick, accountOnClick, cartOnClick, ...other } = props
 
@@ -37,15 +57,23 @@ const NavBar = (props) => {
                     <div>
 
                         <div >
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <Row >
                                     <Col sm={10}>
                                         <Textfield
                                             className={classes.textfield}
-                                            label="Zip Code"
-                                            name="Zip"
+                                            name="zipcode"
+                                            type="text"
+                                            label="Zipcode"
                                             size="small"
                                             fontColor="white"
+                                            placeholder="Zipcode"
+                                            inputProps={{ pattern: "^[0-9]{5}" }}
+                                            error={state.zipcode.length > 5 || (/[^0-9]/g).test(state.zipcode)}
+                                            value={state.zipcode}
+                                            onChange={handleChange}
+                                            autoComplete="off"
+                                            required
                                         />
                                     </Col>
                                     <Col xs={1}>

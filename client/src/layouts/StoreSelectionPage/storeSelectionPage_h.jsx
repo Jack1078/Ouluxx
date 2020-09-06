@@ -54,13 +54,17 @@ const StoreSelect = (props) => {
     // const [currPage, setCurrPage] = useState(1);
 
     const data = { "Zipcode": zipcode }
+    const user = {}
 
     // useEffect(() => {
     //     setCurrPage(1);
     // }, [currStores]);
 
     useEffect(() => {
-        const user = get_user();
+        if (temp === '') {
+            // console.log("Temp is undefined");
+            get_user();
+        }
         get_stores(data);
     }, []);
 
