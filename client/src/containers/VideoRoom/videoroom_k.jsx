@@ -90,6 +90,7 @@ const VideoRoom = (props) => {
                     //  send offer to their client to establish connections
                     users.forEach(peerID => {
                         const peer = create_peer(peerID, stream);
+                        console.log(peers_ref.current)
                         peers_ref.current.push({
                             peerID,
                             peer
