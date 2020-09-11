@@ -147,6 +147,13 @@ const VideoRoom = (props) => {
                 });
             });
         });
+        return () => {
+            if (screen_stream.current) {
+                screen_stream.current.getTracks()
+                    .forEach(track => track.stop())
+            }
+            socket_ref.current.disconnect();
+        };
     }, []);
 
     /* ---------------------------------------- */
