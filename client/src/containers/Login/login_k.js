@@ -46,10 +46,12 @@ const userLogIn = () => {
 
                         {/* Logo */}
                         <span className={classes.title}>
-                            <img
-                                className={classes.logo}
-                                src={logo}
-                                alt="a logo" />
+                            <a href="/">
+                                <img
+                                    className={classes.logo}
+                                    src={logo}
+                                    alt="a logo"
+                                /></a>
                         </span>
 
 
@@ -99,7 +101,7 @@ const userLogIn = () => {
                                         text="Continue with Facebook"
                                         color="primary"
                                         startIcon={<FacebookIcon />}
-                                        type="submit" />
+                                    />
                                 </a>
                             </div>
                             <div className={classes.block}>
@@ -117,7 +119,7 @@ const userLogIn = () => {
 
                         {/* Log in option */}
                         <div className={classes.login}>
-                            Don't have an account? <Link to="/"><a href=".">Sign Up</a></Link>
+                            Don't have an account? <Link to="/signup"><a href=".">Sign Up</a></Link>
                         </div>
                     </form>
                 </div>

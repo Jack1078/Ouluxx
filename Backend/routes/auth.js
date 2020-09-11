@@ -330,7 +330,7 @@ JSON request looks like this.
 */
 
 router.post('/register', async function (req, res) { // add and register a user, hashes password
-	//console.log(req.body);
+	console.log(req.body);
 	if (req.user) {
 		res.status(403);
 	}
@@ -339,8 +339,9 @@ router.post('/register', async function (req, res) { // add and register a user,
 		if (req.body.isstore) {
 			UserTypeSet = "STORE"
 		}
+		var email = req.body.Email.toLowerCase();
 		user = new UserModel({
-			Email: req.body.Email,
+			Email: email,
 			username: req.body.username,
 			FirstName: req.body.FirstName,
 			LastName: req.body.LastName,
@@ -350,7 +351,7 @@ router.post('/register', async function (req, res) { // add and register a user,
 			Zipcode: req.body.Zipcode,
 			UserType: UserTypeSet
 		});
-		const token = jwt.sign({ userId: user._id, username: req.body.username }, secretkey, { expiresIn: '672h' }); // give 4 weeks for authorizing email
+		const token = jwt.sign({ userId: user._id, email: email }, secretkey, { expiresIn: '672h' }); // give 4 weeks for authorizing email
 		bcrypt.genSalt(saltRounds, function (err, salt) {
 			bcrypt.hash(token, salt, function (err, hash) {
 				user.VerifyEmailTokenSalt = salt;
@@ -362,6 +363,7 @@ router.post('/register', async function (req, res) { // add and register a user,
 		await UserModel.register(user, req.body.password, async function (err) {
 			if (err) {
 				console.log("Error: ", err);
+				// res.redirect(303, '/signup'); //! need to add a message along with redirecting back to original page
 				res.json({ success: false, message: "Your account could not be saved. Error: ", err })
 			}
 			else {
@@ -379,7 +381,8 @@ router.post('/register', async function (req, res) { // add and register a user,
 				req.login(user, function (err) {
 					// TODO
 					// if store add redirect for funding details
-					res.json({ success: true, message: "Authentication successful", User: req.user });
+					res.redirect(303, '/stores'); //! need to add a message along with redirecting back to original page
+					// res.json({ success: true, message: "Authentication successful", User: req.user });
 				});
 			}
 		});
@@ -391,8 +394,9 @@ router.post('/register', async function (req, res) { // add and register a user,
 Log the user in with a local strategy. It returns unauthorized if it fails. 
 */
 
-router.post('/login', passport.authenticate('local', { failureFlash: true }), function (req, res) {
-	res.json({ success: true, message: "LOGIN SUCCESS", User: req.user });
+router.post('/login', passport.authenticate('local', { failureRedirect: "/login" }), function (req, res) {
+	res.redirect(303, '/stores');
+	// res.json({ success: true, message: "LOGIN SUCCESS", User: req.user });
 });
 
 /*
@@ -401,7 +405,8 @@ Logs out the user, does nothing if no user logged in.
 
 router.post('/logout', function (req, res) {
 	req.logout();
-	res.json({ success: true, message: "LOGOUT SUCCESS" });
+	res.redirect(303, '/');
+	// res.json({ success: true, message: "LOGOUT SUCCESS" });
 });
 
 /*
@@ -419,9 +424,14 @@ router.get('/facebook/callback',
 	passport.authenticate('facebook', { failureRedirect: 'http://localhost:8000/' }),
 	function (req, res) {
 		// Successful authentication, redirect home.
-		console.log(req.body);
+		console.log("user.req =", req.user);
+		console.log("user.req.email =", req.user.Email);
 		//res.json({success:true, message:"Authentication successful", User:req.user});
-		res.redirect('http://localhost:8000/SUCCESS');
+		// res.redirect('http://localhost:4000/SUCCESS');
+		if (!req.user.Email || req.user.Email.includes("@fakemail"))
+			res.redirect('http://localhost:3000/accountpage');
+		else
+			res.redirect('http://localhost:3000/stores');
 	});
 
 
@@ -447,7 +457,8 @@ router.get("/google/callback", passport.authenticate('google', { failureRedirect
 		// Successful authentication, redirect home.
 		console.log(req.body);
 		//res.json({success:true, message:"Authentication successful", User:req.user});
-		res.redirect('http://localhost:8000/SUCCESS');
+		// res.redirect('http://localhost:4000/SUCCESS');
+		res.redirect('http://localhost:3000/stores');
 	});
 
 module.exports = router;

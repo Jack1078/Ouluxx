@@ -31,18 +31,15 @@ const ZipcodeForm = (props) => {
     };
 
     const handleSubmit = (event) => {
-        console.log("Props: ", props);
+        // console.log("Props: ", props);
         event.preventDefault();
-        if (state.zipcode.length === 5 && (/[0-9]/).test(state.zipcode))
-            props.history.push({
-                pathname: '/stores',
-                state
-            });
-        else
-            alert("Please enter a valid zipcode")
+        props.history.push({
+            pathname: '/signup',
+            state
+        });
     };
 
-    console.log("State: ", state);
+    // console.log("State: ", state);
     return (
         <ThemeProvider>
             <div className={style.container}>
@@ -65,6 +62,9 @@ const ZipcodeForm = (props) => {
                                     className={style.textfield}
                                     color="primary"
                                     variant="outlined"
+                                    inputProps={{ pattern: "^[0-9]{5}" }}
+                                    helperText={state.zipcode === "" ? "" : "Please enter your 5-digit zipcode"}
+                                    error={state.zipcode.length > 5 || (/[^0-9]/g).test(state.zipcode)}
                                     value={state.zipcode}
                                     onChange={handleChange}
                                     autoComplete="off"
@@ -78,7 +78,7 @@ const ZipcodeForm = (props) => {
                             Already have an account?&nbsp;
                             <Link
                                 className={style.link}
-                                to="/signup"
+                                to="/login"
                             >
                                 Log in
                             </Link>

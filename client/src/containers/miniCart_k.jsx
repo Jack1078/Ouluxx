@@ -8,7 +8,6 @@ import classes from './miniCart_k.module.css';
  */
 
 const MiniCart = (props) => {
-    const data = { "userid": "5f2d7b4357d7468130a840f2" };  //need a way to automate this
     const [cart, setCart] = useState([]);
     // const { orders } = props;
     var { orders } = [];
@@ -17,11 +16,9 @@ const MiniCart = (props) => {
         console.log('checkout clicked ...')
     };
 
-    const get_cart = (json_data) => {
+    const get_cart = () => {
         return fetch("/users/get_cart", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(json_data)
+            method: 'POST'
         }).then((response) => {
             if (response.status >= 400) {
                 throw new Error("Bad response from server");
@@ -52,11 +49,11 @@ const MiniCart = (props) => {
     // };
 
     useEffect(() => {
-        get_cart(data);
+        get_cart();
     }, []);
 
     useEffect(() => {
-        get_cart(data);
+        get_cart();
     }, []);
 
     return (

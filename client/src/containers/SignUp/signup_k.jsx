@@ -4,7 +4,7 @@ Contains: email signup textfield, sign up button,
     continue with facebook button, continue with google button
 */
 
-import React, { useState } from 'react';
+import React, { useState, setState } from 'react';
 import { createMuiTheme, ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import Textfield from '../../components/textfield_c';
 import Button from '../../components/button_c';
@@ -31,12 +31,32 @@ const button_theme = createMuiTheme({
     }
 })
 
-function SignUp() {
+const SignUp = (props) => {
+    const { zipcode } = props;
+    // console.log("data =", props);
+    const [state, setState] = useState({
+        FirstName: '',
+        LastName: '',
+        Email: '',
+        username: '',
+        password: '',
+        Zipcode: zipcode
+    });
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setState((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
     return (
         <div className={classes.container}>
             {/* back to zip code page */}
             <div>
-                <BackButton />
+                <br />
+                {/* <BackButton /> */}
             </div>
 
             {/* Email Sign up */}
@@ -44,10 +64,12 @@ function SignUp() {
 
                 {/* Logo */}
                 <span className={classes.title}>
-                    <img
-                        className={classes.logo}
-                        src={logo}
-                        alt="a logo" />
+                    <a href="/">
+                        <img
+                            className={classes.logo}
+                            src={logo}
+                            alt="a logo"
+                        /></a>
                 </span>
 
                 {/* Location changes based on zip code */}
@@ -61,6 +83,8 @@ function SignUp() {
                         label="First Name"
                         name="FirstName"
                         type="text"
+                        value={state.FirstName}
+                        onChange={handleChange}
 
                     />
                 </div>
@@ -70,6 +94,8 @@ function SignUp() {
                         label="Last Name"
                         name="LastName"
                         type="text"
+                        value={state.LastName}
+                        onChange={handleChange}
 
                     />
                 </div>
@@ -80,7 +106,51 @@ function SignUp() {
                     <Textfield
                         className={classes.textfield}
                         id="email-textfield"
-                        label="Email" />
+                        label="Email"
+                        name="Email"
+                        value={state.Email}
+                        onChange={handleChange}
+                        required
+                    />
+
+                </div>
+
+                <div className={classes.block}>
+                    <Textfield
+                        className={classes.textfield}
+                        label="Username"
+                        name="username"
+                        type="text"
+                        value={state.username}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className={classes.block}>
+                    <Textfield
+                        className={classes.textfield}
+                        label="Password"
+                        name="password"
+                        type="password"
+                        value={state.password}
+                        onChange={handleChange}
+                        required
+
+                    />
+                </div>
+
+                <div className={classes.block}>
+                    <Textfield
+                        className={classes.textfield}
+                        label="Zipcode"
+                        name="Zipcode"
+                        type="text"
+                        value={state.Zipcode}
+                        onChange={handleChange}
+                        error={state.Zipcode.length > 5 || (/[^0-9]/g).test(state.Zipcode)}
+                        required
+                    />
                 </div>
 
 

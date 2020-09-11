@@ -1,10 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import classes from './navBar_k.module.css';
 import { MdAccountCircle } from 'react-icons/md'
 import { Row, Col, Dropdown, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import Textfield from '../components/textfield_c';
+
 
 /**
  * Navigation bar
@@ -12,6 +10,26 @@ import Textfield from '../components/textfield_c';
  */
 
 const NavBar = (props) => {
+    const [state, setState] = useState({
+        zipcode: ''
+    });
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setState((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (event) => {
+        // console.log("Props: ", props);
+        event.preventDefault();
+        props.history.push({
+            pathname: '/stores',
+            state
+        });
+    };
 
     const { ...other } = props
 
@@ -21,25 +39,32 @@ const NavBar = (props) => {
             <div className={classes.nav_bar}>
                 <div className={classes.grid_5c}>
 
-                    <Link to={'/'}>
+                    <a href="/stores" style={{ textDecoration: "none", color: "white" }}>
                         <div className={classes.logo}>
-                            OULU<span style={{ color: '#FFC70D' }}>X</span>X
+                            <strong> OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>
                         </div>
-                    </Link>
-
+                    </a>
 
                     <div>
 
                         <div >
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <Row >
                                     <Col sm={10}>
                                         <Textfield
                                             className={classes.textfield}
-                                            label="Zip Code"
-                                            name="Zip"
+                                            name="zipcode"
+                                            type="text"
+                                            label="Zipcode"
                                             size="small"
                                             fontColor="white"
+                                            placeholder="Zipcode"
+                                            inputProps={{ pattern: "^[0-9]{5}" }}
+                                            error={state.zipcode.length > 5 || (/[^0-9]/g).test(state.zipcode)}
+                                            value={state.zipcode}
+                                            onChange={handleChange}
+                                            autoComplete="off"
+                                            required
                                         />
                                     </Col>
                                     <Col xs={1}>
@@ -49,8 +74,15 @@ const NavBar = (props) => {
                             </form>
 
                         </div>
-
                     </div>
+                    {/* <div
+                        className={[classes.btn, classes.store_btn].join(' ')}
+                        onClick={() => storeOnClick()}>
+                        <Row className="justify-content-center">
+                            <div className={classes.btn_icon}><MdStoreMallDirectory /></div>
+                            <div className={classes.btn_txt}>Stores</div>
+                        </Row>
+                    </div> */}
 
                     <div></div>
                     <Dropdown>
@@ -69,6 +101,14 @@ const NavBar = (props) => {
                             <Button variant="outline-danger" type="submit">Log Out</Button>
                         </div>
                     </form>
+                    {/* <div
+                        className={classes.btn}
+                        onClick={() => cartOnClick()}>
+                        <Row className="justify-content-center">
+                            <div className={classes.btn_icon}><AiOutlineShoppingCart /></div>
+                            <div className={classes.btn_txt}>Cart</div>
+                        </Row>
+                    </div> */}
                     <div></div>
 
                 </div>

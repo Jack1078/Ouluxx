@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
+var zipcodes = require('zipcodes');
 const InventoryItemModel = require('../Models/Item_Model'); 
 const StoreModel = require('../Models/Store_Model'); 
 
@@ -32,7 +33,7 @@ Add a store. Must be logged in from a store account.
 */
 
 router.post('/add', async function (req, res, next) {
-	console.log(req.body);
+	//console.log(req.body);
 	if (req.user && req.user.UserType === "STORE") {
 		var newStore = new StoreModel({
 			Name : req.body.storename, 
@@ -131,7 +132,7 @@ If there is no store with the given id, it returns null.
 */
 
 router.post('/get_store', async function (req, res, next) {
-	console.log(req.body);
+	//console.log(req.body);
 	await StoreModel.findOne({_id: mongoose.Types.ObjectId(req.body.storeid)}, 
 		function(err, StoreModel) {
 			res.json(JSON.stringify(StoreModel))
@@ -170,8 +171,7 @@ get stores with specific properties
 */
 
 router.post('/get_store_with_property', async function (req, res, next) {
-	console.log(req.body);
-	// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+	//console.log(req.body);
 	// var propertyname = req.body.property;
 	// await StoreModel.find({propertyname : req.body.value},
 	// 	function(err, StoreModel) {
@@ -179,8 +179,12 @@ router.post('/get_store_with_property', async function (req, res, next) {
 	// 	});
 	for (const [key, value] of Object.entries(req.body)) {
 		if (key.toString().toUpperCase() === "ZIPCODE") {
+			var rad = zipcodes.radius(Number(value), 10);
+			for (var i = 0; i < rad.length; i++) {
+				rad[i] = rad[i].toString();
+			}
 			await StoreModel.find(
-				{ "Zipcode": value.toString() },
+				{ "Zipcode": {$in: rad} },
 				function (err, StoreModel) {
 					res.json(JSON.stringify(StoreModel))
 				});
@@ -200,7 +204,6 @@ router.post('/get_store_with_property', async function (req, res, next) {
 			// ignore
 		}
 	}
-	// mongoose.connection.close();
 });
 
 /*
@@ -214,7 +217,7 @@ JSON:
 */
 
 router.post('/search', async function(req, res, next) {
-	console.log(req.body);
+	//console.log(req.body);
 	StoreModel.find({ Name: { $regex: "^"+req.body.searchstring, $options: "i" } }, function(err, stores) {
 		res.status(200).send(stores);
 	});

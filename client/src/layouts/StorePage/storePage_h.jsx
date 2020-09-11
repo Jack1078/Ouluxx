@@ -77,7 +77,7 @@ const StorePage = (props) => {
 
     return (
         <div>
-            <NavBar />
+            <NavBar {...props} />
             <Draggable>
                 <div className={classes.videoroom_sticky}>
                     {props.match.params.roomID ? (

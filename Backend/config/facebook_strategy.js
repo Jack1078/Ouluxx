@@ -5,18 +5,18 @@ const mongoose = require('mongoose');
 const secrets = require('../secrets/secrets');
 
 var Strategy = new FacebookStrategy({
-		clientID: secrets.facebookclientid,
-		clientSecret: secrets.facebooksecretid,
-		callbackURL: "http://localhost:8000/auth/facebook/callback",
-		profileFields: ['email', 'id', 'first_name', 'last_name']
-	},
+	clientID: secrets.facebookclientid,
+	clientSecret: secrets.facebooksecretid,
+	callbackURL: "http://localhost:8000/auth/facebook/callback",
+	profileFields: ['email', 'id', 'first_name', 'last_name']
+},
 	function (accessToken, refreshToken, profile, done) {
 		process.nextTick(() => {
 			console.log(profile);
 			var useremail = profile.email || profile.emails[0].value;
 			UserModel.findOne({
-					'Email': useremail
-				},
+				'Email': useremail
+			},
 				async (err, user) => {
 					if (err)
 						return done(err);

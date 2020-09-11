@@ -45,6 +45,12 @@ router.post('/get_user', async function (req, res, next) {
 	});
 });
 
+router.post('/get_logged_in', async function (req, res, next) {
+	await UserModel.findOne({ _id: req.user._id }, function (err, UserModel) {
+		res.json(JSON.stringify(UserModel))
+	});
+});
+
 //updates user information in the database
 /* JSON Request looks like this:
 	All fields except userid are optional
@@ -66,11 +72,11 @@ router.post('/update', async function (req, res, next) {
 			if (key.toString().toUpperCase().includes("ID")) {
 				console.log(key); // cannot be changed
 				//not currently changing emails
-			/*} else if (key.toString().toUpperCase() === "EMAIL") { //usually has a process to change emails
-				await UserModel.findOneAndUpdate(
-					{ _id: req.user._id) },
-					{ "Email": value.toString() }
-				);*/
+				/*} else if (key.toString().toUpperCase() === "EMAIL") { //usually has a process to change emails
+					await UserModel.findOneAndUpdate(
+						{ _id: req.user._id) },
+						{ "Email": value.toString() }
+					);*/
 			} else if (key.toString().toUpperCase() === "USERNAME") { //need to verify if the username is already taken
 				await UserModel.findOneAndUpdate(
 					{ _id: req.user._id },
@@ -114,11 +120,10 @@ router.post('/update', async function (req, res, next) {
 		obj.status = "Success";
 		res.json(JSON.stringify(obj));
 	}
-	else
-	{
-		res.status(401).json({message: "Authentication required"});
+	else {
+		res.status(401).json({ message: "Authentication required" });
 	}
-	
+
 });
 
 //delete user from database
@@ -133,9 +138,8 @@ router.post('/delete', async function (req, res, next) {
 		obj.status = "Success";
 		res.json(JSON.stringify(obj));
 	}
-	else
-	{
-		res.status(401).json({message: "Authentication required"});
+	else {
+		res.status(401).json({ message: "Authentication required" });
 	}
 });
 
@@ -152,12 +156,13 @@ JSON is structured like this:
 */
 //adds an item to the user's cart
 router.post('/add_to_cart', async function (req, res, next) {
-	if (req.user && req.user.UserType === "USER") 
-	{
+	// console.log(req.body);
+	// console.log(req.user);
+	if (req.user && req.user.UserType === "USER") {
 		//must be logged in
 		var itemprice = parseFloat(req.body.Price);
 		var CartItem = {
-			UserID: req.user.userid,
+			UserID: req.user._id,
 			ItemID: req.body.ItemID,
 			ItemName: req.body.ItemName,
 			Description: req.body.Description,
@@ -174,9 +179,8 @@ router.post('/add_to_cart', async function (req, res, next) {
 		obj.status = "Success";
 		res.json(JSON.stringify(obj));
 	}
-	else
-	{
-		res.status(401).json({message: "Authentication required"});
+	else {
+		res.status(401).json({ message: "Authentication required" });
 	}
 });
 
@@ -187,13 +191,12 @@ router.post('/add_to_cart', async function (req, res, next) {
 */
 router.post('/get_cart', async function (req, res, next) {
 	if (req.user && req.user.UserType === 'USER') {
-		await UserModel.find({ _id: req.user._id }, { Cart: 1 },function (err, UserModel) {
+		await UserModel.find({ _id: req.user._id }, { Cart: 1 }, function (err, UserModel) {
 			res.json(JSON.stringify(UserModel))
 		});
 	}
-	else
-	{
-		res.status(401).json({message: "Authentication required"});
+	else {
+		res.status(401).json({ message: "Authentication required" });
 	}
 });
 
@@ -225,9 +228,8 @@ router.post('/update_cart', async function (req, res, next) {
 		obj.status = "Success";
 		res.json(JSON.stringify(obj));
 	}
-	else
-	{
-		res.status(401).json({message: "Authentication required"});
+	else {
+		res.status(401).json({ message: "Authentication required" });
 	}
 });
 
@@ -251,9 +253,8 @@ router.post('/remove_from_cart', async function (req, res, next) {
 		obj.status = "Success";
 		res.json(JSON.stringify(obj));
 	}
-	else
-	{
-		res.status(401).json({message: "Authentication required"});
+	else {
+		res.status(401).json({ message: "Authentication required" });
 	}
 });
 

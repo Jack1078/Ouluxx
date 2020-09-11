@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SignUpContainer from '../../containers/SignUp/signup_k';
 import AboutContainer from '../../containers/About/about_k';
 import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k';
@@ -13,7 +13,17 @@ import Navbar from '../../containers/navBar_k';
  */
 
 
-function SignUp() {
+const SignUp = (props) => {
+    // console.log("Props: ", props);
+    // console.log("Signup Zipcode: ", props.location.state.zipcode);
+    var temp = '';
+    if (props.location && props.location.state && props.location.state.zipcode)
+        temp = props.location.state.zipcode;
+    const [zipcode, setZipcode] = useState(temp);
+
+    const data = { zipcode }
+    // console.log("Data =", data.zipcode);
+
     return (
         <div>
 
@@ -27,7 +37,9 @@ function SignUp() {
                         fontColor="white"
                     /></Link>
                 </div>
-                <SignUpContainer />
+                <SignUpContainer
+                    zipcode={data.zipcode}
+                />
                 <StoresNearbyContainer />
             </section>
             <section className={[classes.background_white, classes.full_width].join(' ')}>
