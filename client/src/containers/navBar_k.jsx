@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classes from './navBar_k.module.css';
 import { MdStoreMallDirectory, MdAccountCircle } from 'react-icons/md'
@@ -38,6 +38,7 @@ const NavBar = (props) => {
             pathname: '/stores',
             state
         });
+        window.location.reload();
     };
 
     const { logoOnClick, storeOnClick, accountOnClick, cartOnClick, ...other } = props
@@ -48,7 +49,7 @@ const NavBar = (props) => {
             <div className={classes.nav_bar}>
                 <div className={classes.grid_5c}>
 
-                    <a href="/stores" style={{textDecoration:"none", color:"white"}}>
+                    <a href="/stores" style={{ textDecoration: "none", color: "white" }}>
                         <div className={classes.logo}>
                             <strong> OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>
                         </div>

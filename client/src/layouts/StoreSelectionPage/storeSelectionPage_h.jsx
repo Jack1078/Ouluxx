@@ -3,6 +3,7 @@ import StoreIcon from '../../components/storeIcon_c';
 import classes from './storeSelectionPage_h.module.css';
 import Filter from '../../containers/Filter/filter_k';
 import Logo from '../../images/logo.png';
+import NavBar from '../../containers/navBar_k';
 /**
  * Layout for the Store Selection page
  */
@@ -141,6 +142,7 @@ const StoreSelect = (props) => {
 
     return (
         <div className={classes.background}>
+            <NavBar {...props} />
             <div className={classes.logo_container}>
                 <img src={Logo} alt='Ouluxx logo' height="45px" />
             </div>
