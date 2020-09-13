@@ -1,21 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import classes from './navBar_k.module.css';
-import { MdStoreMallDirectory, MdAccountCircle } from 'react-icons/md'
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { Row, Col, Container, Dropdown, Button, Input } from 'react-bootstrap';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import ZipCodeForm from './../containers/zipcodeForm';
-import Textfield from '../components/textfield_c';
-
-
-
-
+import { MdAccountCircle } from 'react-icons/md'
+import { Row, Col, Dropdown, Button } from 'react-bootstrap';
 
 
 /**
  * Navigation bar
- * @param {logoOnClick, storeOnClick, accountOnClick, cartOnClick} NavBar
+ * @param {} NavBar
  */
 
 const NavBar = (props) => {
@@ -40,7 +31,7 @@ const NavBar = (props) => {
         });
     };
 
-    const { logoOnClick, storeOnClick, accountOnClick, cartOnClick, ...other } = props
+    const { ...other } = props
 
     return (
         <div className={classes.container} {...other}>
@@ -48,7 +39,7 @@ const NavBar = (props) => {
             <div className={classes.nav_bar}>
                 <div className={classes.grid_5c}>
 
-                    <a href="/stores" style={{textDecoration:"none", color:"white"}}>
+                    <a href="/stores" style={{ textDecoration: "none", color: "white" }}>
                         <div className={classes.logo}>
                             <strong> OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>
                         </div>
@@ -83,7 +74,6 @@ const NavBar = (props) => {
                             </form>
 
                         </div>
-
                     </div>
                     {/* <div
                         className={[classes.btn, classes.store_btn].join(' ')}
@@ -126,13 +116,6 @@ const NavBar = (props) => {
         </div>
 
     );
-}
-
-NavBar.propTypes = {
-    logoOnClick: PropTypes.func.isRequired,
-    storeOnClick: PropTypes.func.isRequired,
-    accountOnClick: PropTypes.func.isRequired,
-    cartOnClick: PropTypes.func.isRequired,
 }
 
 export default NavBar;

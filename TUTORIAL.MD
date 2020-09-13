@@ -32,7 +32,7 @@ Open the console using `ctrl-shift-i` or `f12` to see responses. look at the net
 ## Global Changes
 
 Package.JSON must be updated with the proxy route to the server. It is just the line 
-`"proxy": "http://localhost:4000"`
+`"proxy": "http://localhost:8000"`
 That will eventually be changed to whatever we are hosting it as. 
 
 To convert the entire thing into a frontend and backend, first take the frontend (Ouluxx), and place that in a subfolder, then create a new folder for the backend. The backend can be instantiated by copying this branches backend directory, or by instantiating an expressjs project. 
