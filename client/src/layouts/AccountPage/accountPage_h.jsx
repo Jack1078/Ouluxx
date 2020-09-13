@@ -11,10 +11,10 @@ import UserPaymentInfoCard from '../../containers/UserPaymentInfoCard/paymentInf
 
 
 
-const UserAccount = () => {
+const UserAccount = (props) => {
     return (
         <div className={classes.background}>
-            <NavBar />
+            <NavBar {...props} />
 
 
             {/*will need to create components for the containers below*/}

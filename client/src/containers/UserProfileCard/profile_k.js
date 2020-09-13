@@ -4,7 +4,7 @@ Contains: email signup textfield, sign up button,
     continue with facebook button, continue with google button
 */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './profile_k.module.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Input } from '@material-ui/core';
@@ -20,6 +20,7 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import EmailIcon from '@material-ui/icons/Email';
 import PersonIcon from '@material-ui/icons/Person';
 import HomeIcon from '@material-ui/icons/Home';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 import MarkunreadMailboxIcon from '@material-ui/icons/MarkunreadMailbox';
 
 
@@ -36,18 +37,23 @@ const Profile = () => {
 
     const [email, setEmail] = useState("Not logged in!")
     const [name, setName] = useState("not added")
+    const [username, setUsername] = useState("")
     const [address, setAddress] = useState("")
+    const [fulladdress, setFullAddress] = useState("")
+    const [city, setCity] = useState("")
     const [state, setState] = useState("")
-    const [country, setCountry] = useState("")
     const [zip, setZip] = useState("")
-    const [fname, setFname] = useState("")
-    const [lname, setLname] = useState("")
 
+    const user = {}
 
+    useEffect(() => {
+        // console.log("Temp is undefined");
+        get_user();
+    }, []);
 
     //return the fetch to return the promise
-    const Get_User = (json_data) => {
-        return fetch("/users/get_user", {
+    const get_user = () => {
+        return fetch("/users/get_logged_in", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             // body: JSON.stringify(json_data),
@@ -58,34 +64,23 @@ const Profile = () => {
             return response.json();
         }).then((respData) => {
             console.log(JSON.parse(respData));
-
+            var temp = JSON.parse(respData);
+            var tname = temp.FirstName + " " + temp.LastName;
+            var tfulladd = temp.Address + "\n" + temp.City + ", " + temp.State + " " + temp.Zipcode;
+            setEmail(temp.Email);
+            setName(tname);
+            setUsername(temp.username);
+            setAddress(temp.Address);
+            setFullAddress(tfulladd);
+            setCity(temp.city);
+            setState(temp.State);
+            setZip(temp.Zipcode);
             return JSON.parse(respData);
         }).catch((err) => {
             console.log(err);
             return (err);
         });
     };
-
-
-    //create the promise, then work on the promise
-    //all working on the response must occur in an async function like this. 
-    var testing = Get_User();
-    testing.then((response) => {
-        console.log(response);
-        testing = response;
-        //console.log(testing)
-
-        var n = testing.FirstName + " " + testing.LastName;
-        var a = testing.Address + ", " + testing.State + " " + testing.Zipcode
-        setEmail(testing.Email);
-        setName(n);
-        setZip(testing.Zipcode);
-        setAddress(a);
-        setCountry(testing.name);
-        setState(testing.State);
-        setFname(testing.FirstName);
-        setLname(testing.LastName);
-    })
 
     //popup states
     const [show, setShow] = useState(false);
@@ -103,26 +98,35 @@ const Profile = () => {
                     </Card.Title>
                     <div className={classes.root}>
                         <List component="nav" aria-label="main mailbox folders">
-                            <ListItem
-                                button>
+                            <ListItem button>
                                 <ListItemIcon>
                                     <PersonIcon />
                                 </ListItemIcon>
                                 <ListItemText primary={name} />
                             </ListItem>
-                            <ListItem
-                                button>
+                            <ListItem button>
                                 <ListItemIcon>
-                                    <HomeIcon />
+                                    <PersonIcon />
                                 </ListItemIcon>
-                                <ListItemText primary={address} />
+                                <ListItemText primary={username} />
                             </ListItem>
-                            <ListItem
-                                button>
+                            <ListItem button>
                                 <ListItemIcon>
                                     <EmailIcon />
                                 </ListItemIcon>
                                 <ListItemText primary={email} />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <HomeIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={fulladdress} />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <LocationOnIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={zip} />
                             </ListItem>
                         </List>
                     </div>
@@ -137,7 +141,7 @@ const Profile = () => {
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Update Info
-        </Modal.Title>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className={classes.form} action="/users/update" method="POST" >
