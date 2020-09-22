@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { Button, Col, Dropdown, Row } from 'react-bootstrap';
+import { MdAccountCircle } from 'react-icons/md';
+import Textfield from '../components/textfield_c';
 import classes from './navBar_k.module.css';
-import { MdAccountCircle } from 'react-icons/md'
-import { Row, Col, Dropdown, Button } from 'react-bootstrap';
-
 
 /**
  * Navigation bar
@@ -10,72 +10,72 @@ import { Row, Col, Dropdown, Button } from 'react-bootstrap';
  */
 
 const NavBar = (props) => {
-    const [state, setState] = useState({
-        zipcode: ''
+  const [state, setState] = useState({
+    zipcode: ''
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    // console.log("Props: ", props);
+    event.preventDefault();
+    props.history.push({
+      pathname: '/stores',
+      state
     });
+  };
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setState((prevState) => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
+  const { ...other } = props
 
-    const handleSubmit = (event) => {
-        // console.log("Props: ", props);
-        event.preventDefault();
-        props.history.push({
-            pathname: '/stores',
-            state
-        });
-    };
+  return (
+    <div className={classes.container} {...other}>
+      <div className={classes.gradient_border}></div>
+      <div className={classes.nav_bar}>
+        <div className={classes.grid_5c}>
 
-    const { ...other } = props
+          <a href="/stores" style={{ textDecoration: "none", color: "white" }}>
+            <div className={classes.logo}>
+              <strong> OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>
+            </div>
+          </a>
 
-    return (
-        <div className={classes.container} {...other}>
-            <div className={classes.gradient_border}></div>
-            <div className={classes.nav_bar}>
-                <div className={classes.grid_5c}>
+          <div>
 
-                    <a href="/stores" style={{ textDecoration: "none", color: "white" }}>
-                        <div className={classes.logo}>
-                            <strong> OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>
-                        </div>
-                    </a>
+            <div >
+              <form onSubmit={handleSubmit}>
+                <Row >
+                  <Col sm={10}>
+                    <Textfield
+                      className={classes.textfield}
+                      name="zipcode"
+                      type="text"
+                      label="Zipcode"
+                      size="small"
+                      fontColor="white"
+                      placeholder="Zipcode"
+                      inputProps={{ pattern: "^[0-9]{5}" }}
+                      error={state.zipcode.length > 5 || (/[^0-9]/g).test(state.zipcode)}
+                      value={state.zipcode}
+                      onChange={handleChange}
+                      autoComplete="off"
+                      required
+                    />
+                  </Col>
+                  <Col xs={1}>
+                    <Button variant="warning" type="submit"> Search</Button>
+                  </Col>
+                </Row>
+              </form>
 
-                    <div>
-
-                        <div >
-                            <form onSubmit={handleSubmit}>
-                                <Row >
-                                    <Col sm={10}>
-                                        <Textfield
-                                            className={classes.textfield}
-                                            name="zipcode"
-                                            type="text"
-                                            label="Zipcode"
-                                            size="small"
-                                            fontColor="white"
-                                            placeholder="Zipcode"
-                                            inputProps={{ pattern: "^[0-9]{5}" }}
-                                            error={state.zipcode.length > 5 || (/[^0-9]/g).test(state.zipcode)}
-                                            value={state.zipcode}
-                                            onChange={handleChange}
-                                            autoComplete="off"
-                                            required
-                                        />
-                                    </Col>
-                                    <Col xs={1}>
-                                        <Button variant="warning" type="submit"> Search</Button>
-                                    </Col>
-                                </Row>
-                            </form>
-
-                        </div>
-                    </div>
-                    {/* <div
+            </div>
+          </div>
+          {/* <div
                         className={[classes.btn, classes.store_btn].join(' ')}
                         onClick={() => storeOnClick()}>
                         <Row className="justify-content-center">
@@ -84,24 +84,24 @@ const NavBar = (props) => {
                         </Row>
                     </div> */}
 
-                    <div></div>
-                    <Dropdown>
-                        <Dropdown.Toggle variant="outline-light" id="dropdown-basic">
-                            <span><MdAccountCircle /> <span> Account</span>
-                            </span>
-                        </Dropdown.Toggle>
+          <div></div>
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-light" id="dropdown-basic">
+              <span><MdAccountCircle /> <span> Account</span>
+              </span>
+            </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="/accountpage">Profile</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Settings & Privacy</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    <form action="/auth/logout" method="POST">
-                        <div>
-                            <Button variant="outline-danger" type="submit">Log Out</Button>
-                        </div>
-                    </form>
-                    {/* <div
+            <Dropdown.Menu>
+              <Dropdown.Item href="/accountpage">Profile</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">Settings & Privacy</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <form action="/auth/logout" method="POST">
+            <div>
+              <Button variant="outline-danger" type="submit">Log Out</Button>
+            </div>
+          </form>
+          {/* <div
                         className={classes.btn}
                         onClick={() => cartOnClick()}>
                         <Row className="justify-content-center">
@@ -109,13 +109,13 @@ const NavBar = (props) => {
                             <div className={classes.btn_txt}>Cart</div>
                         </Row>
                     </div> */}
-                    <div></div>
+          <div></div>
 
-                </div>
-            </div>
         </div>
+      </div>
+    </div>
 
-    );
+  );
 }
 
 export default NavBar;
