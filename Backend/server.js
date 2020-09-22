@@ -26,7 +26,7 @@ var inventoryRouter = require('./routes/inventory');
 var authRouter = require('./routes/auth');
 var purchaseRouter = require('./routes/purchase');
 
-const User = require('./Models/User_Model');
+const User = require('./models/User_Model');
 
 const app = express();
 const server = http.createServer(app);
