@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "jquery": true,
+    "node": false
+  },
+  "extends": ["../.eslintrc.json", "react-app"],
+  "plugins": [],
+  "rules": {
+    "jsx-quotes": [2, "prefer-single"],
+    "react/jsx-fragments": 0,
+    "react-hooks/rules-of-hooks": 1
+  }
+}

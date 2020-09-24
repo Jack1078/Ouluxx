@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "npm i --prefix client && npm i --prefix backend",
     "format": "prettier --write \"./\"",
-    "lint:client": "npm run lint --prefix client",
+    "lint": "eslint . --ext .js,.jsx --fix",
     "dev:client": "npm start --prefix client",
     "dev:backend": "npm run dev --prefix backend",
     "dev": "run-p dev:*"
@@ -21,8 +21,18 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-export-default-from": "^7.10.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.10.4",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.22.0",
     "npm": "^6.14.8",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "yarn": "^1.22.5"
   }
 }
