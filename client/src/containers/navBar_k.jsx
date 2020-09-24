@@ -7,11 +7,11 @@ import classes from './navBar_k.module.css'
 
 /**
  * Navigation bar
- * @param {} NavBar
+ * 
+ * @param {object} props - Component properties 
  */
-
 const NavBar = props => {
-  const { state: locationState } = useLocation()
+  const { state: locationState = {} } = useLocation()
 
   const [state, setState] = useState({
     zipcode: ''
@@ -30,7 +30,7 @@ const NavBar = props => {
     event.preventDefault()
     props.history.push({
       pathname: '/stores',
-      state
+      state: { ...state, ...locationState }
     })
   }
 
@@ -49,8 +49,7 @@ const NavBar = props => {
           >
             <div className={classes.logo}>
               <strong>
-                {' '}
-                OULU<span style={{ color: '#FFC70D' }}>X</span>X
+                {' '}OULU<span style={{ color: '#FFC70D' }}>X</span>X
               </strong>
             </div>
           </Link>
