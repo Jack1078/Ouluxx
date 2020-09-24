@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Col, Dropdown, Row } from 'react-bootstrap'
 import { MdAccountCircle } from 'react-icons/md'
+import { Link, useLocation } from 'react-router-dom'
 import Textfield from '../components/textfield_c'
 import classes from './navBar_k.module.css'
 
@@ -10,6 +11,8 @@ import classes from './navBar_k.module.css'
  */
 
 const NavBar = props => {
+  const { state: locationState } = useLocation()
+
   const [state, setState] = useState({
     zipcode: ''
   })
@@ -38,14 +41,19 @@ const NavBar = props => {
       <div className={classes.gradient_border}></div>
       <div className={classes.nav_bar}>
         <div className={classes.grid_5c}>
-          <a href='/stores' style={{ textDecoration: 'none', color: 'white' }}>
+          <Link
+            to={location => ({
+              ...location, pathname: '/stores', state: locationState
+            })}
+            style={{ textDecoration: 'none', color: 'white' }}
+          >
             <div className={classes.logo}>
               <strong>
                 {' '}
                 OULU<span style={{ color: '#FFC70D' }}>X</span>X
               </strong>
             </div>
-          </a>
+          </Link>
 
           <div>
             <div>

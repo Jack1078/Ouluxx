@@ -34,39 +34,42 @@ function App() {
 
   return (
     <Fragment>
-      <Draggable>
-        <div className={storePageClasses.videoroom_sticky}>
-          {(() => {
-            if (hasRoom) return <VideoRoom />
+      {(hasRoom || canCreateRoom) && (
+        <Draggable>
+          <div className={storePageClasses.videoroom_sticky}>
+            {(() => {
+              if (hasRoom) return <VideoRoom />
 
-            if (canCreateRoom) {
-              const createRoom = location => {
-                if (location.state) {
-                  setHasRoom(true)
-                  return
+              if (canCreateRoom) {
+                const createRoom = location => {
+                  if (location.state) {
+                    setHasRoom(true)
+                    return
+                  }
+
+                  const roomID = uuid().replace('-', '')
+
+                  return {
+                    pathname: `/stores/${params.store}/room/${roomID}`,
+                    state: { store: params.store, roomID }
+                  }
                 }
 
-                const roomID = uuid().replace('-', '')
-
-                return {
-                  pathname: `/stores/${params.store}/room/${roomID}`,
-                  state: { store: params.store, roomID }
-                }
+                return (
+                  <Link className={storePageClasses.btn_link} to={createRoom}>
+                    <div className={storePageClasses.btn_join}>
+                      Create room
+                  </div>
+                  </Link>
+                )
               }
 
-              return (
-                <Link className={storePageClasses.btn_link} to={createRoom}>
-                  <div className={storePageClasses.btn_join}>
-                    Create room
-                  </div>
-                </Link>
-              )
-            }
+              return null
+            })()}
+          </div>
+        </Draggable>
+      )}
 
-            return null
-          })()}
-        </div>
-      </Draggable>
 
       <Switch>
         <Route path='/' exact component={LandingPage} />
