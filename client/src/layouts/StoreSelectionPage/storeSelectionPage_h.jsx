@@ -58,22 +58,6 @@ const StoreSelect = props => {
   const data = { Zipcode: zipcode }
   const user = {}
 
-  // useEffect(() => {
-  //     setCurrPage(1);
-  // }, [currStores]);
-
-  useEffect(() => {
-    if (temp === '') {
-      // console.log("Temp is undefined");
-      get_user()
-    }
-    get_stores(data)
-  }, [data, get_stores, temp])
-
-  useEffect(() => {
-    get_stores(data)
-  }, [data, get_stores])
-
   const get_user = () => {
     return fetch('/users/get_logged_in', {
       method: 'POST',
@@ -147,6 +131,22 @@ const StoreSelect = props => {
     // pathname: `/stores/${name}`
     // })
   }
+
+  // useEffect(() => {
+  //     setCurrPage(1);
+  // }, [currStores]);
+
+  useEffect(() => {
+    if (temp === '') {
+      // console.log("Temp is undefined");
+      get_user()
+    }
+    get_stores(data)
+  }, [data, get_stores, temp])
+
+  useEffect(() => {
+    get_stores(data)
+  }, [data, get_stores])
 
   return (
     <div className={classes.background}>

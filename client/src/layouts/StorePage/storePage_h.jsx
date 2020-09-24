@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Draggable from 'react-draggable'
 import { MdKeyboardArrowDown } from 'react-icons/md'
-import { Link } from 'react-router-dom'
-import uuid from 'react-uuid'
 import Textfield from '../../components/textfield_c'
 import MiniCart from '../../containers/miniCart_k'
 import NavBar from '../../containers/navBar_k'
 import ProductsDisplay from '../../containers/productsDisplay_k'
-import VideoRoom from '../../containers/VideoRoom/videoroom_k'
 import classes from './storePage_h.module.css'
 
 /**
@@ -77,28 +73,9 @@ const StorePage = props => {
     get_products(data)
   }, [get_products])
 
-
   return (
     <div>
       <NavBar {...props} />
-      <Draggable>
-        <div className={classes.videoroom_sticky}>
-          {props.match.params.roomID ? (
-            <VideoRoom />
-          ) : (
-              <Link
-                className={classes.btn_link}
-                to={`/stores/${props.match.params.store}/room/${uuid().replace(
-                  '-',
-                  ''
-                )}`}
-              >
-                <div className={classes.btn_join}>Create room</div>
-              </Link>
-            )}
-        </div>
-      </Draggable>
-
       {/* ----------------------------- */}
       {/* -------- Store title -------- */}
       {/* ----------------------------- */}
