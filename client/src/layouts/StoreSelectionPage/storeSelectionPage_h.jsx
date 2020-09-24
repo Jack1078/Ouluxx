@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import StoreIcon from '../../components/storeIcon_c';
-import classes from './storeSelectionPage_h.module.css';
 import Filter from '../../containers/Filter/filter_k';
 import Logo from '../../images/logo.png';
+import classes from './storeSelectionPage_h.module.css';
+
 /**
  * Layout for the Store Selection page
  */
@@ -54,7 +55,7 @@ const StoreSelect = (props) => {
   const [currStores, setCurrStores] = useState([]);
   // const [currPage, setCurrPage] = useState(1);
 
-  const data = {Zipcode: zipcode};
+  const data = { Zipcode: zipcode };
   const user = {};
 
   // useEffect(() => {
@@ -76,68 +77,68 @@ const StoreSelect = (props) => {
   const get_user = () => {
     return fetch('/users/get_logged_in', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       // body: JSON.stringify(json_data)
     })
-        .then((response) => {
-          if (response.status >= 400) {
-            throw new Error('Bad response from server');
-          }
-          return response.json();
-        })
-        .then((respData) => {
-          const temp = JSON.parse(respData);
-          // console.log("JSON.parse(respData) =", JSON.parse(respData));
-          setZipcode(temp.Zipcode);
-        })
-        .catch((err) => {
-          console.log(err);
-          return err;
-        });
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error('Bad response from server');
+        }
+        return response.json();
+      })
+      .then((respData) => {
+        const temp = JSON.parse(respData);
+        // console.log("JSON.parse(respData) =", JSON.parse(respData));
+        setZipcode(temp.Zipcode);
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
   };
 
   const get_stores = useCallback((json_data) => {
     return fetch('/store/get_store_with_property', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(json_data),
     })
-        .then((response) => {
-          if (response.status >= 400) {
-            throw new Error('Bad response from server');
-          }
-          return response.json();
-        })
-        .then((respData) => {
-          const temp = JSON.parse(respData);
-          console.log('JSON.parse(respData) =', JSON.parse(respData));
-          setCurrStores(currStores.splice(0, currStores.length, ...temp));
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error('Bad response from server');
+        }
+        return response.json();
+      })
+      .then((respData) => {
+        const temp = JSON.parse(respData);
+        console.log('JSON.parse(respData) =', JSON.parse(respData));
+        setCurrStores(currStores.splice(0, currStores.length, ...temp));
         // console.log("Data Recieved | Stores= ", currStores);
         // return JSON.parse(respData);
-        })
-        .catch((err) => {
-          console.log(err);
-          return err;
-        });
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
   });
 
   const filteredStores = (stores, filter) => {
     // console.log("Testing filter, Stores: ", stores);
     return stores
-        .filter((store) =>
+      .filter((store) =>
         filter === 'All' ? true : store.Categories.includes(filter),
-        )
-        .map((filtered_store) => (
-          <StoreIcon
-            name={filtered_store.Name}
-            // img_url={filtered_store.img_url}
-            alt={filtered_store.name + ' icon'}
-            categories={filtered_store.Categories} // categories needs to be added to work
-            onClick={() => console.log('Store Icon clicked')}
-            // onClick={handleSelection}
-            key={filtered_store.name}
-          />
-        ));
+      )
+      .map((filtered_store) => (
+        <StoreIcon
+          name={filtered_store.Name}
+          // img_url={filtered_store.img_url}
+          alt={filtered_store.name + ' icon'}
+          categories={filtered_store.Categories} // categories needs to be added to work
+          onClick={() => console.log('Store Icon clicked')}
+          // onClick={handleSelection}
+          key={filtered_store.name}
+        />
+      ));
   };
 
   const handleSelection = (name) => {
@@ -154,7 +155,7 @@ const StoreSelect = (props) => {
       </div>
       <div className={classes.zipcode_container}>
         Select Store for Delivery in&nbsp;
-        <span style={{fontWeight: 'bold'}}>{zipcode}</span>
+        <span style={{ fontWeight: 'bold' }}>{zipcode}</span>
       </div>
       <div className={classes.filter_container}>
         <Filter active={active} onChange={(active) => setActive(active)}>

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
 import classes from './miniCart_k.module.css';
 
 /**
@@ -10,7 +10,7 @@ import classes from './miniCart_k.module.css';
 const MiniCart = (props) => {
   const [cart, setCart] = useState([]);
   // const { orders } = props;
-  const {orders} = [];
+  const { orders } = [];
 
   const checkoutHandler = () => {
     console.log('checkout clicked ...');
@@ -20,23 +20,23 @@ const MiniCart = (props) => {
     return fetch('/users/get_cart', {
       method: 'POST',
     })
-        .then((response) => {
-          if (response.status >= 400) {
-            throw new Error('Bad response from server');
-          }
-          return response.json();
-        })
-        .then((respData) => {
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error('Bad response from server');
+        }
+        return response.json();
+      })
+      .then((respData) => {
         // console.log("temp = ", temp[0].Cart);
         // console.log("JSON.parse(respData) =", JSON.parse(respData));
-          const temp = JSON.parse(respData);
-          setCart(cart.splice(0, cart.length, ...temp[0].Cart));
+        const temp = JSON.parse(respData);
+        setCart(cart.splice(0, cart.length, ...temp[0].Cart));
         // console.log("Data Recieved | Cart= ", cart);
-        })
-        .catch((err) => {
-          console.log(err);
-          return err;
-        });
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
   });
 
   /* items should be an array of products*/
