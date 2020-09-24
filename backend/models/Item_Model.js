@@ -1,4 +1,4 @@
-/******************************************************************************
+/** ****************************************************************************
  * Name: Benjamin Salzberg													 *
  * Date: 7/2/2020															 *
  * Version: 1.0.0															 *
@@ -7,15 +7,15 @@
  * The category information will be kept within the item as an array.		 *
  ******************************************************************************/
 
-const mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var passportLocalMongoose = require('passport-local-mongoose')
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const Inventory_Item = new Schema({
-  Schema_Type: { type: String, default: 'ITEM' }, // Identifies this as an Inventory item.
-  //ItemID : Uint32Array, // The id of the item potentially unneeded as _id exists
+  Schema_Type: {type: String, default: 'ITEM'}, // Identifies this as an Inventory item.
+  // ItemID : Uint32Array, // The id of the item potentially unneeded as _id exists
   Name: String, // name of the item, defined by user
-  IdentifierName: String, //used if the item has a specific name that is not the same as the name it is regularly reffered to as.
+  IdentifierName: String, // used if the item has a specific name that is not the same as the name it is regularly reffered to as.
   img: String, // image that is stored
   Price: Number, // price of the item, defined by user
   StoreName: String, // name of the store this belongs to
@@ -28,16 +28,16 @@ const Inventory_Item = new Schema({
     type: [
       {
         Body: String,
-        Date: { type: Date, default: Date.now },
+        Date: {type: Date, default: Date.now},
         UserID: String,
-        Username: String
-      }
+        Username: String,
+      },
     ],
-    default: [] //starts as an empty list
+    default: [], // starts as an empty list
   },
-  Category: { type: [], default: [] }, // type of item, such as tool etc.
-  Date: { type: Date, default: Date.now }, // date item added to database
-  Hidden: { type: Boolean, default: false } // whether or not item is hidden, such as removed from store or out of stock
-})
+  Category: {type: [], default: []}, // type of item, such as tool etc.
+  Date: {type: Date, default: Date.now}, // date item added to database
+  Hidden: {type: Boolean, default: false}, // whether or not item is hidden, such as removed from store or out of stock
+});
 
-module.exports = mongoose.model('Inventory_Item', Inventory_Item)
+module.exports = mongoose.model('Inventory_Item', Inventory_Item);

@@ -1,4 +1,4 @@
-/******************************************************************************
+/** ****************************************************************************
  * Name: Kyle Enchill														  *
  * Date: 7/17/2020															  *
  * Version: 1.1.0															  *
@@ -7,18 +7,18 @@
  * The cart information will be kept within the user as an array.			 *
  ******************************************************************************/
 
-const mongoose = require('mongoose')
-const passport = require('passport')
-const passportLocalMongoose = require('passport-local-mongoose')
+const mongoose = require('mongoose');
+const passport = require('passport');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const User = new mongoose.Schema({
-  Schema_Type: { type: String, default: 'USER' }, // Identifies this as a user.
-  //UserID: String, // use the _id value
+  Schema_Type: {type: String, default: 'USER'}, // Identifies this as a user.
+  // UserID: String, // use the _id value
   Email: String,
-  username: { type: String, unique: true },
+  username: {type: String, unique: true},
   facebookid: String,
   googleid: String,
-  verifiedemail: { type: Boolean, default: false },
+  verifiedemail: {type: Boolean, default: false},
   VerifyEmailTokenSalt: String,
   VerifyEmailToken: String,
   resetPasswordToken: String,
@@ -30,9 +30,9 @@ const User = new mongoose.Schema({
   Address: String,
   City: String,
   State: String,
-  Created_Password: { type: Boolean, default: true },
-  active: { type: Boolean, default: true },
-  Zipcode: String, //This does not verify if the zipcode is strictly XXXXX format
+  Created_Password: {type: Boolean, default: true},
+  active: {type: Boolean, default: true},
+  Zipcode: String, // This does not verify if the zipcode is strictly XXXXX format
   UserType: String, // This is either USER or STORE.
   StoreID: String, // this is only instantiated if the user is a store. it also starts out as nothing until they make a store.
   ConnectedStripeAccountID: String,
@@ -43,20 +43,20 @@ const User = new mongoose.Schema({
         ItemName: String,
         Description: String,
         Quantity: Number,
-        Price: Number
+        Price: Number,
         // Subtotal: Number,    // can be updated on the front end
         // Date_Ordered: {		// Needs to update at checkout, not when added to cart
         // 	type: Date,
         // 	default: Date.now
         // }
-      }
+      },
     ],
-    default: []
-  }
-})
+    default: [],
+  },
+});
 
 User.plugin(passportLocalMongoose, {
-  usernameField: 'Email'
-})
+  usernameField: 'Email',
+});
 
-module.exports = mongoose.model('User', User)
+module.exports = mongoose.model('User', User);
