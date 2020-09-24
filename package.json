@@ -4,9 +4,11 @@
   "description": "Ouluxx website",
   "scripts": {
     "postinstall": "npm i --prefix client && npm i --prefix backend",
-    "client": "npm start --prefix client",
+    "format": "prettier --write \"./\"",
+    "lint:client": "npm run lint --prefix client",
+    "dev:client": "npm start --prefix client",
     "dev:backend": "npm run dev --prefix backend",
-    "dev": "concurrently \"npm run dev:backend\" \"npm run client\""
+    "dev": "run-p dev:*"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "concurrently": "^5.3.0",
-    "npm": "^6.14.8"
+    "npm": "^6.14.8",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.1.2"
   }
 }

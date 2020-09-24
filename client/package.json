@@ -4,13 +4,11 @@
   "private": true,
   "proxy": "http://localhost:8000",
   "scripts": {
+    "lint": "eslint . --ext .js,.jsx --fix",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -32,7 +30,14 @@
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
-    "npm": "^6.14.8"
+    "@babel/plugin-proposal-export-default-from": "^7.10.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.10.4",
+    "eslint-config-google": "^0.14.0",
+    "npm": "^6.14.8",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^4.0.3"
   },
   "browserslist": {
     "production": [

@@ -1,44 +1,44 @@
 .maincontainer {
-    padding: 2%;
-    max-width: 80%;
-    margin: 0 auto;
+  padding: 2%;
+  max-width: 80%;
+  margin: 0 auto;
 }
 
 .background {
-    background-color: #ffffff;
-    min-height: 100vh;
+  background-color: #ffffff;
+  min-height: 100vh;
 }
 
 .zipcode_container {
-    padding: 20px 0;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    font-size: 22px;
-    text-align: center;
-    font-weight: 500;
-    line-height: 1;
-    max-width: 100%;
-    margin: 0 auto;
+  padding: 20px 0;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+  text-align: center;
+  font-weight: 500;
+  line-height: 1;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .recommend_container {
-    padding: 10px 24px;
-    font-weight: 500;
-    font-size: 15px;
-    color: #8e8e8e;
-    background-color: #f7f7f7;
-    text-align: left;
-    max-width: 100%;
-    margin: 0 auto;
+  padding: 10px 24px;
+  font-weight: 500;
+  font-size: 15px;
+  color: #8e8e8e;
+  background-color: #f7f7f7;
+  text-align: left;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .filter_container {
-    max-width: 100%;
-    margin: 0 auto;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .logo_container {
-    border-bottom: 1px solid #e7e7e7;
-    background-color: #fff;
+  border-bottom: 1px solid #e7e7e7;
+  background-color: #fff;
 }
