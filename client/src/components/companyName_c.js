@@ -1,19 +1,19 @@
-import React from 'react';
+import React from 'react'
 
 // yellow text
 const yellow = {
-  color: '#FBF24E',
-};
+  color: '#FBF24E'
+}
 
 // black text
 const black = {
-  color: '#282C33',
-};
+  color: '#282C33'
+}
 
 const spacing = {
   padding: 10,
-  fontSize: '50px',
-};
+  fontSize: '50px'
+}
 
 function CompanyName() {
   return (
@@ -22,7 +22,7 @@ function CompanyName() {
         Oulu<span style={yellow}>x</span>x
       </h1>
     </>
-  );
+  )
 }
 
-export default CompanyName;
+export default CompanyName

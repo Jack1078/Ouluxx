@@ -1,11 +1,11 @@
-import React from 'react';
-import Logo from '../images/ouluxxLogo.png';
-import classes from './footer_k.module.css';
-import {Row, Col, Container, Dropdown, Button, Input} from 'react-bootstrap';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import TwitterIcon from '@material-ui/icons/Twitter';
+import React from 'react'
+import Logo from '../images/ouluxxLogo.png'
+import classes from './footer_k.module.css'
+import { Row, Col, Container, Dropdown, Button, Input } from 'react-bootstrap'
+import FacebookIcon from '@material-ui/icons/Facebook'
+import InstagramIcon from '@material-ui/icons/Instagram'
+import LinkedInIcon from '@material-ui/icons/LinkedIn'
+import TwitterIcon from '@material-ui/icons/Twitter'
 
 function Footer() {
   return (
@@ -82,28 +82,28 @@ function Footer() {
               <FacebookIcon
                 className={classes.socialicons}
                 fontSize='large'
-                style={{color: 'rgb(255, 225, 56)'}}
+                style={{ color: 'rgb(255, 225, 56)' }}
               />
             </Col>
             <Col sm={2}>
               <InstagramIcon
                 className={classes.socialicons}
                 fontSize='large'
-                style={{color: 'rgb(255, 225, 56)'}}
+                style={{ color: 'rgb(255, 225, 56)' }}
               />
             </Col>
             <Col sm={2}>
               <LinkedInIcon
                 className={classes.socialicons}
                 fontSize='large'
-                style={{color: 'rgb(255, 225, 56)'}}
+                style={{ color: 'rgb(255, 225, 56)' }}
               />
             </Col>
             <Col sm={2}>
               <TwitterIcon
                 className={classes.socialicons}
                 fontSize='large'
-                style={{color: 'rgb(255, 225, 56)'}}
+                style={{ color: 'rgb(255, 225, 56)' }}
               />
             </Col>
           </Row>
@@ -111,7 +111,7 @@ function Footer() {
       </div>
       <div className={classes.border}></div>
     </>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

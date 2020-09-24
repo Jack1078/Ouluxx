@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, { useRef, useEffect } from 'react'
 
 /**
  * Video chat video component
@@ -6,17 +6,17 @@ import React, {useRef, useEffect} from 'react';
  * @param {string} id
  */
 
-const Video = (props) => {
-  const {peer, id, ...other} = props;
-  const ref = useRef();
+const Video = props => {
+  const { peer, id, ...other } = props
+  const ref = useRef()
 
   useEffect(() => {
-    peer.on('stream', (stream) => {
-      ref.current.srcObject = stream;
-    });
-  }, [peer]);
+    peer.on('stream', stream => {
+      ref.current.srcObject = stream
+    })
+  }, [peer])
 
-  return <video id={id} playsInline autoPlay ref={ref} {...other} />;
-};
+  return <video id={id} playsInline autoPlay ref={ref} {...other} />
+}
 
-export default Video;
+export default Video

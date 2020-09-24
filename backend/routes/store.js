@@ -1,16 +1,16 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
-const zipcodes = require('zipcodes');
-const InventoryItemModel = require('../models/Item_Model');
-const StoreModel = require('../models/Store_Model');
+const express = require('express')
+const router = express.Router()
+const mongoose = require('mongoose')
+const zipcodes = require('zipcodes')
+const InventoryItemModel = require('../models/Item_Model')
+const StoreModel = require('../models/Store_Model')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', {title: 'Express'});
-  console.log(req.body);
-  console.log('Hello');
-});
+router.get('/', function (req, res, next) {
+  res.render('index', { title: 'Express' })
+  console.log(req.body)
+  console.log('Hello')
+})
 
 /*
 
@@ -32,7 +32,7 @@ Add a store. Must be logged in from a store account.
 
 */
 
-router.post('/add', async function(req, res, next) {
+router.post('/add', async function (req, res, next) {
   // console.log(req.body);
   if (req.user && req.user.UserType === 'STORE') {
     const newStore = new StoreModel({
@@ -46,18 +46,18 @@ router.post('/add', async function(req, res, next) {
       Categories: req.body.categories,
       Description: req.body.description,
       IdentifierName: req.body.TrueIdentifier,
-      img: req.body.Image,
-    });
+      img: req.body.Image
+    })
     await UserModel.findOneAndUpdate(
-        {_id: req.user._id},
-        {StoreID: newStore._id.toString()},
-    );
-    await newStore.save();
-    res.status(200).json({message: 'Success'});
+      { _id: req.user._id },
+      { StoreID: newStore._id.toString() }
+    )
+    await newStore.save()
+    res.status(200).json({ message: 'Success' })
   } else {
-    res.status(200).json({message: 'Not logged in as a store account. '});
+    res.status(200).json({ message: 'Not logged in as a store account. ' })
   }
-});
+})
 
 /*
 Send image as base64 to server updates stores image
@@ -68,17 +68,17 @@ Send image as base64 to server updates stores image
 
 */
 
-router.post('/Image', async function(req, res, next) {
+router.post('/Image', async function (req, res, next) {
   if (req.user && req.user.UserType === 'STORE') {
     await StoreModel.findOneAndUpdate(
-        {_id: mongoose.Types.ObjectId(req.user.StoreID)},
-        {img: req.body.Image},
-    );
-    res.status(200).json({message: 'Sucess'});
+      { _id: mongoose.Types.ObjectId(req.user.StoreID) },
+      { img: req.body.Image }
+    )
+    res.status(200).json({ message: 'Sucess' })
   } else {
-    res.status(401).json({message: 'not allowed'});
+    res.status(401).json({ message: 'not allowed' })
   }
-});
+})
 
 /*
 
@@ -94,25 +94,25 @@ Remove a store.
 
 */
 
-router.post('/delete', async function(req, res, next) {
+router.post('/delete', async function (req, res, next) {
   if (req.user && req.user.UserType === 'STORE') {
     await StoreModel.findOneAndRemove({
-      _id: mongoose.Types.ObjectId(req.user.StoreID),
-    });
-    await InventoryItemModel.deleteMany({StoreID: req.user.StoreID});
-    res.status(200).json({message: 'Success'});
+      _id: mongoose.Types.ObjectId(req.user.StoreID)
+    })
+    await InventoryItemModel.deleteMany({ StoreID: req.user.StoreID })
+    res.status(200).json({ message: 'Success' })
   } else if (req.user && req.user.UserType === 'ADMIN') {
     await StoreModel.findOneAndRemove({
-      _id: mongoose.Types.ObjectId(req.body.storeid),
-    });
-    await InventoryItemModel.deleteMany({StoreID: req.body.storeid});
-    const obj = new Object();
-    obj.status = 'Success';
-    res.json(JSON.stringify(obj));
+      _id: mongoose.Types.ObjectId(req.body.storeid)
+    })
+    await InventoryItemModel.deleteMany({ StoreID: req.body.storeid })
+    const obj = new Object()
+    obj.status = 'Success'
+    res.json(JSON.stringify(obj))
   } else {
-    res.status(401).json({message: 'not allowed'});
+    res.status(401).json({ message: 'not allowed' })
   }
-});
+})
 
 /*
 
@@ -127,15 +127,15 @@ If there is no store with the given id, it returns null.
 
 */
 
-router.post('/get_store', async function(req, res, next) {
+router.post('/get_store', async function (req, res, next) {
   // console.log(req.body);
   await StoreModel.findOne(
-      {_id: mongoose.Types.ObjectId(req.body.storeid)},
-      function(err, StoreModel) {
-        res.json(JSON.stringify(StoreModel));
-      },
-  );
-});
+    { _id: mongoose.Types.ObjectId(req.body.storeid) },
+    function (err, StoreModel) {
+      res.json(JSON.stringify(StoreModel))
+    }
+  )
+})
 
 /*
 
@@ -146,11 +146,11 @@ If there are no stores, it returns null.
 
 */
 
-router.post('/get_all_stores', async function(req, res, next) {
-  await StoreModel.find({}, function(err, StoreModel) {
-    res.json(JSON.stringify(StoreModel));
-  });
-});
+router.post('/get_all_stores', async function (req, res, next) {
+  await StoreModel.find({}, function (err, StoreModel) {
+    res.json(JSON.stringify(StoreModel))
+  })
+})
 
 /*
 
@@ -167,7 +167,7 @@ get stores with specific properties
 
 */
 
-router.post('/get_store_with_property', async function(req, res, next) {
+router.post('/get_store_with_property', async function (req, res, next) {
   // console.log(req.body);
   // var propertyname = req.body.property;
   // await StoreModel.find({propertyname : req.body.value},
@@ -176,35 +176,35 @@ router.post('/get_store_with_property', async function(req, res, next) {
   // 	});
   for (const [key, value] of Object.entries(req.body)) {
     if (key.toString().toUpperCase() === 'ZIPCODE') {
-      const rad = zipcodes.radius(Number(value), 10);
+      const rad = zipcodes.radius(Number(value), 10)
       for (let i = 0; i < rad.length; i++) {
-        rad[i] = rad[i].toString();
+        rad[i] = rad[i].toString()
       }
-      await StoreModel.find({Zipcode: {$in: rad}}, function(
-          err,
-          StoreModel,
+      await StoreModel.find({ Zipcode: { $in: rad } }, function (
+        err,
+        StoreModel
       ) {
-        res.json(JSON.stringify(StoreModel));
-      });
+        res.json(JSON.stringify(StoreModel))
+      })
     } else if (key.toString().toUpperCase() === 'CITY') {
-      await StoreModel.find({City: value.toString()}, function(
-          err,
-          StoreModel,
+      await StoreModel.find({ City: value.toString() }, function (
+        err,
+        StoreModel
       ) {
-        res.json(JSON.stringify(StoreModel));
-      });
+        res.json(JSON.stringify(StoreModel))
+      })
     } else if (key.toString().toUpperCase() === 'STATE') {
-      await StoreModel.find({State: value.toString()}, function(
-          err,
-          StoreModel,
+      await StoreModel.find({ State: value.toString() }, function (
+        err,
+        StoreModel
       ) {
-        res.json(JSON.stringify(StoreModel));
-      });
+        res.json(JSON.stringify(StoreModel))
+      })
     } else {
       // ignore
     }
   }
-});
+})
 
 /*
 A search for store function. matches with the provided string as a start point.
@@ -216,15 +216,15 @@ JSON:
 
 */
 
-router.post('/search', async function(req, res, next) {
+router.post('/search', async function (req, res, next) {
   // console.log(req.body);
   StoreModel.find(
-      {Name: {$regex: '^' + req.body.searchstring, $options: 'i'}},
-      function(err, stores) {
-        res.status(200).send(stores);
-      },
-  );
-});
+    { Name: { $regex: '^' + req.body.searchstring, $options: 'i' } },
+    function (err, stores) {
+      res.status(200).send(stores)
+    }
+  )
+})
 
 /*
 
@@ -239,26 +239,26 @@ Add a comment to an item.
 
 */
 
-router.post('/add_comment', async function(req, res, next) {
-  console.log(req.body);
+router.post('/add_comment', async function (req, res, next) {
+  console.log(req.body)
   if (req.user && req.user.UserType === 'USER') {
     const commentitem = {
       Body: req.body.comment,
       userID: req.user._id.toString(),
-      Username: req.user.username,
-    };
+      Username: req.user.username
+    }
     await StoreModel.findOneAndUpdate(
-        {_id: mongoose.Types.ObjectId(req.body.storeid)},
-        {$push: {Comments: commentitem}},
-    );
-    res.status(200).json({message: 'Sucess'});
+      { _id: mongoose.Types.ObjectId(req.body.storeid) },
+      { $push: { Comments: commentitem } }
+    )
+    res.status(200).json({ message: 'Sucess' })
   } else if (req.user && req.user.UserType === 'STORE') {
     res.status(200).json({
-      message: 'Done by a store, use a user account to make comments. ',
-    });
+      message: 'Done by a store, use a user account to make comments. '
+    })
   } else {
-    res.status(401).json({message: 'Not allowed'});
+    res.status(401).json({ message: 'Not allowed' })
   }
-});
+})
 
-module.exports = router;
+module.exports = router

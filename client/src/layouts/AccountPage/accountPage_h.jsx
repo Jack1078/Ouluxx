@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {Component} from 'react';
-import classes from './accountPage_h.module.css';
-import NavBar from '../../containers/navBar_k';
-import {Row, Col, Container, Card} from 'react-bootstrap';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import Profile from '../../containers/UserProfileCard/profile_k';
-import UserPaymentInfoCard from '../../containers/UserPaymentInfoCard/paymentInfo_k';
+import React, { useState } from 'react'
+import { Component } from 'react'
+import classes from './accountPage_h.module.css'
+import NavBar from '../../containers/navBar_k'
+import { Row, Col, Container, Card } from 'react-bootstrap'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import Profile from '../../containers/UserProfileCard/profile_k'
+import UserPaymentInfoCard from '../../containers/UserPaymentInfoCard/paymentInfo_k'
 
 const UserAccount = () => {
   return (
@@ -25,7 +25,7 @@ const UserAccount = () => {
         </Row>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserAccount;
+export default UserAccount

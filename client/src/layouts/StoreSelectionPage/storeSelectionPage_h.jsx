@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import StoreIcon from '../../components/storeIcon_c';
-import Filter from '../../containers/Filter/filter_k';
-import Logo from '../../images/logo.png';
-import classes from './storeSelectionPage_h.module.css';
+import React, { useCallback, useEffect, useState } from 'react'
+import StoreIcon from '../../components/storeIcon_c'
+import Filter from '../../containers/Filter/filter_k'
+import Logo from '../../images/logo.png'
+import classes from './storeSelectionPage_h.module.css'
 
 /**
  * Layout for the Store Selection page
@@ -12,51 +12,51 @@ const stores = [
   {
     name: 'fairway',
     categories: ['Groceries', 'Produce', 'Organic'],
-    img_url: 'fairway.png',
+    img_url: 'fairway.png'
   },
   {
     name: 'CVS Pharmacy@',
     categories: ['Personal Care', 'Drugstore', 'Groceries'],
-    img_url: 'cvs.png',
+    img_url: 'cvs.png'
   },
   {
     name: 'HMart',
     categories: ['Specialty', 'Prepared Meals', 'Ethnic'],
-    img_url: 'hmart.png',
+    img_url: 'hmart.png'
   },
   {
     name: 'Petco',
     categories: ['Pet Supplies'],
-    img_url: 'petco.png',
+    img_url: 'petco.png'
   },
   {
     name: 'ABC',
     categories: ['Groceries', 'Produce', 'Organic'],
-    img_url: 'fairway.png',
+    img_url: 'fairway.png'
   },
   {
     name: 'DEF',
     categories: ['Personal Care', 'Drugstore', 'Groceries'],
-    img_url: 'cvs.png',
-  },
-];
+    img_url: 'cvs.png'
+  }
+]
 
-const filters = ['All', 'Drugstore', 'Groceries', 'Pet Supplies', 'Meals'];
+const filters = ['All', 'Drugstore', 'Groceries', 'Pet Supplies', 'Meals']
 
-const StoreSelect = (props) => {
+const StoreSelect = props => {
   // console.log("Props: ", props);
   // console.log("Zipcode: ", props.location.state.zipcode);
-  let temp = '';
+  let temp = ''
   if (props.location && props.location.state && props.location.state.zipcode) {
-    temp = props.location.state.zipcode;
+    temp = props.location.state.zipcode
   }
-  const [active, setActive] = useState('All');
-  const [zipcode, setZipcode] = useState(temp);
-  const [currStores, setCurrStores] = useState([]);
+  const [active, setActive] = useState('All')
+  const [zipcode, setZipcode] = useState(temp)
+  const [currStores, setCurrStores] = useState([])
   // const [currPage, setCurrPage] = useState(1);
 
-  const data = { Zipcode: zipcode };
-  const user = {};
+  const data = { Zipcode: zipcode }
+  const user = {}
 
   // useEffect(() => {
   //     setCurrPage(1);
@@ -65,70 +65,70 @@ const StoreSelect = (props) => {
   useEffect(() => {
     if (temp === '') {
       // console.log("Temp is undefined");
-      get_user();
+      get_user()
     }
-    get_stores(data);
-  }, [data, get_stores, temp]);
+    get_stores(data)
+  }, [data, get_stores, temp])
 
   useEffect(() => {
-    get_stores(data);
-  }, [data, get_stores]);
+    get_stores(data)
+  }, [data, get_stores])
 
   const get_user = () => {
     return fetch('/users/get_logged_in', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }
       // body: JSON.stringify(json_data)
     })
-      .then((response) => {
+      .then(response => {
         if (response.status >= 400) {
-          throw new Error('Bad response from server');
+          throw new Error('Bad response from server')
         }
-        return response.json();
+        return response.json()
       })
-      .then((respData) => {
-        const temp = JSON.parse(respData);
+      .then(respData => {
+        const temp = JSON.parse(respData)
         // console.log("JSON.parse(respData) =", JSON.parse(respData));
-        setZipcode(temp.Zipcode);
+        setZipcode(temp.Zipcode)
       })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-  };
+      .catch(err => {
+        console.log(err)
+        return err
+      })
+  }
 
-  const get_stores = useCallback((json_data) => {
+  const get_stores = useCallback(json_data => {
     return fetch('/store/get_store_with_property', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(json_data),
+      body: JSON.stringify(json_data)
     })
-      .then((response) => {
+      .then(response => {
         if (response.status >= 400) {
-          throw new Error('Bad response from server');
+          throw new Error('Bad response from server')
         }
-        return response.json();
+        return response.json()
       })
-      .then((respData) => {
-        const temp = JSON.parse(respData);
-        console.log('JSON.parse(respData) =', JSON.parse(respData));
-        setCurrStores(currStores.splice(0, currStores.length, ...temp));
+      .then(respData => {
+        const temp = JSON.parse(respData)
+        console.log('JSON.parse(respData) =', JSON.parse(respData))
+        setCurrStores(currStores.splice(0, currStores.length, ...temp))
         // console.log("Data Recieved | Stores= ", currStores);
         // return JSON.parse(respData);
       })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-  });
+      .catch(err => {
+        console.log(err)
+        return err
+      })
+  })
 
   const filteredStores = (stores, filter) => {
     // console.log("Testing filter, Stores: ", stores);
     return stores
-      .filter((store) =>
-        filter === 'All' ? true : store.Categories.includes(filter),
+      .filter(store =>
+        filter === 'All' ? true : store.Categories.includes(filter)
       )
-      .map((filtered_store) => (
+      .map(filtered_store => (
         <StoreIcon
           name={filtered_store.Name}
           // img_url={filtered_store.img_url}
@@ -138,15 +138,15 @@ const StoreSelect = (props) => {
           // onClick={handleSelection}
           key={filtered_store.name}
         />
-      ));
-  };
+      ))
+  }
 
-  const handleSelection = (name) => {
+  const handleSelection = name => {
     // console.log(event);
     // props.history.push({
     // pathname: `/stores/${name}`
     // })
-  };
+  }
 
   return (
     <div className={classes.background}>
@@ -158,9 +158,9 @@ const StoreSelect = (props) => {
         <span style={{ fontWeight: 'bold' }}>{zipcode}</span>
       </div>
       <div className={classes.filter_container}>
-        <Filter active={active} onChange={(active) => setActive(active)}>
-          {filters.map((filter) => {
-            return <div key={filter}>{filter}</div>;
+        <Filter active={active} onChange={active => setActive(active)}>
+          {filters.map(filter => {
+            return <div key={filter}>{filter}</div>
           })}
         </Filter>
       </div>
@@ -170,7 +170,7 @@ const StoreSelect = (props) => {
         {filteredStores(currStores, active)}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StoreSelect;
+export default StoreSelect

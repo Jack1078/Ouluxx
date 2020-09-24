@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classes from './backButton_c.module.css';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classes from './backButton_c.module.css'
 
 /**
  * Go back to the previous page
@@ -8,7 +8,7 @@ import classes from './backButton_c.module.css';
  */
 
 function BackButton(props) {
-  const {onClick} = props;
+  const { onClick } = props
 
   return (
     <button type='button' className={classes.BackArrowButton} onClick={onClick}>
@@ -22,11 +22,11 @@ function BackButton(props) {
         ></path>
       </svg>
     </button>
-  );
+  )
 }
 
 BackButton.propTypes = {
-  onClick: PropTypes.func,
-};
+  onClick: PropTypes.func
+}
 
-export default BackButton;
+export default BackButton

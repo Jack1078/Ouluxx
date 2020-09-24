@@ -4,22 +4,22 @@ Contains: email signup textfield, sign up button,
     continue with facebook button, continue with google button
 */
 
-import React, {useState, setState} from 'react';
+import React, { useState, setState } from 'react'
 import {
   createMuiTheme,
-  ThemeProvider as MuiThemeProvider,
-} from '@material-ui/core/styles';
-import Textfield from '../../components/textfield_c';
-import Button from '../../components/button_c';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import BackButton from '../../components/BackButton/backButton_c';
-import {FaGoogle} from 'react-icons/fa';
-import logo from '../../images/logo.png';
-import classes from './signUp_k.module.css';
+  ThemeProvider as MuiThemeProvider
+} from '@material-ui/core/styles'
+import Textfield from '../../components/textfield_c'
+import Button from '../../components/button_c'
+import FacebookIcon from '@material-ui/icons/Facebook'
+import BackButton from '../../components/BackButton/backButton_c'
+import { FaGoogle } from 'react-icons/fa'
+import logo from '../../images/logo.png'
+import classes from './signUp_k.module.css'
 // import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import {Input} from '@material-ui/core';
-import {Row, Col, Container} from 'react-bootstrap';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import { Input } from '@material-ui/core'
+import { Row, Col, Container } from 'react-bootstrap'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 /**
  * Email sign up container
@@ -27,13 +27,13 @@ import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 
 const button_theme = createMuiTheme({
   palette: {
-    primary: {main: '#3b5998'},
-    secondary: {main: '#4285F4'},
-  },
-});
+    primary: { main: '#3b5998' },
+    secondary: { main: '#4285F4' }
+  }
+})
 
-const SignUp = (props) => {
-  const {zipcode} = props;
+const SignUp = props => {
+  const { zipcode } = props
   // console.log("data =", props);
   const [state, setState] = useState({
     FirstName: '',
@@ -41,16 +41,16 @@ const SignUp = (props) => {
     Email: '',
     username: '',
     password: '',
-    Zipcode: zipcode,
-  });
+    Zipcode: zipcode
+  })
 
-  const handleChange = (event) => {
-    const {name, value} = event.target;
-    setState((prevState) => ({
+  const handleChange = event => {
+    const { name, value } = event.target
+    setState(prevState => ({
       ...prevState,
-      [name]: value,
-    }));
-  };
+      [name]: value
+    }))
+  }
 
   return (
     <div className={classes.container}>
@@ -146,7 +146,7 @@ const SignUp = (props) => {
         </div>
 
         <div className={classes.block}>
-          <p style={{textAlign: 'center'}}>
+          <p style={{ textAlign: 'center' }}>
             By signing up, you agree to our <a href='.'>Terms of Service</a> &{' '}
             <a href='.'>Privacy Policy</a>
           </p>
@@ -164,7 +164,7 @@ const SignUp = (props) => {
         <div className={classes.or_block}>
           <div className={classes.or}>or</div>
           <div className={classes.line}></div>
-          <div className={classes.line} style={{right: '0'}}></div>
+          <div className={classes.line} style={{ right: '0' }}></div>
         </div>
 
         {/* Sign up with facebook or google account */}
@@ -200,7 +200,7 @@ const SignUp = (props) => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp

@@ -6,7 +6,7 @@
     "jquery": true,
     "node": false
   },
-  "extends": ["../.eslintrc.json", "react-app"],
+  "extends": ["../.eslintrc.json", "react-app", "prettier/react"],
   "plugins": [],
   "rules": {
     "jsx-quotes": [2, "prefer-single"],

@@ -7,26 +7,26 @@
  * basic create, retrieve, update, and delete for both items in the cart and  *
  * users.																	  *
  ******************************************************************************/
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const flash = require('connect-flash');
-const jwt = require('jsonwebtoken');
+const express = require('express')
+const router = express.Router()
+const mongoose = require('mongoose')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+const flash = require('connect-flash')
+const jwt = require('jsonwebtoken')
 
-const UserModel = require('../models/User_Model');
+const UserModel = require('../models/User_Model')
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   // this processes the GET request.
   // this needs to be converted to sanitize the inputs.
   // this also needs to parse the inputs
   // this needs to implement prepared statements for the query
 
-  res.render('index', {title: 'Express'});
-  console.log(req.body);
-  console.log('Hello');
-});
+  res.render('index', { title: 'Express' })
+  console.log(req.body)
+  console.log('Hello')
+})
 
 /** ************************ USER FUNCTIONS *************************************/
 
@@ -37,21 +37,21 @@ router.get('/', function(req, res, next) {
 }
 */
 // used for getting a not logged in user. To get a logged in user, use req.user.
-router.post('/get_user', async function(req, res, next) {
-  console.log(req.body);
+router.post('/get_user', async function (req, res, next) {
+  console.log(req.body)
   await UserModel.findOne(
-      {_id: mongoose.Types.ObjectId(req.body.userid)},
-      function(err, UserModel) {
-        res.json(JSON.stringify(UserModel));
-      },
-  );
-});
+    { _id: mongoose.Types.ObjectId(req.body.userid) },
+    function (err, UserModel) {
+      res.json(JSON.stringify(UserModel))
+    }
+  )
+})
 
-router.post('/get_logged_in', async function(req, res, next) {
-  await UserModel.findOne({_id: req.user._id}, function(err, UserModel) {
-    res.json(JSON.stringify(UserModel));
-  });
-});
+router.post('/get_logged_in', async function (req, res, next) {
+  await UserModel.findOne({ _id: req.user._id }, function (err, UserModel) {
+    res.json(JSON.stringify(UserModel))
+  })
+})
 
 // updates user information in the database
 /* JSON Request looks like this:
@@ -67,12 +67,12 @@ router.post('/get_logged_in', async function(req, res, next) {
 }
 */
 
-router.post('/update', async function(req, res, next) {
+router.post('/update', async function (req, res, next) {
   if (req.user && req.user.UserType === 'USER') {
     // logged in
     for (const [key, value] of Object.entries(req.body)) {
       if (key.toString().toUpperCase().includes('ID')) {
-        console.log(key); // cannot be changed
+        console.log(key) // cannot be changed
         // not currently changing emails
         /* } else if (key.toString().toUpperCase() === "EMAIL") { //usually has a process to change emails
           await UserModel.findOneAndUpdate(
@@ -82,66 +82,66 @@ router.post('/update', async function(req, res, next) {
       } else if (key.toString().toUpperCase() === 'USERNAME') {
         // need to verify if the username is already taken
         await UserModel.findOneAndUpdate(
-            {_id: req.user._id},
-            {username: value.toString()},
-        );
+          { _id: req.user._id },
+          { username: value.toString() }
+        )
       } else if (key.toString().toUpperCase() === 'FIRSTNAME') {
         await UserModel.findOneAndUpdate(
-            {_id: req.user._id},
-            {FirstName: value.toString()},
-        );
+          { _id: req.user._id },
+          { FirstName: value.toString() }
+        )
       } else if (key.toString().toUpperCase() === 'LASTNAME') {
         await UserModel.findOneAndUpdate(
-            {_id: req.user._id},
-            {LastName: value.toString()},
-        );
+          { _id: req.user._id },
+          { LastName: value.toString() }
+        )
       } else if (key.toString().toUpperCase() === 'ADDRESS') {
         await UserModel.findOneAndUpdate(
-            {_id: req.user._id},
-            {Address: value.toString()},
-        );
+          { _id: req.user._id },
+          { Address: value.toString() }
+        )
       } else if (key.toString().toUpperCase() === 'CITY') {
         await UserModel.findOneAndUpdate(
-            {_id: req.user._id},
-            {City: value.toString()},
-        );
+          { _id: req.user._id },
+          { City: value.toString() }
+        )
       } else if (key.toString().toUpperCase() === 'STATE') {
         await UserModel.findOneAndUpdate(
-            {_id: req.user._id},
-            {State: value.toString()},
-        );
+          { _id: req.user._id },
+          { State: value.toString() }
+        )
       } else if (key.toString().toUpperCase() === 'ZIPCODE') {
         await UserModel.findOneAndUpdate(
-            {_id: req.user._id},
-            {Zipcode: value.toString()},
-        );
+          { _id: req.user._id },
+          { Zipcode: value.toString() }
+        )
       } else {
         // ignore
       }
     }
-    const obj = new Object();
-    obj.status = 'Success';
-    res.json(JSON.stringify(obj));
+    const obj = new Object()
+    obj.status = 'Success'
+    res.json(JSON.stringify(obj))
   } else {
-    res.status(401).json({message: 'Authentication required'});
+    res.status(401).json({ message: 'Authentication required' })
   }
-});
+})
 
 // delete user from database
 /*
 must be logged in.
 */
 
-router.post('/delete', async function(req, res, next) {
+router.post('/delete', async function (req, res, next) {
   if (req.user) {
-    await UserModel.findOneAndRemove({_id: req.user._id});
-    const obj = new Object();
-    obj.status = 'Success';
-    res.json(JSON.stringify(obj));
+    await UserModel.findOneAndRemove({ _id: req.user._id })
+    const obj = new Object()
+    obj.status = 'Success'
+    res.json(JSON.stringify(obj))
   } else {
-    res.status(401).json({message: 'Authentication required'});
+    res.status(401).json({ message: 'Authentication required' })
   }
-});
+})
 
 /** ************************ CART FUNCTIONS *************************************/
 /*
@@ -155,12 +155,12 @@ JSON is structured like this:
 }
 */
 // adds an item to the user's cart
-router.post('/add_to_cart', async function(req, res, next) {
+router.post('/add_to_cart', async function (req, res, next) {
   // console.log(req.body);
   // console.log(req.user);
   if (req.user && req.user.UserType === 'USER') {
     // must be logged in
-    const itemprice = parseFloat(req.body.Price);
+    const itemprice = parseFloat(req.body.Price)
     const CartItem = {
       UserID: req.user._id,
       ItemID: req.body.ItemID,
@@ -168,38 +168,38 @@ router.post('/add_to_cart', async function(req, res, next) {
       Description: req.body.Description,
       Quantity: req.body.Quantity,
       Price: itemprice,
-      Subtotal: req.body.Price * req.body.Quantity,
-    };
+      Subtotal: req.body.Price * req.body.Quantity
+    }
 
     await UserModel.findOneAndUpdate(
-        {_id: req.user._id},
-        {$push: {Cart: CartItem}},
-    );
-    const obj = new Object();
-    obj.status = 'Success';
-    res.json(JSON.stringify(obj));
+      { _id: req.user._id },
+      { $push: { Cart: CartItem } }
+    )
+    const obj = new Object()
+    obj.status = 'Success'
+    res.json(JSON.stringify(obj))
   } else {
-    res.status(401).json({message: 'Authentication required'});
+    res.status(401).json({ message: 'Authentication required' })
   }
-});
+})
 
 // retrieves the items in the user's cart
 /* JSON Request looks like this:
 {
 }
 */
-router.post('/get_cart', async function(req, res, next) {
+router.post('/get_cart', async function (req, res, next) {
   if (req.user && req.user.UserType === 'USER') {
-    await UserModel.find({_id: req.user._id}, {Cart: 1}, function(
-        err,
-        UserModel,
+    await UserModel.find({ _id: req.user._id }, { Cart: 1 }, function (
+      err,
+      UserModel
     ) {
-      res.json(JSON.stringify(UserModel));
-    });
+      res.json(JSON.stringify(UserModel))
+    })
   } else {
-    res.status(401).json({message: 'Authentication required'});
+    res.status(401).json({ message: 'Authentication required' })
   }
-});
+})
 
 // updates the quantity of an object in the user's cart
 
@@ -211,27 +211,27 @@ JSON looks like:
 }
 */
 
-router.post('/update_cart', async function(req, res, next) {
+router.post('/update_cart', async function (req, res, next) {
   if (req.user && req.user.UserType === 'USER') {
     await UserModel.findOneAndUpdate(
-        {
-          '_id': req.user._id,
-          'Cart.ItemID': req.body.ItemID,
-        },
-        {
-          $set: {
-            'Cart.$.Quantity': req.body.Quantity,
-          },
-        },
-    );
+      {
+        _id: req.user._id,
+        'Cart.ItemID': req.body.ItemID
+      },
+      {
+        $set: {
+          'Cart.$.Quantity': req.body.Quantity
+        }
+      }
+    )
 
-    const obj = new Object();
-    obj.status = 'Success';
-    res.json(JSON.stringify(obj));
+    const obj = new Object()
+    obj.status = 'Success'
+    res.json(JSON.stringify(obj))
   } else {
-    res.status(401).json({message: 'Authentication required'});
+    res.status(401).json({ message: 'Authentication required' })
   }
-});
+})
 
 // removes an item from the user's cart
 /* JSON Request looks like this:
@@ -240,21 +240,21 @@ router.post('/update_cart', async function(req, res, next) {
   "ItemID": "<The Item's ID to be removed>"
 }
 */
-router.post('/remove_from_cart', async function(req, res, next) {
+router.post('/remove_from_cart', async function (req, res, next) {
   if (req.user && req.user.UserType === 'USER') {
     await UserModel.findOneAndUpdate(
-        {
-          _id: req.user._id,
-        },
-        {$pull: {Cart: {ItemID: req.body.ItemID}}},
-    );
+      {
+        _id: req.user._id
+      },
+      { $pull: { Cart: { ItemID: req.body.ItemID } } }
+    )
 
-    const obj = new Object();
-    obj.status = 'Success';
-    res.json(JSON.stringify(obj));
+    const obj = new Object()
+    obj.status = 'Success'
+    res.json(JSON.stringify(obj))
   } else {
-    res.status(401).json({message: 'Authentication required'});
+    res.status(401).json({ message: 'Authentication required' })
   }
-});
+})
 
-module.exports = router;
+module.exports = router

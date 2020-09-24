@@ -1,43 +1,43 @@
-import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState } from 'react';
-import classes from './miniCart_k.module.css';
+import PropTypes from 'prop-types'
+import React, { useCallback, useEffect, useState } from 'react'
+import classes from './miniCart_k.module.css'
 
 /**
  * In cart section
  * @param {orders} MiniCart
  */
 
-const MiniCart = (props) => {
-  const [cart, setCart] = useState([]);
+const MiniCart = props => {
+  const [cart, setCart] = useState([])
   // const { orders } = props;
-  const { orders } = [];
+  const { orders } = []
 
   const checkoutHandler = () => {
-    console.log('checkout clicked ...');
-  };
+    console.log('checkout clicked ...')
+  }
 
   const get_cart = useCallback(() => {
     return fetch('/users/get_cart', {
-      method: 'POST',
+      method: 'POST'
     })
-      .then((response) => {
+      .then(response => {
         if (response.status >= 400) {
-          throw new Error('Bad response from server');
+          throw new Error('Bad response from server')
         }
-        return response.json();
+        return response.json()
       })
-      .then((respData) => {
+      .then(respData => {
         // console.log("temp = ", temp[0].Cart);
         // console.log("JSON.parse(respData) =", JSON.parse(respData));
-        const temp = JSON.parse(respData);
-        setCart(cart.splice(0, cart.length, ...temp[0].Cart));
+        const temp = JSON.parse(respData)
+        setCart(cart.splice(0, cart.length, ...temp[0].Cart))
         // console.log("Data Recieved | Cart= ", cart);
       })
-      .catch((err) => {
-        console.log(err);
-        return err;
-      });
-  });
+      .catch(err => {
+        console.log(err)
+        return err
+      })
+  })
 
   /* items should be an array of products*/
   // const displayCart = (items) => {
@@ -52,19 +52,19 @@ const MiniCart = (props) => {
   // };
 
   useEffect(() => {
-    get_cart();
-  }, [get_cart]);
+    get_cart()
+  }, [get_cart])
 
   useEffect(() => {
-    get_cart();
-  }, [get_cart]);
+    get_cart()
+  }, [get_cart])
 
   return (
     <div className={classes.container}>
       <div className={classes.title}>IN CART</div>
       <ul className={classes.list}>
         {/* {displayCart(cart)} */}
-        {cart.map((order) => (
+        {cart.map(order => (
           <li key={order.num}>
             <div className={classes.inner}>
               {/* <img src={require(`../images/${order.img_url}`)} alt={order.name}></img> */}{' '}
@@ -84,11 +84,11 @@ const MiniCart = (props) => {
         CHECK OUT
       </div>
     </div>
-  );
-};
+  )
+}
 
 MiniCart.propTypes = {
-  orders: PropTypes.array.isRequired,
-};
+  orders: PropTypes.array.isRequired
+}
 
-export default MiniCart;
+export default MiniCart

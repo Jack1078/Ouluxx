@@ -1,15 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
-const InventoryItemModel = require('../models/Item_Model');
-const StoreModel = require('../models/Store_Model');
+const express = require('express')
+const router = express.Router()
+const mongoose = require('mongoose')
+const InventoryItemModel = require('../models/Item_Model')
+const StoreModel = require('../models/Store_Model')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', {title: 'Express'});
-  console.log(req.body);
-  console.log('Hello');
-});
+router.get('/', function (req, res, next) {
+  res.render('index', { title: 'Express' })
+  console.log(req.body)
+  console.log('Hello')
+})
 
 /*
 
@@ -29,16 +29,16 @@ Add a single item to the DB.
 
 */
 
-const markup = 0.07;
-const MDtaxrate = 0.06;
+const markup = 0.07
+const MDtaxrate = 0.06
 
-router.post('/add', async function(req, res, next) {
+router.post('/add', async function (req, res, next) {
   // add an item to the db, and add it to the store.
   if (req.user && req.user.UserType === 'STORE') {
-    const itemprice = parseFloat(req.body.itemprice);
-    const taxprice = itemprice * (1.0 + MDtaxrate);
-    const markupprice = itemprice * (1.0 + markup);
-    const totalprice = itemprice + itemprice * markup + itemprice * MDtaxrate;
+    const itemprice = parseFloat(req.body.itemprice)
+    const taxprice = itemprice * (1.0 + MDtaxrate)
+    const markupprice = itemprice * (1.0 + markup)
+    const totalprice = itemprice + itemprice * markup + itemprice * MDtaxrate
     const newitem = new InventoryItemModel({
       Name: req.body.itemname,
       Price: itemprice,
@@ -49,29 +49,29 @@ router.post('/add', async function(req, res, next) {
       img: req.body.Image,
       totalprice: totalprice,
       taxprice: taxprice,
-      markupprice: markupprice,
-    });
-    let number_In_Inventory = -1;
+      markupprice: markupprice
+    })
+    let number_In_Inventory = -1
     if (req.body.inventory != null) {
-      number_In_Inventory = req.body.inventory;
+      number_In_Inventory = req.body.inventory
     }
     const StoreItem = {
       // create inventory item to add to inventory array
       ItemID: newitem._id,
       ItemName: req.body.itemname,
-      NumberInInventory: number_In_Inventory,
-    };
+      NumberInInventory: number_In_Inventory
+    }
     await StoreModel.findOneAndUpdate(
-        // update the model by adding the new item to inventory
-        {_id: mongoose.Types.ObjectId(req.user.StoreId)},
-        {$push: {Inventory: StoreItem}},
-    );
-    await newitem.save();
-    res.status(200).json({message: 'Success'});
+      // update the model by adding the new item to inventory
+      { _id: mongoose.Types.ObjectId(req.user.StoreId) },
+      { $push: { Inventory: StoreItem } }
+    )
+    await newitem.save()
+    res.status(200).json({ message: 'Success' })
   } else {
-    res.status(200).json({message: 'Not logged in'});
+    res.status(200).json({ message: 'Not logged in' })
   }
-});
+})
 
 /*
 Send image as base64 to server
@@ -82,17 +82,17 @@ Send image as base64 to server
 
 */
 
-router.post('/Image', async function(req, res, next) {
+router.post('/Image', async function (req, res, next) {
   if (req.user && req.user.UserType === 'STORE') {
     await InventoryItemModel.findOneAndUpdate(
-        {_id: mongoose.Types.ObjectId(req.body.itemid)},
-        {img: req.body.Image},
-    );
-    res.status(200).json({message: 'Sucess'});
+      { _id: mongoose.Types.ObjectId(req.body.itemid) },
+      { img: req.body.Image }
+    )
+    res.status(200).json({ message: 'Sucess' })
   } else {
-    res.status(401).json({message: 'not allowed'});
+    res.status(401).json({ message: 'not allowed' })
   }
-});
+})
 
 /*
 
@@ -109,25 +109,25 @@ Add a comment to an item.
 
 */
 
-router.post('/add_comment', async function(req, res, next) {
+router.post('/add_comment', async function (req, res, next) {
   // add an item to the db, and add it to the store.
   if (req.user && req.user.UserType === 'USER') {
     const commentitem = {
       // create inventory item to add to inventory array
       Body: req.body.comment,
       userID: req.user._id.toString(),
-      Username: req.body.username,
-    };
+      Username: req.body.username
+    }
     await InventoryItemModel.findOneAndUpdate(
-        // update the model by adding the new item to inventory
-        {_id: mongoose.Types.ObjectId(req.body.itemid)},
-        {$push: {Comments: commentitem}},
-    );
-    res.status(200).json({message: 'Success'});
+      // update the model by adding the new item to inventory
+      { _id: mongoose.Types.ObjectId(req.body.itemid) },
+      { $push: { Comments: commentitem } }
+    )
+    res.status(200).json({ message: 'Success' })
   } else {
-    res.status(200).json({message: 'Not logged in'});
+    res.status(200).json({ message: 'Not logged in' })
   }
-});
+})
 
 /*
 
@@ -155,41 +155,41 @@ Adds many entries to the database. Is designed for information to be parsed on t
 
 */
 
-router.post('/add_many', async function(req, res, next) {
+router.post('/add_many', async function (req, res, next) {
   // add an item to the db, and add it to the store.
   if (req.user && req.user.UserType === 'STORE') {
     for (const [key, value] of Object.entries(req.body.items)) {
-      const itemprice = parseFloat(value.itemprice);
+      const itemprice = parseFloat(value.itemprice)
       const newitem = new InventoryItemModel({
         Name: value.itemname,
         Price: itemprice,
         StoreName: value.itemstore,
         StoreID: req.user.StoreID,
         Category: value.categories,
-        IdentifierName: req.body.TrueIdentifier,
-      });
-      let number_In_Inventory = -1;
+        IdentifierName: req.body.TrueIdentifier
+      })
+      let number_In_Inventory = -1
       if (req.body.inventory != null) {
-        number_In_Inventory = value.inventory;
+        number_In_Inventory = value.inventory
       }
       const StoreItem = {
         // create inventory item to add to inventory array
         ItemID: newitem._id,
         ItemName: value.itemname,
-        NumberInInventory: number_In_Inventory,
-      };
+        NumberInInventory: number_In_Inventory
+      }
       await StoreModel.findOneAndUpdate(
-          // update the model by adding the new item to inventory
-          {_id: mongoose.Types.ObjectId(req.user.StoreId)},
-          {$push: {Inventory: StoreItem}},
-      );
-      await newitem.save();
+        // update the model by adding the new item to inventory
+        { _id: mongoose.Types.ObjectId(req.user.StoreId) },
+        { $push: { Inventory: StoreItem } }
+      )
+      await newitem.save()
     }
-    res.status(200).json({message: 'Success'});
+    res.status(200).json({ message: 'Success' })
   } else {
-    res.status(401).json({message: 'Not allowed'});
+    res.status(401).json({ message: 'Not allowed' })
   }
-});
+})
 
 /*
 
@@ -203,22 +203,22 @@ Removes item from database.
 
 */
 
-router.post('/delete', async function(req, res, next) {
+router.post('/delete', async function (req, res, next) {
   // add an item to the db, and add it to the store.
   if (req.user && req.user.UserType === 'STORE') {
     await InventoryItemModel.findOneAndRemove({
-      _id: mongoose.Types.ObjectId(req.body.itemid),
-    });
+      _id: mongoose.Types.ObjectId(req.body.itemid)
+    })
     await StoreModel.findOneAndUpdate(
-        // update the model by adding the new item to inventory
-        {_id: mongoose.Types.ObjectId(req.user.StoreId)},
-        {$pull: {Inventory: {ItemID: req.body.itemid}}},
-    );
-    res.status(200).send('Success');
+      // update the model by adding the new item to inventory
+      { _id: mongoose.Types.ObjectId(req.user.StoreId) },
+      { $pull: { Inventory: { ItemID: req.body.itemid } } }
+    )
+    res.status(200).send('Success')
   } else {
-    res.status(401).json({message: 'Not allowed'});
+    res.status(401).json({ message: 'Not allowed' })
   }
-});
+})
 
 /*
 
@@ -240,7 +240,7 @@ Updates entries in the MongoDB database.
 
 */
 
-router.post('/update', async function(req, res, next) {
+router.post('/update', async function (req, res, next) {
   // add an item to the db, and add it to the store.
   if (req.user && req.user.StoreID) {
     for (const [key, value] of Object.entries(req.body)) {
@@ -249,42 +249,42 @@ router.post('/update', async function(req, res, next) {
           !(key.toString().toUpperCase() === 'HIDDEN')) ||
         key.toString().toUpperCase().includes('Name')
       ) {
-        console.log(key); // cannot be changed
+        console.log(key) // cannot be changed
       } else if (key.toString().toUpperCase() === 'PRICE') {
         await InventoryItemModel.findOneAndUpdate(
-            // update the model by adding the new item to inventory
-            {_id: mongoose.Types.ObjectId(req.body.itemid)},
-            {Price: parseFloat(value.toString())},
-        );
+          // update the model by adding the new item to inventory
+          { _id: mongoose.Types.ObjectId(req.body.itemid) },
+          { Price: parseFloat(value.toString()) }
+        )
       } else if (key.toString().toUpperCase() === 'HIDDEN') {
-        console.log(key);
-        console.log(value);
+        console.log(key)
+        console.log(value)
         await InventoryItemModel.findOneAndUpdate(
-            // update the model by adding the new item to inventory
-            {_id: mongoose.Types.ObjectId(req.body.itemid)},
-            {Hidden: value.toString() === 'true'},
-        );
+          // update the model by adding the new item to inventory
+          { _id: mongoose.Types.ObjectId(req.body.itemid) },
+          { Hidden: value.toString() === 'true' }
+        )
       } else if (key.toString().includes('Add_Category')) {
         await InventoryItemModel.findOneAndUpdate(
-            // update the model by adding the new item to inventory
-            {_id: mongoose.Types.ObjectId(req.body.itemid)},
-            {$push: {Category: value.toString()}},
-        );
+          // update the model by adding the new item to inventory
+          { _id: mongoose.Types.ObjectId(req.body.itemid) },
+          { $push: { Category: value.toString() } }
+        )
       } else if (key.toString().includes('Remove_Category')) {
         await InventoryItemModel.findOneAndUpdate(
-            // update the model by adding the new item to inventory
-            {_id: mongoose.Types.ObjectId(req.body.itemid)},
-            {$pull: {Category: value.toString()}},
-        );
+          // update the model by adding the new item to inventory
+          { _id: mongoose.Types.ObjectId(req.body.itemid) },
+          { $pull: { Category: value.toString() } }
+        )
       } else {
         // console.log("other"); //ignore
       }
     }
-    res.status(200).send('Success');
+    res.status(200).send('Success')
   } else {
-    res.status(401).json({message: 'Not allowed'});
+    res.status(401).json({ message: 'Not allowed' })
   }
-});
+})
 
 /*
 
@@ -299,14 +299,14 @@ If there is no item with the given id, it returns null.
 
 */
 
-router.post('/get_item', async function(req, res, next) {
+router.post('/get_item', async function (req, res, next) {
   await InventoryItemModel.findOne(
-      {_id: mongoose.Types.ObjectId(req.body.itemid)},
-      function(err, InventoryItemModel) {
-        res.json(JSON.stringify(InventoryItemModel));
-      },
-  );
-});
+    { _id: mongoose.Types.ObjectId(req.body.itemid) },
+    function (err, InventoryItemModel) {
+      res.json(JSON.stringify(InventoryItemModel))
+    }
+  )
+})
 
 /*
 
@@ -321,14 +321,14 @@ If there are no items with the given id, it returns null.
 
 */
 
-router.post('/get_store_items', async function(req, res, next) {
-  await InventoryItemModel.find({storeid: req.body.storeid}, function(
-      err,
-      InventoryItemModel,
+router.post('/get_store_items', async function (req, res, next) {
+  await InventoryItemModel.find({ storeid: req.body.storeid }, function (
+    err,
+    InventoryItemModel
   ) {
-    res.json(JSON.stringify(InventoryItemModel));
-  });
-});
+    res.json(JSON.stringify(InventoryItemModel))
+  })
+})
 
 /*
 
@@ -339,11 +339,11 @@ If there are no items, it returns null.
 
 */
 
-router.post('/get_all_items', async function(req, res, next) {
-  await InventoryItemModel.find({}, function(err, InventoryItemModel) {
-    res.json(JSON.stringify(InventoryItemModel));
-  });
-});
+router.post('/get_all_items', async function (req, res, next) {
+  await InventoryItemModel.find({}, function (err, InventoryItemModel) {
+    res.json(JSON.stringify(InventoryItemModel))
+  })
+})
 
 /*
 
@@ -358,14 +358,14 @@ get stores with specific properties
 
 */
 
-router.post('/get_item_with_property', async function(req, res, next) {
-  const propertyname = req.body.property;
-  await InventoryItemModel.find({propertyname: req.body.value}, function(
-      err,
-      InventoryItemModel,
+router.post('/get_item_with_property', async function (req, res, next) {
+  const propertyname = req.body.property
+  await InventoryItemModel.find({ propertyname: req.body.value }, function (
+    err,
+    InventoryItemModel
   ) {
-    res.json(JSON.stringify(InventoryItemModel));
-  });
-});
+    res.json(JSON.stringify(InventoryItemModel))
+  })
+})
 
-module.exports = router;
+module.exports = router

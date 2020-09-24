@@ -1,9 +1,9 @@
-import React from 'react';
-import classes from './storesNearby_k.module.css';
-import fairway_img from '../../images/stores/fairway.png';
-import cvs_img from '../../images/stores/cvs.png';
-import hmart_img from '../../images/stores/hmart.png';
-import petco_img from '../../images/stores/petco.png';
+import React from 'react'
+import classes from './storesNearby_k.module.css'
+import fairway_img from '../../images/stores/fairway.png'
+import cvs_img from '../../images/stores/cvs.png'
+import hmart_img from '../../images/stores/hmart.png'
+import petco_img from '../../images/stores/petco.png'
 
 /**
  * Display stores near region (by zipcode)
@@ -18,7 +18,7 @@ function StoresNearbyContainer() {
       <img src={hmart_img} alt='HMart logo' />
       <img src={petco_img} alt='Petco logo' />
     </div>
-  );
+  )
 }
 
-export default StoresNearbyContainer;
+export default StoresNearbyContainer

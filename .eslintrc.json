@@ -3,7 +3,8 @@
     "jest": true
   },
   "extends": [
-    "google"
+    "google",
+    "plugin:prettier/recommended"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -14,7 +15,7 @@
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
-  "plugins": [],
+  "plugins": ["prettier"],
   "rules": {
     "camelcase": 0
   }

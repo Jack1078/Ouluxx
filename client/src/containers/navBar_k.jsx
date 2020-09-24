@@ -1,48 +1,48 @@
-import React, {useState} from 'react';
-import {Button, Col, Dropdown, Row} from 'react-bootstrap';
-import {MdAccountCircle} from 'react-icons/md';
-import Textfield from '../components/textfield_c';
-import classes from './navBar_k.module.css';
+import React, { useState } from 'react'
+import { Button, Col, Dropdown, Row } from 'react-bootstrap'
+import { MdAccountCircle } from 'react-icons/md'
+import Textfield from '../components/textfield_c'
+import classes from './navBar_k.module.css'
 
 /**
  * Navigation bar
  * @param {} NavBar
  */
 
-const NavBar = (props) => {
+const NavBar = props => {
   const [state, setState] = useState({
-    zipcode: '',
-  });
+    zipcode: ''
+  })
 
-  const handleChange = (event) => {
-    const {name, value} = event.target;
-    setState((prevState) => ({
+  const handleChange = event => {
+    const { name, value } = event.target
+    setState(prevState => ({
       ...prevState,
-      [name]: value,
-    }));
-  };
+      [name]: value
+    }))
+  }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     // console.log("Props: ", props);
-    event.preventDefault();
+    event.preventDefault()
     props.history.push({
       pathname: '/stores',
-      state,
-    });
-  };
+      state
+    })
+  }
 
-  const {...other} = props;
+  const { ...other } = props
 
   return (
     <div className={classes.container} {...other}>
       <div className={classes.gradient_border}></div>
       <div className={classes.nav_bar}>
         <div className={classes.grid_5c}>
-          <a href='/stores' style={{textDecoration: 'none', color: 'white'}}>
+          <a href='/stores' style={{ textDecoration: 'none', color: 'white' }}>
             <div className={classes.logo}>
               <strong>
                 {' '}
-                OULU<span style={{color: '#FFC70D'}}>X</span>X
+                OULU<span style={{ color: '#FFC70D' }}>X</span>X
               </strong>
             </div>
           </a>
@@ -60,7 +60,7 @@ const NavBar = (props) => {
                       size='small'
                       fontColor='white'
                       placeholder='Zipcode'
-                      inputProps={{pattern: '^[0-9]{5}'}}
+                      inputProps={{ pattern: '^[0-9]{5}' }}
                       error={
                         state.zipcode.length > 5 ||
                         /[^0-9]/g.test(state.zipcode)
@@ -124,7 +124,7 @@ const NavBar = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar

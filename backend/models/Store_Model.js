@@ -7,10 +7,10 @@
  * The inventory information will be kept within the store as an array.		 *
  ******************************************************************************/
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 const Store_Schema = new Schema({
-  Schema_Type: {type: String, default: 'STORE'}, // Identifies this as a store item.
+  Schema_Type: { type: String, default: 'STORE' }, // Identifies this as a store item.
   Name: String, // The name of the store, defined by user
   // StoreID : Number, // The ID of the store, defined by program based upon the name and the number of elements already labeled STORE
   IdentifierName: String, // used if the store has a specific name that is not the same as the name it is regularly reffered to as.
@@ -29,12 +29,12 @@ const Store_Schema = new Schema({
         ItemID: String,
         ItemName: String,
         Date: Date,
-        NumberInInventory: Number,
-      },
+        NumberInInventory: Number
+      }
     ],
-    default: [], // starts as an empty list
+    default: [] // starts as an empty list
   },
-  Categories: {type: [], default: []},
+  Categories: { type: [], default: [] },
   Comments: {
     // if we want to add comments to the store.
     type: [
@@ -42,15 +42,15 @@ const Store_Schema = new Schema({
         Body: String,
         Date: Date,
         UserID: String,
-        Username: String,
-      },
+        Username: String
+      }
     ],
-    default: [], // starts as an empty list
+    default: [] // starts as an empty list
   },
 
   Description: String, // Description of store, provided by user
-  Date: {type: Date, default: Date.now}, // The date that this was added to the database
-  Hidden: {type: Boolean, default: false}, // determine if the object is hidden, if someone does not want their store hosted, etc.
-});
+  Date: { type: Date, default: Date.now }, // The date that this was added to the database
+  Hidden: { type: Boolean, default: false } // determine if the object is hidden, if someone does not want their store hosted, etc.
+})
 
-module.exports = mongoose.model('Stores', Store_Schema);
+module.exports = mongoose.model('Stores', Store_Schema)

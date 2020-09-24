@@ -4,10 +4,10 @@ Contains: email signup textfield, sign up button,
     continue with facebook button, continue with google button
 */
 
-import React, {useState} from 'react';
-import classes from './paymentInfo_k.module.css';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import {Row, Col, Container, Card} from 'react-bootstrap';
+import React, { useState } from 'react'
+import classes from './paymentInfo_k.module.css'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { Row, Col, Container, Card } from 'react-bootstrap'
 
 const UserPaymentInfoCard = () => {
   return (
@@ -25,7 +25,7 @@ const UserPaymentInfoCard = () => {
         </ul>
       </Card.Body>
     </Card>
-  );
-};
+  )
+}
 
-export default UserPaymentInfoCard;
+export default UserPaymentInfoCard

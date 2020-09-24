@@ -1,38 +1,38 @@
-import React, {useState} from 'react';
-import style from './zipcodeForm.module.css';
-import {Link, withRouter} from 'react-router-dom';
-import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
-import {TextField, Button} from '@material-ui/core';
+import React, { useState } from 'react'
+import style from './zipcodeForm.module.css'
+import { Link, withRouter } from 'react-router-dom'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { TextField, Button } from '@material-ui/core'
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#FFE165',
-    },
-  },
-});
+      main: '#FFE165'
+    }
+  }
+})
 
-const ZipcodeForm = (props) => {
+const ZipcodeForm = props => {
   const [state, setState] = useState({
-    zipcode: '',
-  });
+    zipcode: ''
+  })
 
-  const handleChange = (event) => {
-    const {name, value} = event.target;
-    setState((prevState) => ({
+  const handleChange = event => {
+    const { name, value } = event.target
+    setState(prevState => ({
       ...prevState,
-      [name]: value,
-    }));
-  };
+      [name]: value
+    }))
+  }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     // console.log("Props: ", props);
-    event.preventDefault();
+    event.preventDefault()
     props.history.push({
       pathname: '/signup',
-      state,
-    });
-  };
+      state
+    })
+  }
 
   // console.log("State: ", state);
   return (
@@ -42,7 +42,7 @@ const ZipcodeForm = (props) => {
           <div className={style.formbox}>
             <div className={style.header}>
               Oulu
-              <span style={{color: '#FBDE49', fontFamily: 'Verdana'}}>x</span>
+              <span style={{ color: '#FBDE49', fontFamily: 'Verdana' }}>x</span>
               x
             </div>
             <div className={style.slogan}>Deilvery made classy since 2020</div>
@@ -57,11 +57,11 @@ const ZipcodeForm = (props) => {
                   className={style.textfield}
                   color='primary'
                   variant='outlined'
-                  inputProps={{pattern: '^[0-9]{5}'}}
+                  inputProps={{ pattern: '^[0-9]{5}' }}
                   helperText={
-                    state.zipcode === '' ?
-                      '' :
-                      'Please enter your 5-digit zipcode'
+                    state.zipcode === ''
+                      ? ''
+                      : 'Please enter your 5-digit zipcode'
                   }
                   error={
                     state.zipcode.length > 5 || /[^0-9]/g.test(state.zipcode)
@@ -90,7 +90,7 @@ const ZipcodeForm = (props) => {
         </div>
       </div>
     </ThemeProvider>
-  );
-};
+  )
+}
 
-export default withRouter(ZipcodeForm);
+export default withRouter(ZipcodeForm)

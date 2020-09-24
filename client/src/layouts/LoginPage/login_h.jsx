@@ -1,10 +1,10 @@
-import React from 'react';
-import LoginContainer from '../../containers/Login/login_k';
-import AboutContainer from '../../containers/About/about_k';
-import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k';
-import Button from '../../components/button_c';
-import classes from './login_h.module.css';
-import Footer from '../../containers/footer_k';
+import React from 'react'
+import LoginContainer from '../../containers/Login/login_k'
+import AboutContainer from '../../containers/About/about_k'
+import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k'
+import Button from '../../components/button_c'
+import classes from './login_h.module.css'
+import Footer from '../../containers/footer_k'
 
 /**
  * Layout for the email sign up page
@@ -31,7 +31,7 @@ function SignUp() {
             </section>
             <Footer /> */}
     </div>
-  );
+  )
 }
 
-export default SignUp;
+export default SignUp
