@@ -1,22 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { withRouter } from 'react-router-dom'
-import { FaVideo, FaMicrophone, FaHeadphonesAlt } from 'react-icons/fa'
-import { GiExitDoor } from 'react-icons/gi'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import io from 'socket.io-client'
+import { FaHeadphonesAlt, FaMicrophone, FaVideo } from 'react-icons/fa'
+import { GiExitDoor } from 'react-icons/gi'
+import { useHistory } from 'react-router-dom'
 import Peer from 'simple-peer'
+import io from 'socket.io-client'
 import Video from '../../components/video_c'
 import classes from './videoroom_k.module.css'
 
 const VideoRoom = props => {
+  // Access `history` to handle navigation
+  const history = useHistory()
+
+  // Get store and room ID from props
+  const [store] = useState(props.store || null)
+  const [roomID, setRoomID] = useState(props.roomID || null)
+
+  // Track connection peers
   const [peers, setPeers] = useState([]) // stores all the peers
   const peers_ref = useRef([])
-  const socket_ref = useRef() // reference to the user socket
-  const link_ref = useRef()
-  const screen_stream = useRef()
-  const user_video = useRef() // reference to the user video
-  const roomID = props.match.params.roomID // current room id
 
+  // Reference to the user socket
+  const socket_ref = useRef()
+
+  // Track current stream
+  const screen_stream = useRef()
+
+  // Reference to user video
+  const user_video = useRef()
+
+  // Control user's mic and video
   const [canHear, setCanHear] = useState(true)
   const [canSpeak, setCanSpeak] = useState(true)
   const [canSee, setCanSee] = useState(true)
@@ -26,7 +39,11 @@ const VideoRoom = props => {
   /* -------------------- */
 
   useEffect(() => {
+    // Skip logic if no remove ID
+    if (!roomID) return
+
     console.log('useEffect ... first')
+
     // connect to server
     socket_ref.current = io.connect()
 
@@ -52,9 +69,7 @@ const VideoRoom = props => {
         const [video_track] = display_stream.getVideoTracks()
 
         navigator.mediaDevices
-          .getUserMedia({
-            audio: true
-          })
+          .getUserMedia({ audio: true })
           .then(audio_stream => {
             // get sound from mic
             const [audio_track] = audio_stream.getAudioTracks()
@@ -153,10 +168,12 @@ const VideoRoom = props => {
             })
           })
       })
+
     return () => {
       if (screen_stream.current) {
         screen_stream.current.getTracks().forEach(track => track.stop())
       }
+
       socket_ref.current.disconnect()
     }
   }, [roomID])
@@ -216,6 +233,9 @@ const VideoRoom = props => {
   }, [canHear, peers])
 
   useEffect(() => {
+    // Skip logic if no current user video reference
+    if (!user_video.current) return
+
     if (user_video.current.srcObject !== null) {
       // if can speak, then turn on the audio track
       // if not then diable them
@@ -233,9 +253,12 @@ const VideoRoom = props => {
         })
       }
     }
-  }, [canSpeak])
+  }, [canSpeak, user_video])
 
   useEffect(() => {
+    // Skip logic if no current user video reference
+    if (!user_video.current) return
+
     if (user_video.current.srcObject !== null) {
       // if can see, then turn on the video track
       // if not then diable them
@@ -253,24 +276,33 @@ const VideoRoom = props => {
         })
       }
     }
-  }, [canSee])
+  }, [canSee, user_video])
+
+  // Don't render component is missing store name and current room ID
+  if (!store || !roomID) return null
 
   /* ----------------------------- */
   /* Function for leave video room */
   /* ----------------------------- */
   const leave_room = () => {
+    // FIXME: This doesn't stop the user's video when the room is closed
     if (screen_stream.current) {
       screen_stream.current.getTracks().forEach(track => track.stop())
     }
+
+    // Disconnect user socket
     socket_ref.current.disconnect()
-    props.history.push(`/stores/${props.match.params.store}`)
+
+    // Hide component
+    setRoomID(null)
+
+    // Update `location`
+    history.push({ pathname: `/stores/${store}`, state: {} })
   }
 
   return (
     <div className={classes.container}>
-      <CopyToClipboard
-        text={`localhost:3000/room/${props.match.params.roomID}`}
-      >
+      <CopyToClipboard text={`localhost:3000/room/${roomID}`}>
         <div className={classes.btn_copy}>Copy invitation link</div>
       </CopyToClipboard>
       <div className={classes.inner_container}>
@@ -321,4 +353,4 @@ const VideoRoom = props => {
   )
 }
 
-export default withRouter(VideoRoom)
+export default VideoRoom
