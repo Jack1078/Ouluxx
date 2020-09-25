@@ -1,76 +1,76 @@
 .gradient_border {
-    height: 6px;
-    width: 100%;
-    background: linear-gradient(to right, #FFDD00, #FF8904);
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(to right, #ffdd00, #ff8904);
 }
 
 .grid_5c {
-    display: grid;
-    grid-template-columns: 200px 150px auto 125px 100px 20px;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    justify-items: center;
+  display: grid;
+  grid-template-columns: 200px 150px auto 125px 100px 20px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  justify-items: center;
 }
 
 .gradient_border {
-    height: 6px;
-    width: 100%;
-    background: linear-gradient(to right, #FFDD00, #FF8904);
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(to right, #ffdd00, #ff8904);
 }
 
 .grid_5c {
-    display: grid;
-    grid-template-columns: 200px 150px auto 125px 100px 20px;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    justify-items: center;
+  display: grid;
+  grid-template-columns: 200px 150px auto 125px 100px 20px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  justify-items: center;
 }
 
 .nav_bar {
-    height: 60px;
-    border-top: 2px;
-    position: relative;
-    background-color: #000000;
-    color: #fff;
+  height: 60px;
+  border-top: 2px;
+  position: relative;
+  background-color: #000000;
+  color: #fff;
 }
 
 .logo {
-    text-transform: uppercase;
-    font-family: Neusa Next Std;
-    font-size: 27px;
-    cursor: pointer;
+  text-transform: uppercase;
+  font-family: Neusa Next Std;
+  font-size: 27px;
+  cursor: pointer;
 }
 
 .store_btn {
-    background-color: #FFDD00;
-    color: #000000;
-    width: 100px;
+  background-color: #ffdd00;
+  color: #000000;
+  width: 100px;
 }
 
 .btn {
-    height: 30px;
-    border-radius: 20px;
-    width: 100px;
-    cursor: pointer;
+  height: 30px;
+  border-radius: 20px;
+  width: 100px;
+  cursor: pointer;
 }
 
 .btn_icon {
-    display: flex;
-    font-size: 22px;
+  display: flex;
+  font-size: 22px;
 }
 
 .store_icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .btn_txt {
-    display: flex;
-    margin-left: 5px;
+  display: flex;
+  margin-left: 5px;
 }

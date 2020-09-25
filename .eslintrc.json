@@ -1,0 +1,22 @@
+{
+  "env": {
+    "jest": true
+  },
+  "extends": [
+    "google",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "impliedStrict": true,
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "camelcase": 0
+  }
+}

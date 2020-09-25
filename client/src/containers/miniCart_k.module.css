@@ -1,76 +1,76 @@
 .container {
-    width: 95%;
-    box-shadow: 0 0 10px #eee;
-    height: fit-content;
+  width: 95%;
+  box-shadow: 0 0 10px #eee;
+  height: fit-content;
 }
 
 .title {
-    color: #FFE74D;
-    background-color: #1F1F1F;
-    font-size: 1rem;
-    padding: 1.1rem;
+  color: #ffe74d;
+  background-color: #1f1f1f;
+  font-size: 1rem;
+  padding: 1.1rem;
 }
 
 .list {
-    max-height: 500px;
-    overflow-y: scroll;
-    list-style-type: none;
+  max-height: 500px;
+  overflow-y: scroll;
+  list-style-type: none;
 }
 
 .list li {
-    padding: 0 20px;
-    border-bottom: 1px solid #eee;
+  padding: 0 20px;
+  border-bottom: 1px solid #eee;
 }
 
 .inner {
-    display: grid;
-    grid-template-columns: 25% auto;
-    height: 100px;
+  display: grid;
+  grid-template-columns: 25% auto;
+  height: 100px;
 }
 
 .list li img {
-    width: 69px;
-    height: 69px;
-    box-shadow: 0 0 2px;
-    border-radius: 50%;
-    margin: auto;
+  width: 69px;
+  height: 69px;
+  box-shadow: 0 0 2px;
+  border-radius: 50%;
+  margin: auto;
 }
 
 .info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: left;
-    margin-left: 25px;
-    font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  margin-left: 25px;
+  font-size: 15px;
 }
 
 .order_num {
-    color: #515C6F;
-    font-weight: bold;
-    margin-bottom: 6px;
+  color: #515c6f;
+  font-weight: bold;
+  margin-bottom: 6px;
 }
 
 .order_name {
-    color: #515C6F;
-    margin-bottom: 6px;
+  color: #515c6f;
+  margin-bottom: 6px;
 }
 
 .order_price {
-    color: #FF6969;
-    font-size: 15px;
+  color: #ff6969;
+  font-size: 15px;
 }
 
 .btn {
-    background-color: #FFE74D;
-    height: 37px;
-    justify-content: center;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
+  background-color: #ffe74d;
+  height: 37px;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
 }
 
 .btn:hover {
-    background-color: #ecd649;
+  background-color: #ecd649;
 }

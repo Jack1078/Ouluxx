@@ -1,79 +1,79 @@
 .container {
-    height: 100%;
-    width: fit-content;
-    background-color: transparent;
+  height: 100%;
+  width: fit-content;
+  background-color: transparent;
 }
 
 .inner_container {
-    height: 100%;
-    width: fit-content;
-    display: flex;
-    flex-direction: row;
+  height: 100%;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
 }
 
 .btn_copy {
-    cursor: pointer;
-    background-color: #ffee00;
-    color: #555;
-    padding: 0.2em 0 0.2em 0;
+  cursor: pointer;
+  background-color: #ffee00;
+  color: #555;
+  padding: 0.2em 0 0.2em 0;
 }
 
 .btn_copy:hover {
-    background-color: #ecdd02;
+  background-color: #ecdd02;
 }
 
 .btn_container {
-    height: 100%;
-    width: 3.5em;
-    display: flex;
-    flex-direction: column;
+  height: 100%;
+  width: 3.5em;
+  display: flex;
+  flex-direction: column;
 }
 
 .btn {
-    background-color: #E5E5E5;
-    height: 2.75em;
-    margin-bottom: 1px;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  background-color: #e5e5e5;
+  height: 2.75em;
+  margin-bottom: 1px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .btn:hover {
-    background-color: #d6d6d6;
+  background-color: #d6d6d6;
 }
 
 .btn_disabled {
-    background-color: #a0a0a0;
-    height: 2.75em;
-    margin-bottom: 1px;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  background-color: #a0a0a0;
+  height: 2.75em;
+  margin-bottom: 1px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .btn_exit {
-    background-color: #D12500;
-    height: 2.75em;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  background-color: #d12500;
+  height: 2.75em;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .btn_exit:hover {
-    background-color: #b82200;
+  background-color: #b82200;
 }
 
 .videos {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    border: #E5E5E5 solid 1px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: #e5e5e5 solid 1px;
 }
 
 .video {
-    width: 20em;
-    height: auto;
+  width: 20em;
+  height: auto;
 }
