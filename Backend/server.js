@@ -27,7 +27,6 @@ var authRouter = require('./routes/auth');
 var purchaseRouter = require('./routes/purchase');
 
 const User = require('./Models/User_Model');
-const port = process.env.PORT || 8000;
 
 const app = express();
 const server = http.createServer(app);
