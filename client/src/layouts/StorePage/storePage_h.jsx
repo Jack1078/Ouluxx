@@ -9,6 +9,10 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import uuid from 'react-uuid';
 import Draggable from 'react-draggable';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 /**
  * Layout for the Store page
@@ -25,6 +29,7 @@ const StorePage = (props) => {
     const [products, setProducts] = useState([]);
     const [currProducts, setCurrProducts] = useState(products);
     const [currPage, setCurrPage] = useState(1);
+    const [sort, setSort] = useState();
 
     // filter products based on categories
     const filterProductHandler = (category) => {
@@ -32,6 +37,8 @@ const StorePage = (props) => {
             category === "All" ? true : product.Category.includes(category)
         ));
     }
+
+    
 
     // change displayed products
     const changePageHandler = (nextPage) => {
@@ -48,11 +55,63 @@ const StorePage = (props) => {
 
     useEffect(() => {
         get_products(data);
+        // window.location.reload();
+    }, []);
+    useEffect(() => {
+        get_products(data);
+        // window.location.reload();
     }, []);
 
     useEffect(() => {
-        get_products(data);
-    }, []);
+        const sortArray = sortstyle => {
+            const types = {
+                ascending: 'Name',
+                descending: 'Name',
+                lowhigh: 'Price',
+                highlow: 'Price'
+            }
+            const sortProperty = types[sortstyle];
+            var sorted;
+            if (sortstyle === 'lowhigh') {
+                sorted = [...currProducts].sort((a, b) => a[sortProperty] - b[sortProperty]);
+            } else if (sortstyle === 'highlow') {
+                sorted = [...currProducts].sort((a, b) => b[sortProperty] - a[sortProperty]);
+            } else if (sortstyle === 'ascending') {
+                sorted = [...currProducts].sort(function(a, b)  {
+                    var nameA = a.Name.toUpperCase();
+                    var nameB = b.Name.toUpperCase();
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            } else if (sortstyle === 'descending'){
+                sorted = [...currProducts].sort(function (a, b) {
+                    var nameA = a.Name.toUpperCase();
+                    var nameB = b.Name.toUpperCase();
+                    if (nameA > nameB) {
+                        return -1;
+                    }
+                    if (nameA < nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            } else {
+                sorted = products;
+            }
+            console.log("Sort =", sort);
+            console.log("sorted = ", sorted);
+            setCurrProducts(sorted);
+        }
+
+        sortArray(sort);
+        // setCurrProducts(products);
+    }, [sort]);
+
 
     //Items here are products within a store
     //These items should be fetched from a store's inventory
@@ -78,6 +137,7 @@ const StorePage = (props) => {
             return (err);
         });
     };
+    
 
     return (
         <div>
@@ -119,8 +179,28 @@ const StorePage = (props) => {
             <div className={classes.function_bar}>
                 <div>Categories</div>
 
-                <div className={classes.fn_btn}>Sort by<MdKeyboardArrowDown /></div>
-                <div></div>
+                <div className={classes.fn_btn}>
+                    <FormControl variant="filled" className={classes.sortby}>
+                        <InputLabel id="sortbybutton">Sort</InputLabel>
+                        <Select
+                            labelId="sortbybutton"
+                            id="sortbyform"
+                            // value={sort}
+                            onChange={(e) => setSort(e.target.value)}
+                            className={classes.sortby}
+                            
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={"descending"}>Descending</MenuItem>
+                            <MenuItem value={"ascending"}>Ascending</MenuItem>
+                            <MenuItem value={"lowhigh"}>Price: Low to High</MenuItem>
+                            <MenuItem value={"highlow"}>Price: High to Low</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+                <div />
                 <div>Delivery to <span className={classes.fn_btn}>11791</span></div>
             </div>
 
