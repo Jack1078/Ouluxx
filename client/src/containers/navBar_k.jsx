@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classes from './navBar_k.module.css';
 import { MdAccountCircle } from 'react-icons/md'
 import { Row, Col, Dropdown, Button } from 'react-bootstrap';
+import { TextField } from '@material-ui/core';
 
 
 /**
@@ -52,7 +53,7 @@ const NavBar = (props) => {
                             <form onSubmit={handleSubmit}>
                                 <Row >
                                     <Col sm={10}>
-                                        <Textfield
+                                        <TextField
                                             className={classes.textfield}
                                             name="zipcode"
                                             type="text"
