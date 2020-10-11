@@ -7,6 +7,7 @@ import Button from '../../components/button_c';
 import classes from './login_h.module.css';
 import Footer from '../../containers/footer_k'
 
+
 /**
  * Layout for the email sign up page
  */
@@ -31,7 +32,7 @@ function SignUp() {
                 <AboutContainer />
             </section>
 
-            <Footer /> */}
+           */ <Footer />}
 
         </div>
     );

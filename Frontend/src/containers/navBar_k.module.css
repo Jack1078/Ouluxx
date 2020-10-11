@@ -1,5 +1,5 @@
 .gradient_border {
-    height: 6px;
+    height: 4px;
     width: 100%;
     background: linear-gradient(to right, #FFDD00, #FF8904);
 }
@@ -18,8 +18,9 @@
     height: 60px;
     border-top: 2px;
     position: relative;
-    background-color: #000000;
+    background-color: white;
     color: #fff;
+    z-index: 4;
 }
 
 .logo {
@@ -57,4 +58,8 @@
 .btn_txt {
     display: flex;
     margin-left: 5px;
+}
+
+.container {
+    border-bottom: 1px solid #88888810;
 }

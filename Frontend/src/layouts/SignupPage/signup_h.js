@@ -8,6 +8,7 @@ import Footer from './../../containers/footer_k';
 import LoginPage from '../LoginPage/login_h';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
+
 /**
  * Layout for the email sign up page
  */
@@ -18,13 +19,12 @@ function SignUp() {
         <div>
             <section className={classes.background_image}>
                 <div className={classes.margin_left}>
-                    <Link to="/login"><Button
-                        className={classes.small_button}
-                        id="login_button"
-                        text="Log in"
-                        color="primary"
-                        fontColor="white"
-                    /></Link>
+                    <Link to="/login">
+                        <Button
+                            id="login_button"
+                            variant="dark"
+                        // startIcon={<FacebookIcon />}
+                        >Log in</Button></Link>
                 </div>
                 <SignUpContainer />
                 <StoresNearbyContainer />

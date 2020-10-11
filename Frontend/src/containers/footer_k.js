@@ -15,10 +15,16 @@ function Footer() {
                 <Row>
                     <Col sm={4}><h5><strong>OULUXX Inc.</strong></h5></Col>
                     <Col sm={1}>About</Col>
+                    <Col sm={1}>Dummy Text</Col>
+                    <Col sm={1}>Dummy Text</Col>
+                    <Col sm={4}>Dummy Text</Col>
                 </Row>
                 <Row>
                     <Col sm={4}>&#169; 2020-2021</Col>
-                    <Col sm={8}>2 of 2</Col>
+                    <Col sm={1}>Dummy Text</Col>
+                    <Col sm={1}>Dummy Text</Col>
+                    <Col sm={1}>Dummy Text</Col>
+                    <Col sm={4}>Dummy Text</Col>
                 </Row>
             </div>
         </div>

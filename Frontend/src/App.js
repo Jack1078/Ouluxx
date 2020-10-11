@@ -5,6 +5,7 @@ import './App.css';
 import LandingPage from './layouts/LandingPage/landingpage_h';
 import SignupPage from './layouts/SignupPage/signup_h';
 import LoginPage from './layouts/LoginPage/login_h';
+import CartPage from './layouts/CartPage/cart_h';
 import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import StorePage from './layouts/StorePage/storePage_h';
 import AccountPage from './layouts/AccountPage/accountPage_h';
@@ -33,6 +34,7 @@ function App() {
             <Route path="/storepage" component={StorePage} />
             <Route path="/selectionpage" component={SelectionPage} />
             <Route path="/accountpage" component={AccountPage} />
+            <Route path="/cartpage" component={CartPage} />
 
           </Switch>
           {/* <LandingPage/> 
