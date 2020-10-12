@@ -81,6 +81,7 @@ const userLogIn = () => {
                             <Button
                                 id="signup_button"
                                 variant="dark"
+                                block
                             >Login</Button>
                         </div>
 
@@ -93,20 +94,20 @@ const userLogIn = () => {
                         {/* Sign up with facebook or google account */}
                         <MuiThemeProvider theme={button_theme}>
                             <div className={classes.block}>
-                                <a href="http://localhost:4000/auth/facebook" >
+                                <a href="http://localhost:4000/auth/facebook" style={{ textDecoration: "none" }}>
                                     <Button
                                         id="facebook_signup_button"
                                         variant="primary"
-                                    // startIcon={<FacebookIcon />}
+                                        block
                                     ><FaFacebookF /> login with Facebook</Button>
                                 </a>
                             </div>
                             <div className={classes.block}>
-                                <a href="http://localhost:4000/auth/google" >
+                                <a href="http://localhost:4000/auth/google" style={{ textDecoration: "none" }}>
                                     <Button
                                         id="google_signup_button"
                                         variant="danger"
-                                    // startIcon={<FaGoogle color="white" />}
+                                        block
                                     ><FaGoogle /> login with Google</Button>
                                 </a>
                             </div>

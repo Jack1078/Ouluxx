@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: Lato;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 h1 {
@@ -13,7 +13,7 @@ h1 {
 h2 {
   font-size: 18px;
   font-weight: 600;
-  color: rgb(117,117,117);
+  color: rgb(117, 117, 117);
   line-height: 1.3em;
 }
 
@@ -36,24 +36,24 @@ a {
 }
 
 .background_image {
-    padding-top: 20px;
-    background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0, 0, 0, 0.2)), url("../../images/hero.png");
-    background-size: cover;
-    background-attachment: fixed;
+  padding-top: 20px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("../../images/hero.png");
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .full_width {
-    width: 100%;
+  width: 100%;
 }
 
 .background_white {
-    background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 
 .margin_left {
-    margin-left: 10%;
+  margin-left: 10%;
 }
 
 .small_button {
-    max-width: 100px;
+  max-width: 100px;
 }

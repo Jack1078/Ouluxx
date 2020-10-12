@@ -12,36 +12,30 @@ import { BiSearchAlt } from 'react-icons/bi';
 
 
 
-
-
-
-/**
- * Navigation bar
- * @param {logoOnClick, storeOnClick, accountOnClick, cartOnClick} NavBar
- */
-
 const NavBar = (props) => {
 
-    const { logoOnClick, storeOnClick, accountOnClick, cartOnClick, ...other } = props
 
     return (
         <>
-            <div className={classes.container} {...other}>
-                <div className={classes.gradient_border}></div>
+            <div className={classes.container}>
                 <div className={classes.nav_bar}>
                     <div className={classes.grid_5c}>
 
                         <div
                             className={classes.logo}
-                            onClick={() => logoOnClick()}>
+                        >
                             <strong style={{ color: 'black' }} > OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>
                         </div>
 
-                        <div>
-                            <span style={{ color: "black" }}>stores</span>
-                            <span style={{ color: "black" }}>cart</span>
+                        <div></div>
 
-
+                        <div className={classes.links}>
+                            <ul style={{ display: "flex" }} >
+                                <li style={{ marginTop: "5%" }} ><Container> <a href="/" style={{ color: "black", textDecoration: "none" }}  > Home</a></Container></li>
+                                <li style={{ marginTop: "5%" }} ><Container> <a href="/storepage" style={{ color: "black", textDecoration: "none" }} > Stores</a></Container></li>
+                                <li style={{ marginTop: "5%" }}><Container > <a href="/cartpage" style={{ color: "black", textDecoration: "none" }} > Cart</a></Container></li>
+                                <li style={{ marginTop: "5%" }}><Container > <a href="/cartpage" style={{ color: "black", textDecoration: "none" }}> About</a></Container></li>
+                            </ul>
                         </div>
                         {/* <div
                         className={[classes.btn, classes.store_btn].join(' ')}
@@ -51,7 +45,6 @@ const NavBar = (props) => {
                             <div className={classes.btn_txt}>Stores</div>
                         </Row>
                     </div> */}
-                        <div></div>
                         <div style={{ float: "right", width: "250px" }}>
                             <Row>
                                 <Col sm={6}>
@@ -60,7 +53,7 @@ const NavBar = (props) => {
                                             <InputGroup className="mb-2">
                                                 <FormControl id="zipcode" placeholder="Zip Code" />
                                                 <InputGroup.Append>
-                                                    <Button variant="warning" type="submit"> <BiSearchAlt /></Button>
+                                                    <Button variant="warning" type="submit" style={{ color: "white" }}> <BiSearchAlt /></Button>
                                                 </InputGroup.Append>
                                             </InputGroup>
                                         </Row>
@@ -105,6 +98,8 @@ const NavBar = (props) => {
 
                     </div>
                 </div>
+                <div className={classes.gradient_border}></div>
+
             </div >
         </>
     );
