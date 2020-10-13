@@ -35,25 +35,24 @@ const button_theme = createMuiTheme({
 function SignUp() {
     return (
         <div className={classes.container}>
-            {/* back to zip code page */}
+            {/* back to zip code page 
             <div>
                 <BackButton />
-            </div>
+            </div>*/}
 
             {/* Email Sign up */}
             <form className={classes.form} action="/auth/register" method="POST" >
 
                 {/* Logo */}
-                <span className={classes.title}>
-                    <img
-                        className={classes.logo}
-                        src={logo}
-                        alt="a logo" />
-                </span>
+                <div
+                    className={classes.logo}
+                >
+                    <strong style={{ color: 'black' }} > OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>
+                </div>
+
 
                 {/* Location changes based on zip code */}
-                <h1>Available in Syosset!</h1>
-                <h2>Create an account to start shopping</h2>
+                <h4>Shopping Reimagined</h4>
 
                 {/* First/last Name textfield: enter password to sign up */}
                 <div className={classes.block}>

@@ -11,6 +11,7 @@ import StorePage from './layouts/StorePage/storePage_h';
 import AccountPage from './layouts/AccountPage/accountPage_h';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 

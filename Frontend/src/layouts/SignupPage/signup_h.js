@@ -17,7 +17,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 function SignUp() {
     return (
         <div>
+
             <section className={classes.background_image}>
+
                 <div className={classes.margin_left}>
                     <Link to="/login">
                         <Button
