@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from '../../components/button_c';
 import classes from './about_k.module.css';
-import browse_img from '../../images/browse.png';
-import shop_img from '../../images/shopping.png';
+import browse_img from '../../images/brands.png';
+import shop_img from '../../images/videochat.png';
 import bag_img from '../../images/bag.png';
 
 /**
@@ -16,23 +16,21 @@ function Description() {
             {/* Short description */}
 
             <div className={[classes.grid, classes.three_per_row, classes.padding_top].join(' ')}>
-                <img src={browse_img} alt="touching app" />
-                <img src={shop_img} alt="shopping car" />
+                <img src={browse_img} width="300px" alt="touching app" />
+                <img src={shop_img} width="300px" alt="shopping car" />
                 <img src={bag_img} alt="a bag" />
                 <h3>Brands you love</h3>
                 <h3>Shop with friends & family</h3>
                 <h3>Save time and money</h3>
                 <div className={classes.text}>
-                    Browse and find our next favorite product from stores you already shop from
-                    our mobile app and website
+                    Browse and find your next favorite product from stores you already shop near you
                 </div>
                 <div className={classes.text}>
-                    We make deliveries to cities like Washington, DC,
-                    Silver Spring, College Park and many more.
+                    Share your shopping experience with friends and family in real-time with our video chat feature
                 </div>
                 <div className={classes.text}>
-                    Find deals on popular products and brands<br />
-                    &mdash; delivered right to your door
+                    Find deals on popular products and brands
+                    near you
                 </div>
             </div>
 

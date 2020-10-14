@@ -20,14 +20,16 @@ function SignUp() {
 
             <section className={classes.background_image}>
 
-                <div className={classes.margin_left}>
+
+                {/*  <div className={classes.margin_left}>
                     <Link to="/login">
                         <Button
                             id="login_button"
                             variant="dark"
                         // startIcon={<FacebookIcon />}
                         >Log in</Button></Link>
-                </div>
+                </div>*/}
+
                 <SignUpContainer />
                 <StoresNearbyContainer />
             </section>

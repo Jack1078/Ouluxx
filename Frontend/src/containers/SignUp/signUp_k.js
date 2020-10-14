@@ -40,14 +40,14 @@ function SignUp() {
                 <BackButton />
             </div>*/}
 
-            {/* Email Sign up */}
+            {/* Email Sign up  <strong style={{ color: 'black' }} > OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>*/}
             <form className={classes.form} action="/auth/register" method="POST" >
 
                 {/* Logo */}
-                <div
-                    className={classes.logo}
-                >
-                    <strong style={{ color: 'black' }} > OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>
+                <div className={classes.logo}>
+                    {/* <strong style={{ color: 'black' }} > OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>*/}
+
+                    <img src={require(`../../images/logo1.png`)} width="180" ></img>
                 </div>
 
 

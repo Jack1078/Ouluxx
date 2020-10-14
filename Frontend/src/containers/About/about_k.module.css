@@ -19,7 +19,7 @@ Grid CSS
     grid-column-gap: 5px;
     width: 100%;
     margin: auto;
-    background-color: rgb(241, 241, 241);
+    background-color: rgb(240, 240, 240);
     box-sizing: border-box;
     font-family: 'Ubuntu', sans-serif;
 }
