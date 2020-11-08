@@ -1,16 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 .stores_container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     max-width: 95%;
     margin: 0 auto;
     background-color: #fff;
-    border-top: 1px solid #e7e7e7;
-    border-bottom: 1px solid #e7e7e7;
-    padding: 10px;
+    padding: 2%;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .background {
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     min-height: 100vh;
 }
 
@@ -23,28 +23,44 @@
     text-align: center;
     font-weight: 500;
     line-height: 1;
-    max-width: 95%;
+    max-width: 100%;
     margin: 0 auto;
     color: black;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .recommend_container {
-    padding: 10px 24px;
+    padding: 10px 40px;
     font-weight: 500;
-    font-size: 15px;
-    color: #8e8e8e;
-    background-color: #f7f7f7;
+    font-size: 1.2rem;
+    color: #575757;
+    background-color: #ffffff;
     text-align: left;
-    max-width: 95%;
+    max-width: 100%;
     margin: 0 auto;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .filter_container {
-    max-width: 95%;
+    max-width: 100%;
     margin: 0 auto;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .logo_container {
     border-bottom: 1px solid #e7e7e7;
     background-color: #fff;
+}
+
+.cards {
+    width: 80%;
+    box-shadow: 0 8px 6px 0 rgb(236, 236, 236);
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.cardtitle {
+    font-family: 'Source Sans Pro', sans-serif;
+    padding-top: 4%;
+    float: left;
 }

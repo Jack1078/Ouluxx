@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 .container {
     display: flex;
     flex-direction: column;
@@ -10,7 +11,7 @@
 
 .logo {
     text-transform: uppercase;
-    font-family: Neusa Next Std;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 40px;
     cursor: pointer;
     max-width: 500px;

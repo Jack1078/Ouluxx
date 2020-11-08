@@ -6,6 +6,8 @@ import Filter from '../../containers/Filter/filter_k';
 import Logo from '../../images/logo.png';
 import NavBar from '../../containers/navBar_k';
 import Footer from './../../containers/footer_k';
+import { Row, Col, Container, Button, Card } from 'react-bootstrap';
+
 
 
 /**
@@ -144,10 +146,10 @@ const StoreSelect = () => {
             <div className={classes.background}>
 
                 <div className={classes.logo_container}>
-                    <img src={Logo} alt='Ouluxx logo' height="45px" />
+                    <img src={require(`../../images/logo1.png`)} width="125" ></img>
                 </div>
                 <div className={classes.zipcode_container}>
-                    Select Store for Delivery in&nbsp;<span style={{ fontWeight: 'bold' }}>{zipcode}</span>
+                    select store for delivery in&nbsp;<span style={{ fontWeight: 'bold' }}>{zipcode}</span>
                 </div>
                 <div className={classes.filter_container}>
                     <Filter
@@ -166,11 +168,44 @@ const StoreSelect = () => {
 
                 <div className={classes.recommend_container}>
                     Recommend Stores
-            </div>
-                <div className={classes.stores_container}>
-                    {filteredStores(stores, active)}
+              </div>
+                <div className={classes.stores_container} style={{ borderBottom: "1px solid #e7e7e7" }}>
+                    {/*   {filteredStores(stores, active)} */}
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src={require(`../../images/logo1.png`)} />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                            <Card.Text>
+                                Some quick example text to build on the card title and make up the bulk of
+                                the card's content.
+                        </Card.Text>
+                        </Card.Body>
+                    </Card>
                 </div>
+
+                <div className={classes.recommend_container}>
+                    Groceries
+             </div>
+
+                <div className={classes.stores_container}>
+                    {/*   {filteredStores(stores, active)} */}
+                    <div >
+                        <img className={classes.cards} src={require(`../../images/logo1.png`)} alt="Alps" style={{ width: "100%" }}></img>
+                        <div>
+                            <h5 className={classes.cardtitle}>The Italian / Austrian Alps</h5>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
             </div>
+
+
+
+
             <Footer />
 
         </>

@@ -45,9 +45,12 @@ function SignUp() {
 
                 {/* Logo */}
                 <div className={classes.logo}>
-                    {/* <strong style={{ color: 'black' }} > OULU<span style={{ color: '#FFC70D' }}>X</span>X</strong>*/}
+                    <h3 style={{ color: 'black', fontWeight: "600" }}>OULUXX</h3>
 
-                    <img src={require(`../../images/logo1.png`)} width="180" ></img>
+                    {/* <h3 style={{ color: 'black', fontWeight: "600" }} > OULU<span style={{ color: '#FFC70D', fontWeight: "600" }}>X</span>X</h3>
+
+                     <img src={require(`../../images/logo1.png`)} width="180" ></img>*/}
+
                 </div>
 
 

@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "better-react-spinkit": "^2.0.4",
     "bootstrap": "^4.5.0",
     "material-ui": "^0.20.2",
     "particles-bg": "^2.5.0",

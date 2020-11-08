@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import './App.css';
@@ -10,6 +10,19 @@ import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
 import StorePage from './layouts/StorePage/storePage_h';
 import AccountPage from './layouts/AccountPage/accountPage_h';
 
+import {
+  ChasingDots,
+  Circle,
+  CubeGrid,
+  DoubleBounce,
+  FadingCircle,
+  FoldingCube,
+  Pulse,
+  RotatingPlane,
+  ThreeBounce,
+  WanderingCubes,
+  Wave
+} from 'better-react-spinkit'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -24,29 +37,48 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  return (
-    <div className="App">
-      <MuiThemeProvider theme={theme}>
-        <Router>
-          <Switch>
-            <Route path="/" exact component={SignupPage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/landingpage" component={LandingPage} />
-            <Route path="/storepage" component={StorePage} />
-            <Route path="/selectionpage" component={SelectionPage} />
-            <Route path="/accountpage" component={AccountPage} />
-            <Route path="/cartpage" component={CartPage} />
 
-          </Switch>
-          {/* <LandingPage/> 
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 2000)
+  }, [])
+
+
+  return (
+    <>
+      {loading === false ? (
+        <div className="App">
+
+          <MuiThemeProvider theme={theme}>
+            <Router>
+              <Switch>
+                <Route path="/" exact component={SignupPage} />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/landingpage" component={LandingPage} />
+                <Route path="/storepage" component={StorePage} />
+                <Route path="/selectionpage" component={SelectionPage} />
+                <Route path="/accountpage" component={AccountPage} />
+                <Route path="/cartpage" component={CartPage} />
+
+              </Switch>
+              {/* <LandingPage/> 
               <SignupPage />
               <LoginPage />
               <StorePage />
           {/* <SelectionPage/> */}
-        </Router>
+            </Router>
 
-      </MuiThemeProvider>
-    </div>
+          </MuiThemeProvider>
+        </div>
+      ) : (
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+            <CubeGrid size={40} color='black' />
+          </div>
+        )
+
+      }
+    </>
   );
 }
 
