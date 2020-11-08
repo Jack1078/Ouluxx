@@ -1,12 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 .container {
     display: flex;
     flex-direction: column;
     margin: 0px auto 20px;
     width: 540px;
-    box-shadow: #000 2px 1px 20px;
     min-height: 350px;
     background-color: #FFF;
     border-radius: 10px;
+}
+
+.logo {
+    text-transform: uppercase;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 40px;
+    cursor: pointer;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding-top: 4%;
 }
 
 .form {
@@ -17,11 +29,6 @@
 /* ---------- 
 Container elements
 ----------*/
-
-.logo {
-    max-width: 200px;
-    ;
-}
 
 .title {
     display: block;

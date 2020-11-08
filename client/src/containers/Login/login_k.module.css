@@ -49,6 +49,7 @@ Container elements
     width: 100%;
     cursor: auto;
     margin: 12px 0px 0px;
+    text-align: center;
 }
 
 .block p {

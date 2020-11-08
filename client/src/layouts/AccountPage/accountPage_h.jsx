@@ -6,37 +6,43 @@ import { Row, Col, Container, Card } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Profile from '../../containers/UserProfileCard/profile_k';
 import UserPaymentInfoCard from '../../containers/UserPaymentInfoCard/paymentInfo_k';
+import Footer from './../../containers/footer_k';
 
 
 
 
 
-const UserAccount = (props) => {
+
+const UserAccount = () => {
+
     return (
-        <div className={classes.background}>
-            <NavBar {...props} />
+        <>
+            <div className={classes.background}>
+                <NavBar />
 
 
-            {/*will need to create components for the containers below*/}
+                {/*will need to create components for the containers below*/}
 
-            <div className={classes.maincontainer}>
-                <Row>
-                    <Col lg={6}>
-                        <Profile />
-                    </Col>
-                    <Col lg={6}>
-                        <UserPaymentInfoCard />
-                    </Col>
-                </Row>
+                <div className={classes.maincontainer}>
+                    <Row>
+                        <Col lg={6}>
+                            <Profile />
+                        </Col>
+                        <Col lg={6}>
+                            <UserPaymentInfoCard />
+                        </Col>
+                    </Row>
+                </div>
+
+
+
+
+
+
+
             </div>
-
-
-
-
-
-
-
-        </div>
+            <Footer />
+        </>
     );
 
 }

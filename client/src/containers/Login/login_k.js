@@ -7,15 +7,16 @@ Contains: email signup textfield, sign up button,
 import React, { useState } from 'react';
 import { createMuiTheme, ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import Textfield from '../../components/textfield_c';
-import Button from '../../components/button_c';
+//import Button from '../../components/button_c';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import BackButton from '../../components/BackButton/backButton_c';
-import { FaGoogle } from 'react-icons/fa';
 import logo from '../../images/logo.png';
 import classes from './login_k.module.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Input } from '@material-ui/core';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Button } from 'react-bootstrap';
+import { FaFacebookF, FaGoogle } from 'react-icons/fa';
+
 
 
 /**
@@ -78,12 +79,12 @@ const userLogIn = () => {
 
 
                         <div className={classes.block}>
+
                             <Button
                                 id="signup_button"
-                                text="Login"
-                                color="primary"
-                                fontColor="black"
-                                type="submit" />
+                                variant="dark"
+                                block
+                            >Login</Button>
                         </div>
 
                         <div className={classes.or_block}>
@@ -92,27 +93,24 @@ const userLogIn = () => {
                             <div className={classes.line} style={{ right: "0" }}></div>
                         </div>
 
-                        {/* Sign up with facebook or google account */}
+                        {/* Sign up with facebook or google account----have to check if localhost is 4000 or 8000*/}
                         <MuiThemeProvider theme={button_theme}>
                             <div className={classes.block}>
-                                <a href="http://localhost:8000/auth/facebook" >
+                                <a href="http://localhost:4000/auth/facebook" style={{ textDecoration: "none" }}>
                                     <Button
                                         id="facebook_signup_button"
-                                        text="Continue with Facebook"
-                                        color="primary"
-                                        startIcon={<FacebookIcon />}
-                                    />
+                                        variant="primary"
+                                        block
+                                    ><FaFacebookF /> login with Facebook</Button>
                                 </a>
                             </div>
                             <div className={classes.block}>
-                                <a href="http://localhost:8000/auth/google" >
+                                <a href="http://localhost:4000/auth/google" style={{ textDecoration: "none" }}>
                                     <Button
-                                        id="facebook_signup_button"
-                                        text="Continue with Google"
-                                        color="danger"
-                                        startIcon={<FaGoogle color="white" />}
-
-                                    />
+                                        id="google_signup_button"
+                                        variant="danger"
+                                        block
+                                    ><FaGoogle /> login with Google</Button>
                                 </a>
                             </div>
                         </MuiThemeProvider>
@@ -124,6 +122,7 @@ const userLogIn = () => {
                     </form>
                 </div>
             </div>
+
         </>
     );
 }
