@@ -46,7 +46,7 @@ const ZipcodeForm = (props) => {
                 <div className={style.smallcontainer}>
                     <div className={style.formbox}>
                         <div className={style.header}>
-                            Oulu<span style={{ color: "#FBDE49", fontFamily: "Verdana" }}>x</span>x
+                            <h3><strong>OULUXX</strong></h3>
                         </div>
                         <div className={style.slogan}>
                             Deilvery made classy since 2020

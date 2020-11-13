@@ -1,51 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { Component } from 'react'
 import StoreIcon from '../../components/storeIcon_c';
 import classes from './storeSelectionPage_h.module.css';
 import Filter from '../../containers/Filter/filter_k';
 import Logo from '../../images/logo.png';
 import NavBar from '../../containers/navBar_k';
+import Footer from './../../containers/footer_k';
+import { Row, Col, Container, Button, Card } from 'react-bootstrap';
+import { Divider } from '@material-ui/core';
 /**
  * Layout for the Store Selection page
  */
 
-const stores = [{
-    name: "fairway",
-    categories: ["Groceries", "Produce", "Organic"],
-    img_url: "fairway.png"
-},
-{
-    name: "CVS Pharmacy@",
-    categories: ["Personal Care", "Drugstore", "Groceries"],
-    img_url: "cvs.png"
-},
-{
-    name: "HMart",
-    categories: ["Specialty", "Prepared Meals", "Ethnic"],
-    img_url: "hmart.png"
-},
-{
-    name: "Petco",
-    categories: ["Pet Supplies"],
-    img_url: "petco.png"
-},
-{
-    name: "ABC",
-    categories: ["Groceries", "Produce", "Organic"],
-    img_url: "fairway.png"
-},
-{
-    name: "DEF",
-    categories: ["Personal Care", "Drugstore", "Groceries"],
-    img_url: "cvs.png"
-},];
 
 const filters = ["All", "Drugstore", "Groceries", "Pet Supplies", "Meals"];
 
 
 
 const StoreSelect = (props) => {
-    // console.log("Props: ", props);
-    // console.log("Zipcode: ", props.location.state.zipcode);
+
     var temp = '';
     if (props.location && props.location.state && props.location.state.zipcode)
         temp = props.location.state.zipcode;
@@ -56,10 +29,6 @@ const StoreSelect = (props) => {
 
     const data = { "Zipcode": zipcode }
     const user = {}
-
-    // useEffect(() => {
-    //     setCurrPage(1);
-    // }, [currStores]);
 
     useEffect(() => {
         if (temp === '') {
@@ -116,63 +85,117 @@ const StoreSelect = (props) => {
         });
     };
 
-    const filteredStores = (stores, filter) => {
-        // console.log("Testing filter, Stores: ", stores);
-        return stores.filter(store => filter === "All" ? true : store.Categories.includes(filter))
-            .map(filtered_store => (
-                <StoreIcon
-                    name={filtered_store.Name}
-                    // img_url={filtered_store.img_url}
-                    alt={filtered_store.name + " icon"}
-                    categories={filtered_store.Categories} //categories needs to be added to work
-                    onClick={() => console.log('Store Icon clicked')}
-                    // onClick={handleSelection}
-                    key={filtered_store.name}
-                />
-            ))
-    }
-
-    const handleSelection = (name) => {
-        // console.log(event);
-        // props.history.push({
-        // pathname: `/stores/${name}`
-        // })
-    };
-
-
     return (
-        <div className={classes.background}>
-            <NavBar {...props} />
-            <div className={classes.logo_container}>
-                <img src={Logo} alt='Ouluxx logo' height="45px" />
-            </div>
-            <div className={classes.zipcode_container}>
-                Select Store for Delivery in&nbsp;<span style={{ fontWeight: 'bold' }}>{zipcode}</span>
-            </div>
-            <div className={classes.filter_container}>
-                <Filter
-                    active={active}
-                    onChange={active => setActive(active)}
-                >
-                    {filters.map((filter) => {
-                        return (
-                            <div key={filter}>
-                                {filter}
-                            </div>
-                        );
-                    })}
-                </Filter>
+        <>
+            <div className={classes.background}>
+                {/*****************************************Navbar and Info**************************************************/}
+
+                <NavBar />
+                <div className={classes.zipcode_container}>
+                    select store for delivery in&nbsp;<span style={{ fontWeight: 'bold' }}>{zipcode}</span>
+                </div>
+                <div className={classes.filter_container}>
+                    <Filter
+                        active={active}
+                        onChange={active => setActive(active)}
+                    >
+                        {filters.map((filter) => {
+                            return (
+                                <div key={filter}>
+                                    {filter}
+                                </div>
+                            );
+                        })}
+                    </Filter>
+                </div>
+                {/*****************************************Recommended Stores**************************************************/}
+
+                <div className={classes.recommend_container}>
+                    Recommend Stores
+              </div>
+                <div className={classes.stores_container_custom} style={{
+                    borderBottom: "1px solid #e7e7e7",
+                    background: "linear-gradient(to left, rgb(240, 215, 0, 0.5), rgb(250, 137, 4, 0.5))",
+                    width: "100%", height: "320px",
+                    overflow: "visible"
+                }}>
+                    <div className={classes.stores_sub_container_custom}>
+                        <img className={classes.cards} src={require(`../../images/Giant.jpg`)}
+                            alt="Alps"
+                            style={{ width: "100%", height: "180px", background: "white", }}></img>
+
+                        <div>
+                            <div className={classes.cardtitle} style={{ color: "white" }}><h5>Giant</h5> <h6 style={{ color: "grey" }}>4.0 miles</h6></div>
+                        </div>
+                    </div>
+
+
+                    <div className={classes.stores_sub_container_custom}>
+                        <img className={classes.cards} src={require(`../../images/Safeway.jpg`)}
+                            alt="Alps"
+                            style={{ width: "100%", height: "180px", background: "white", }}></img>
+                        <div>
+                            <div className={classes.cardtitle} style={{ color: "white" }}><h5>Safeway</h5> <h6 style={{ color: "grey" }}>2.0 miles</h6></div>
+                        </div>
+
+                    </div>
+
+
+                    <div className={classes.stores_sub_container_custom}>
+                        <img className={classes.cards} src={require(`../../images/Giant.jpg`)}
+                            alt="Alps"
+                            style={{ width: "100%", height: "180px", background: "white", }}></img>
+
+                        <div>
+                            <div className={classes.cardtitle} style={{ color: "white" }}><h5>Giant</h5> <h6 style={{ color: "grey" }}>4.0 miles</h6></div>
+                        </div>
+                    </div>
+
+
+                    <div className={classes.stores_sub_container_custom}>
+                        <img className={classes.cards} src={require(`../../images/Safeway.jpg`)}
+                            alt="Alps"
+                            style={{ width: "100%", height: "180px", background: "white", }}></img>
+                        <div>
+                            <div className={classes.cardtitle} style={{ color: "white" }}><h5>Safeway</h5> <h6 style={{ color: "grey" }}>2.0 miles</h6></div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                {/*****************************************Stores************************************************************/}
+                <div className={classes.recommend_container}>
+                    Groceries
+             </div>
+
+                <div className={classes.stores_container}>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src={require(`../../images/logo1.png`)} />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                            <Card.Text>
+                                Some quick example text to build on the card title and make up the bulk of
+                                the card's content.
+                        </Card.Text>
+                        </Card.Body>
+                    </Card>
+
+
+                </div>
+
+
+
             </div>
 
-            <div className={classes.recommend_container}>
-                Recommend Stores
-            </div>
-            <div className={classes.stores_container}>
-                {filteredStores(currStores, active)}
-            </div>
-        </div>
+
+
+            {/*****************************************Footer************************************************************/}
+
+            <Footer />
+
+        </>
     );
 
 }
-
 export default StoreSelect;

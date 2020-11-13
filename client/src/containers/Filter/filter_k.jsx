@@ -30,9 +30,9 @@ const useStyles = makeStyles(() => ({
         },
     },
     filled_tab: {
-        backgroundColor: '#fcec03',
+        backgroundColor: 'rgb(260, 220, 0, 0.5)',
         '&:hover': {
-            backgroundColor: '#fcec03',
+            backgroundColor: 'rgb(260, 220, 0, 0.5)',
         }
     },
     margin_right: {
@@ -42,8 +42,8 @@ const useStyles = makeStyles(() => ({
 
 const Filter = (props) => {
     const classes = useStyles();
-    const {active, onChange, children, ...other} = props;
-    
+    const { active, onChange, children, ...other } = props;
+
     return (
         <div
             className={classes.tabs}
@@ -54,12 +54,12 @@ const Filter = (props) => {
                 React.Children.map(children, (child, _) => {
                     let className = classes.tab;
                     if (child.key === active) {
-                        className = [classes.tab,classes.filled_tab].join(' ');
+                        className = [classes.tab, classes.filled_tab].join(' ');
                     }
                     return (
                         <div
                             className={className}
-                            onClick={()=>{
+                            onClick={() => {
                                 onChange(child.key)
                             }}>
                             {child}

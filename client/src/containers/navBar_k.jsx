@@ -6,7 +6,6 @@ import { MdStoreMallDirectory, MdAccountCircle } from 'react-icons/md'
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Row, Col, Form, Container, Dropdown, Button, InputGroup, FormControl } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import ZipCodeForm from '../components/zipcodeForm_c'
 import Textfield from '../components/textfield_c';
 import { BiSearchAlt } from 'react-icons/bi';
 
@@ -15,7 +14,9 @@ import { BiSearchAlt } from 'react-icons/bi';
  * @param {} NavBar
  */
 
-{/* const NavBar = (props) => {
+{/* import ZipCodeForm from '../components/zipcodeForm_c'
+
+    const NavBar = (props) => {
     const [state, setState] = useState({
         zipcode: ''
     });
@@ -148,7 +149,7 @@ const NavBar = (props) => {
                                             <Dropdown.Item href="#/action-2">Settings & Privacy</Dropdown.Item>
                                             <Dropdown.Item > <form action="/auth/logout" method="POST">
                                                 <div>
-                                                    <Button variant="outline-danger" type="submit" size="sm">Log Out</Button>
+                                                    <Button href="/logout" variant="outline-danger" type="submit" size="sm">Log Out</Button>
                                                 </div>
                                             </form></Dropdown.Item>
 

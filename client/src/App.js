@@ -4,7 +4,7 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import './App.css';
 import LandingPage from './layouts/LandingPage/landingpage_h';
-import SignupPage from './layouts/SignupPage/signup_h';
+import SignupPage from './layouts/SignupPage/signup_k';
 import LoginPage from './layouts/LoginPage/login_h';
 import CartPage from './layouts/CartPage/cart_h';
 import SelectionPage from './layouts/StoreSelectionPage/storeSelectionPage_h';
@@ -63,6 +63,7 @@ function App() {
                 <Route path="/room/:roomID" exact component={SharedPage} />
                 <Route path="/accountpage" component={AccountPage} />
                 <Route path="/login" component={LoginPage} />
+                <Route path="/cartpage" component={CartPage} />
               </Switch>
               {/* <LandingPage/> 
               <SignupPage />

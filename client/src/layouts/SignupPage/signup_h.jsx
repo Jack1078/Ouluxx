@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SignUpContainer from '../../containers/SignUp/signup_k';
+import SignUpContainer from './signup_k';
 import AboutContainer from '../../containers/About/about_k';
 import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k';
 import Button from '../../components/button_c';
@@ -17,12 +17,12 @@ import Navbar from '../../containers/navBar_k';
 const SignUp = (props) => {
     // console.log("Props: ", props);
     // console.log("Signup Zipcode: ", props.location.state.zipcode);
-    var temp = '';
-    if (props.location && props.location.state && props.location.state.zipcode)
-        temp = props.location.state.zipcode;
-    const [zipcode, setZipcode] = useState(temp);
+    // var temp = '';
+    //  if (props.location && props.location.state && props.location.state.zipcode)
+    //     temp = props.location.state.zipcode;
+    //  const [zipcode, setZipcode] = useState(temp);
 
-    const data = { zipcode }
+    //const data = { zipcode }
     // console.log("Data =", data.zipcode);
 
     return (
@@ -53,4 +53,4 @@ const SignUp = (props) => {
     );
 }
 
-export default SignUp;
+//export default SignUp;

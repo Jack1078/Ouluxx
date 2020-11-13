@@ -107,7 +107,7 @@ function StoresNearbyContainer() {
 
     return (
         <div className={classes.stores_nearby}>
-            <h3>Shop these great retail stores in NYC</h3>
+            <h3>Shop these great retail stores near you!</h3>
             {displayStores(data)}
         </div>
     );

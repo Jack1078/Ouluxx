@@ -5,18 +5,19 @@ import Footer from '../../containers/footer_k'
 import About from '../../containers/About/about_k'
 import StoresNearbyContainer from '../../containers/StoresNearby/storesNearby_k';
 import Button from "@material-ui/core/Button";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
 
     <div>
       <section className={classes.background_image}>
-        <Button 
+        <Button
           id='login'
-          variant="contained"
-          style={{ minHeight: "40px", maxHeight: "46px",
-                   left: "42.5%", backgroundColor: "gold" }}
+          style={{
+            minHeight: "40px", maxHeight: "46px",
+            left: "42.5%", border: "1px white solid", color: "white"
+          }}
           href='/login'
         >Log In</Button>
         <ZipcodeForm />

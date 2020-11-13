@@ -22,7 +22,7 @@
 }
 
 .gradient_border {
-    height: 6px;
+    height: 1px;
     width: 100%;
     background: linear-gradient(to right, #FFDD00, #FF8904);
 }

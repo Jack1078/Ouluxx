@@ -11,60 +11,40 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 function Footer() {
     return (
         <>
+
             <div className={classes.footer}>
-                <div className={classes.items}>
-                    <span className={classes.subitemslogo}>
-                        <Row>
-                            <Col sm={12}><span className={classes.logobox}>
-                                <span className={classes.logo}>OULU<span className={classes.xlogo}>X</span>X Inc.</span></span></Col>
-                        </Row>
-                        <Row>
-                            <Col md={4}><p className={classes.subitemscopyright}>&#169;2020-2021</p></Col>
-                        </Row>
-                    </span>
-                    <span className={classes.subitems}>
-                        <Row>
-                            <Col className={classes.subitemslink} sm={5}>About Us</Col>
-                        </Row>
-                        <div className={classes.verticalspace}></div>
-                        <Row>
-                            <Col className={classes.subitemslink} sm={4}>Locations</Col>
-                        </Row>
-                        <div className={classes.verticalspace}></div>
-                        <Row>
-                            <Col className={classes.subitemslink} sm={4}>Contact</Col>
-                        </Row>
-                    </span>
-                    <span className={classes.subitems}>
-                        <Row>
-                            <Col className={classes.subitemslink} sm={12}>Get Updates!</Col>
-                        </Row>
-                        <div className={classes.verticalspace}></div>
-                        <Row>
-                            <Col className={classes.subitemslink} sm={4}>Privacy</Col>
-                        </Row>
-                        <div className={classes.verticalspace}></div>
-                        <Row>
-                            <Col className={classes.subitemslink} sm={4}>Terms</Col>
-                        </Row>
-                    </span>
-                    <span className={classes.subitems}>
-                        <Row>
-                            <Col sm={10}><Button size="sm" variant="outline-light">submit your store</Button></Col>
-                        </Row>
-
-                    </span>
-                </div>
-                <div className={classes.itemssocial}>
+                <div>
                     <Row>
-                        <Col sm={2}><FacebookIcon className={classes.socialicons} fontSize="large" style={{ color: "rgb(255, 225, 56)" }} /></Col>
-                        <Col sm={2}><InstagramIcon className={classes.socialicons} fontSize="large" style={{ color: "rgb(255, 225, 56)" }} /></Col>
-                        <Col sm={2}><LinkedInIcon className={classes.socialicons} fontSize="large" style={{ color: "rgb(255, 225, 56)" }} /></Col>
-                        <Col sm={2}><TwitterIcon className={classes.socialicons} fontSize="large" style={{ color: "rgb(255, 225, 56)" }} /></Col>
+                        <Col sm={4}><h5><strong>OULUXX Inc.</strong></h5></Col>
+                        <Col sm={1}>About</Col>
+                        <Col sm={1}>Dummy Text</Col>
+                        <Col sm={1}>Dummy Text</Col>
+                        <Col sm={4}>Dummy Text</Col>
                     </Row>
+                    <Row>
+                        <Col sm={4}>&#169; 2020-2021</Col>
+                        <Col sm={1}>Dummy Text</Col>
+                        <Col sm={1}>Dummy Text</Col>
+                        <Col sm={1}>Dummy Text</Col>
+                        <Col sm={4}>Dummy Text</Col>
+                    </Row>
+                    <div style={{ width: "100%", paddingLeft: "22%", paddingTop: "12.5%", height: "100px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <div style={{ width: "40%" }}>
 
+                            <Row>
+                                <Col sm={1}><FacebookIcon fontSize="large" style={{ color: "rgb(255, 225, 56)" }} /></Col>
+                                <Col sm={1}><InstagramIcon fontSize="large" style={{ color: "rgb(255, 225, 56)" }} /></Col>
+                                <Col sm={1}><LinkedInIcon fontSize="large" style={{ color: "rgb(255, 225, 56)" }} /></Col>
+                                <Col sm={1}><TwitterIcon fontSize="large" style={{ color: "rgb(255, 225, 56)" }} /></Col>
+                            </Row>
+
+                        </div>
+                    </div>
                 </div>
+
             </div>
+
+
             <div className={classes.border}></div>
         </>
     );

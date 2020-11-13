@@ -46,13 +46,11 @@ const userLogIn = () => {
                     <form className={classes.form} action="/auth/login" method="POST" >
 
                         {/* Logo */}
-                        <span className={classes.title}>
-                            <a href="/">
-                                <img
-                                    className={classes.logo}
-                                    src={logo}
-                                    alt="a logo"
-                                /></a>
+                        <span className={classes.title} >
+                            <a href="/" style={{ textDecoration: "none", color: "black" }}>
+                                <h3><strong>OULUXX</strong></h3></a>
+                            <h5>Shopping Reimagined</h5>
+
                         </span>
 
 
@@ -96,7 +94,7 @@ const userLogIn = () => {
                         {/* Sign up with facebook or google account----have to check if localhost is 4000 or 8000*/}
                         <MuiThemeProvider theme={button_theme}>
                             <div className={classes.block}>
-                                <a href="http://localhost:4000/auth/facebook" style={{ textDecoration: "none" }}>
+                                <a href="http://localhost:8000/auth/facebook" style={{ textDecoration: "none" }}>
                                     <Button
                                         id="facebook_signup_button"
                                         variant="primary"
@@ -105,7 +103,7 @@ const userLogIn = () => {
                                 </a>
                             </div>
                             <div className={classes.block}>
-                                <a href="http://localhost:4000/auth/google" style={{ textDecoration: "none" }}>
+                                <a href="http://localhost:8000/auth/google" style={{ textDecoration: "none" }}>
                                     <Button
                                         id="google_signup_button"
                                         variant="danger"
