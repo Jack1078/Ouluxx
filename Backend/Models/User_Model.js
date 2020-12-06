@@ -15,7 +15,8 @@ const User = new mongoose.Schema({
 	Schema_Type: { type: String, default: "USER" }, // Identifies this as a user. 
 	//UserID: String, // use the _id value
 	Email: String,
-	username: { type: String, unique: true },
+	username: { type: String },
+	//username: { type: String, unique: true },
 	facebookid: String,
 	googleid: String,
 	verifiedemail: { type: Boolean, default: false },

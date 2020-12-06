@@ -51,6 +51,9 @@ router.post('/get_logged_in', async function (req, res, next) {
 	});
 });
 
+
+
+
 //updates user information in the database
 /* JSON Request looks like this:
 	All fields except userid are optional
@@ -113,12 +116,13 @@ router.post('/update', async function (req, res, next) {
 					{ "Zipcode": value.toString() }
 				);
 			} else {
-				//ignore
+				res.redirect("/accountpage");
 			}
 		}
-		var obj = new Object();
-		obj.status = "Success";
-		res.json(JSON.stringify(obj));
+		//var obj = new Object();
+		//obj.status = "Success";
+		//res.json(JSON.stringify(obj));
+		res.redirect("/accountpage");
 	}
 	else {
 		res.status(401).json({ message: "Authentication required" });
