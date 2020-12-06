@@ -47,11 +47,12 @@ function App() {
   }, [])
 
 
+
   return (
     <>
       {loading === false ? (
-        <div className="App">
 
+        <div className="App">
           <MuiThemeProvider theme={theme}>
             <Router>
               <Switch>
@@ -71,9 +72,9 @@ function App() {
               <StorePage />
           {/* <SelectionPage/> */}
             </Router>
-
           </MuiThemeProvider>
         </div>
+
       ) : (
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
             <CubeGrid size={40} color='black' />

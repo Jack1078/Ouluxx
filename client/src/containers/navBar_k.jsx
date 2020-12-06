@@ -147,12 +147,12 @@ const NavBar = (props) => {
                                         <Dropdown.Menu>
                                             <Dropdown.Item href="/accountpage">Profile</Dropdown.Item>
                                             <Dropdown.Item href="#/action-2">Settings & Privacy</Dropdown.Item>
-                                            <Dropdown.Item > <form action="/auth/logout" method="POST">
+                                            <Dropdown.Item ></Dropdown.Item>
+                                            <form action="/auth/logout" method="POST">
                                                 <div>
-                                                    <Button href="/logout" variant="outline-danger" type="submit" size="sm">Log Out</Button>
+                                                    <Button variant="outline-danger" type="submit" size="sm">Log Out</Button>
                                                 </div>
-                                            </form></Dropdown.Item>
-
+                                            </form>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </Col>

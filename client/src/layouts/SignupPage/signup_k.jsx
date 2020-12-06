@@ -63,6 +63,7 @@ function SignUp() {
                             label="First Name"
                             name="FirstName"
                             type="text"
+                            required
 
                         />
                     </div>
@@ -72,6 +73,7 @@ function SignUp() {
                             label="Last Name"
                             name="LastName"
                             type="text"
+                            required
 
                         />
                     </div>

@@ -36,7 +36,7 @@ const Profile = () => {
 
 
     const [email, setEmail] = useState("Not logged in!")
-    const [name, setName] = useState("not added")
+    const [name, setName] = useState("Not logged in!")
     const [username, setUsername] = useState("")
     const [address, setAddress] = useState("")
     const [fulladdress, setFullAddress] = useState("")
@@ -89,7 +89,6 @@ const Profile = () => {
 
     return (
         <>
-
             <Card>
                 <Card.Header className={classes.backgroundheader}></Card.Header>
                 <Card.Body>
@@ -103,12 +102,6 @@ const Profile = () => {
                                     <PersonIcon />
                                 </ListItemIcon>
                                 <ListItemText primary={name} />
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <PersonIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={username} />
                             </ListItem>
                             <ListItem button>
                                 <ListItemIcon>

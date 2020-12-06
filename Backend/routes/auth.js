@@ -342,7 +342,8 @@ router.post('/register', async function (req, res) { // add and register a user,
 		var email = req.body.Email.toLowerCase();
 		user = new UserModel({
 			Email: email,
-			username: req.body.username,
+			username: email,
+			//username: req.body.username,
 			FirstName: req.body.FirstName,
 			LastName: req.body.LastName,
 			Address: req.body.Address,
@@ -364,7 +365,9 @@ router.post('/register', async function (req, res) { // add and register a user,
 			if (err) {
 				console.log("Error: ", err);
 				// res.redirect(303, '/signup'); //! need to add a message along with redirecting back to original page
-				res.json({ success: false, message: "Your account could not be saved. Error: ", err })
+				//res.json({ success: false, message: "Your account could not be saved. Error: ", err })
+				res.redirect('/');
+
 			}
 			else {
 				let info = await transporter.sendMail({
@@ -381,7 +384,7 @@ router.post('/register', async function (req, res) { // add and register a user,
 				req.login(user, function (err) {
 					// TODO
 					// if store add redirect for funding details
-					res.redirect(303, '/stores'); //! need to add a message along with redirecting back to original page
+					res.redirect('/stores'); //! need to add a message along with redirecting back to original page
 					// res.json({ success: true, message: "Authentication successful", User: req.user });
 				});
 			}
@@ -395,7 +398,7 @@ Log the user in with a local strategy. It returns unauthorized if it fails.
 */
 
 router.post('/login', passport.authenticate('local', { failureRedirect: "/login" }), function (req, res) {
-	res.redirect(303, '/stores');
+	res.redirect('/stores');
 	// res.json({ success: true, message: "LOGIN SUCCESS", User: req.user });
 });
 
@@ -405,7 +408,7 @@ Logs out the user, does nothing if no user logged in.
 
 router.post('/logout', function (req, res) {
 	req.logout();
-	res.redirect(303, '/');
+	res.redirect('/');
 	// res.json({ success: true, message: "LOGOUT SUCCESS" });
 });
 

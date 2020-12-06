@@ -82,6 +82,7 @@ const userLogIn = () => {
                                 id="signup_button"
                                 variant="dark"
                                 block
+                                type="submit"
                             >Login</Button>
                         </div>
 
