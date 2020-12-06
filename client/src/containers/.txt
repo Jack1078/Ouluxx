@@ -1,2 +1,0 @@
-stores mega components consisting of many components
-things like friends list, footers, headers, bodies n stuff
