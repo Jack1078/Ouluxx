@@ -1,0 +1,16 @@
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.name {
+    font-weight: 600;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}

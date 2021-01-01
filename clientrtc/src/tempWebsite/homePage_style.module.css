@@ -1,0 +1,37 @@
+.box {
+    padding: 6%;
+    color: #1d1c2b;
+    width: 100%;
+}
+
+.leftcontainer {
+    height: 60vh;
+    font-size: 1.2rem;
+}
+
+.leftcontainer2 {
+    text-align: start;
+}
+
+.partners {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text {
+    font-weight: 600;
+    text-align: left;
+}
+
+.textdesc {
+    font-weight: 600;
+    text-align: left;
+    line-height: 1.8rem;
+    color: rgb(99, 99, 99);
+}
+
+.desc {
+    font-size: 0.8rem;
+    color: rgb(122, 122, 122);
+}
