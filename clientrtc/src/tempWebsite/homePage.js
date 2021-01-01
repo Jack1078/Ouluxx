@@ -3,6 +3,7 @@ import classes from '../tempWebsite/homePage_style.module.css';
 import { Button, Container, Row, Col, Image, InputGroup, FormControl } from 'react-bootstrap';
 import Navbar from './navbar';
 import DemoImage from "../tempWebsite/images/flooop.png";
+import VideoImage from "../tempWebsite/images/videochat.png";
 
 
 function Home() {
@@ -38,10 +39,16 @@ function Home() {
                         <p className={classes.desc}>Want to see a live demo? <strong><a href="#" style={{ textDecoration: "none", color: "black" }}>Click Here</a></strong></p>
 
                     </Col>
-                    <Col sm={8}>
-                        <div>
-                            like
-                        </div>
+                    <Col sm={8} className={classes.rightcontainer}>
+                        <div className={classes.backbox}></div>
+                        <div className={classes.backborder}></div>
+
+                        <Container className={classes.backimage}>
+                            <Image src={VideoImage} rounded style={{
+                                objectFit: "cover", width: "750px"
+                            }} />
+
+                        </Container>
                     </Col>
                 </Row>
                 <Row>

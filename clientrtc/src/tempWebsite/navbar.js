@@ -9,8 +9,9 @@ function Nav() {
     return (
         <>
             <Navbar bg="light" variant="light" className="justify-content-between" style={{ borderBottom: "4px solid rgb(255, 232, 27)" }}>
-                <Navbar.Brand href="/">
-                    <strong>OULUXX </strong>
+                <Navbar.Brand href="/" >
+                    <Container style={{ display: "flex", width: 100 }}>
+                        <strong>OULUXX VIDEO CHAT </strong></Container>
                 </Navbar.Brand>
                 <Container className="justify-content-end">
                     <Form inline>
