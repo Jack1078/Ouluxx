@@ -14,7 +14,7 @@ function Nav() {
             <Navbar bg="light" variant="light" className="justify-content-between" style={{ borderBottom: "4px solid rgb(255, 232, 27)" }}>
                 <Navbar.Brand href="/" >
                     <Container style={{ display: "flex", width: 100 }}>
-                        <strong>OULUXX VIDEO CHAT </strong></Container>
+                        <strong>Ouluxx VideoChat</strong></Container>
                 </Navbar.Brand>
                 <Container className="justify-content-end">
                     <Form inline>
