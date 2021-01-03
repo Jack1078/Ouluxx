@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classes from '../tempWebsite/homePage_style.module.css';
-import { Button, Container, Row, Col, Image, InputGroup, FormControl } from 'react-bootstrap';
+import { Button, Container, Row, Col, Image, InputGroup, FormControl, Jumbotron } from 'react-bootstrap';
 import Navbar from './navbar';
 import DemoImage from "../tempWebsite/images/flooop.png";
 import VideoImage from "../tempWebsite/images/videochat.png";
@@ -51,7 +51,7 @@ function Home() {
                         </Container>
                     </Col>
                 </Row>
-                <Row>
+                <Row >
                     <Col className={classes.leftcontainer2} sm={12} >
                         <h5>Our Partners</h5>
                         <Container className={classes.partners}>
@@ -63,6 +63,23 @@ function Home() {
 
                             <Image src={DemoImage} roundedCircle style={{ objectFit: "cover", width: "140px" }} />
                         </Container>
+                    </Col>
+                </Row>
+                <Row style={{ marginTop: "6%" }}>
+                    <Col sm={12} >
+
+                        <Jumbotron>
+                            <h2>About Us</h2>
+
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Eget aliquet nibh praesent tristique. Elit sed vulputate mi sit amet mauris commodo quis.
+                            Nibh tellus molestie nunc non blandit massa enim nec dui. Gravida quis blandit turpis cursus
+                            in hac habitasse platea dictumst. A pellentesque sit amet porttitor eget dolor. Vitae justo
+                            eget magna fermentum iaculis eu. Imperdiet proin fermentum leo vel. Enim neque volutpat ac
+                            tincidunt vitae semper quis lectus nulla. Aliquam ultrices sagittis orci a scelerisque purus.
+                            Mauris cursus mattis molestie a iaculis. Eu mi bibendum neque egestas congue quisque egestas.
+                             </p>
+                        </Jumbotron>
                     </Col>
                 </Row>
             </div>
