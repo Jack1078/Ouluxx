@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
 import classes from '../tempWebsite/navbar_style.module.css';
 import { Row, Col, Form, Button, Container, Navbar, FormControl, Modal, Dropdown } from 'react-bootstrap';
-import firebase from "firebase/app";
 
-import "firebase/analytics";
-import "firebase/auth";
-import "firebase/firestore";
-
-//const firebase = require("firebase");
-//require("firebase/firestore");
-
+import firebase from './../Firebase.js'
 function Nav() {
 
     const [show, setShow] = useState(false);
@@ -130,29 +123,7 @@ function Nav() {
         </>
     );
 }
-
-
-
-/*
-    initialize firebase
-*/
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  var firebaseConfig = {
-    apiKey: "AIzaSyC1zsvjhH3lFvryJAxxlKnWMSQg2GXV0Ck",
-    authDomain: "ouluxxwebsiteregistration.firebaseapp.com",
-    projectId: "ouluxxwebsiteregistration",
-    storageBucket: "ouluxxwebsiteregistration.appspot.com",
-    messagingSenderId: "110377777379",
-    appId: "1:110377777379:web:c156afaf200bf3c5166dd6",
-    measurementId: "G-SWY6J6MZ5R"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
 var db = firebase.firestore();
-
-
 
 /*
     This is the function for handling the submit of the form. The submit of the form is done by pressing the button. 
@@ -192,6 +163,5 @@ function mySubmitHandler(event){
             console.error("Error writing document: ", error);
         });
   }
-
 
 export default Nav;
