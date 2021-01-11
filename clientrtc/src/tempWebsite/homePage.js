@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classes from '../tempWebsite/homePage_style.module.css';
-import { Button, Container, Row, Col, Image, InputGroup, FormControl, Jumbotron } from 'react-bootstrap';
+import { Button, Container, Row, Col, Image, InputGroup, FormControl, Form, Jumbotron } from 'react-bootstrap';
 import Navbar from './navbar';
 import DemoImage from "../tempWebsite/images/flooop.png";
 import VideoImage from "../tempWebsite/images/videochat.png";
@@ -26,16 +26,20 @@ function Home() {
                         </h6>
                         <br></br>
                         <br></br>
+                        <Form action="/mailchimp" method="POST">
                         <InputGroup className="mb-3">
                             <FormControl
                                 placeholder="Enter your email..."
                                 aria-label="email"
                                 aria-describedby="basic-addon2"
+                                name = "Email"
                             />
                             <InputGroup.Append>
-                                <Button variant="outline-dark">JOIN WAITLIST</Button>
+                                <Button type = 'submit' variant="outline-dark">JOIN WAITLIST</Button>
                             </InputGroup.Append>
+
                         </InputGroup>
+                        </Form>
                         <p className={classes.desc}>Want to see a live demo? <strong><a href="#" style={{ textDecoration: "none", color: "black" }}>Click Here</a></strong></p>
 
                     </Col>
@@ -87,5 +91,21 @@ function Home() {
         </>
     );
 }
+
+
+function mySubmitHandler(event){ 
+    /*
+        The parameter event is the form element from the above reactJS code.
+
+        On the submit of the form run this function. This function will interface with the form, and take the data and store it on the firebase firestore serverless DB. 
+        event.target is an array of the submitted form, to get the values use .value 
+    */
+    event.preventDefault();
+    var Email = event.target[0].value;
+
+    alert(Email);
+  }
+
+
 
 export default Home;

@@ -25,7 +25,9 @@ router.post('/', function(req, res, next) {
 
 router.post('/mailchimp', function(req, res, next) {
 	// get the email address as a variable
-	const emailaddress = req.body.email;
+	//console.log(req.body);
+	const emailaddress = req.body.Email;
+	//console.log(emailaddress);
 	// first get a list of all the lists in the game. 
 	// this function works by calling the "get" function on the mailchimp object with the parameter '/lists'
 	// the get function tells us we are using a get call, this is often used for retrieving data. 
