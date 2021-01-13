@@ -22,10 +22,10 @@ function Nav() {
                     </Form>
 
                     <Form inline>
-                        <Container className={classes.link}><a href="#" style={{ textDecoration: "none", color: "black" }}>ABOUT US</a></Container>
+                        <Container className={classes.link}><a href="#AboutUS" style={{ textDecoration: "none", color: "black" }}>ABOUT US</a></Container>
                     </Form>
                     <Form inline>
-                        <Container className={classes.link}><a href="#" style={{ textDecoration: "none", color: "black" }}>OUR PARTNERS</a></Container>
+                        <Container className={classes.link}><a href="#Partners" style={{ textDecoration: "none", color: "black" }}>OUR PARTNERS</a></Container>
                     </Form>
                     <Form inline>
                         <Container className={classes.link}><a href="#" style={{ textDecoration: "none", color: "black" }}><Button variant="warning" style={{ fontWeight: "600" }}
