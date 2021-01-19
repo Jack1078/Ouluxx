@@ -8,6 +8,11 @@ p
     font-size: 1.4rem;
 }
 
+.jumbotron{
+    margin-left: 12.5%;
+    width: 75%;
+}
+
 li
 {
     font-size: 1.3rem;

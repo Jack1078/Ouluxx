@@ -19,10 +19,10 @@ function Home() {
                 <Row>
                     <Col className={classes.leftcontainer} md={4}>
 
-                        <h1 className={classes.text}>Connecting with Customers Made Easy</h1>
+                        <h1 className={classes.text}>Building personal relationships made simple</h1>
                         <br></br>
                         <h6 className={classes.textdesc} >
-                            Can't meet and shop as you would like to anymore? Are the "stay at home" restrictions keeping you too isolated from your colleagues, friends, family members, and clients? Let Ouluxx revolutionize the way you communicate by landing you in a digital space of joyful experiences!
+                            Can't meet and shop as you would like to anymore? Are the "stay at home" restrictions keeping you too isolated from your colleagues, friends, family members, and clients? <br></br>Let Ouluxx revolutionize the way you communicate by landing you in a digital space of joyful experiences!
                         </h6>
                         <br></br>
                         <br></br>
@@ -35,7 +35,7 @@ function Home() {
                                 name = "Email"
                             />
                             <InputGroup.Append>
-                                <Button type = 'submit' variant="outline-dark">JOIN WAITLIST</Button>
+                                <Button type = 'submit' variant="warning">JOIN WAITLIST</Button>
                             </InputGroup.Append>
 
                         </InputGroup>
@@ -95,9 +95,8 @@ function Home() {
                 <Row style={{ marginTop: "6%" }}>
                     <Col sm={12} >
 
-                        <Jumbotron>
+                        <Jumbotron className={classes.jumbotron}>
                             <h1 id = 'AboutUS'>About Us</h1>
-                            <h2>Ouluxx Inc --The ultimate Video Conference Guru</h2>
                             <p className={classes.AboutParagraph}>
                                 <b>We launch This New Video Conferencing Initiative, In Addition to Our E-Commerce Brands. </b>
                             </p>
