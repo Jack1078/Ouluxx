@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Welcome to Firebase Hosting</title>
+		<link rel="stylesheet" href="CSS/NavBar.css">
+		<link rel="stylesheet" href="CSS/Form.css">
+		<script defer rel="javascript" src="JS/PasswordSignUpValidation.js"></script>
+		<script defer rel="javascript" src="JS/FireBaseAuthLogIn.js"></script>
+	</head>
+
+
+
+	<body>
+		<div id="navbar" class = "sticky">
+			<a href="index.html">Home</a>
+			<a href="SignUp.html">SignUp</a>
+			<a class="active" href="Login.html">Login</a>
+			<a href="Logout.html">Logout</a>
+			<a href="DashBoard.html">DashBoard</a>
+			<a href="/">Main_Site</a>
+		</div>
+		<form action="javascript:LogInUsingEmailPassword(email.value, password.value)">
+			
+			<label for="email">Email</label><br>
+			<input type="email" id="email" name="email" required><br>
+			
+			<label for="password">Password</label><br>
+			<input type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" id="password" name="password" required><br><br>
+
+			<input type="submit" value="Submit">
+
+		</form>
+		<div id="message">
+			<h3>Password must contain the following:</h3>
+			<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+			<p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+			<p id="number" class="invalid">A <b>number</b></p>
+			<p id="length" class="invalid">Minimum <b>8 characters</b></p>
+		</div>
+		<!-- The core Firebase JS SDK is always required and must be listed first -->
+		<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
+		<script>
+		  // Your web app's Firebase configuration
+		  var firebaseConfig = {
+		    apiKey: "AIzaSyA4v5zqk8PUKdX1XHUuNdLEK_TPQ33wGyw",
+		    authDomain: "ouluxxfirebasetest.firebaseapp.com",
+		    projectId: "ouluxxfirebasetest",
+		    storageBucket: "ouluxxfirebasetest.appspot.com",
+		    messagingSenderId: "843536408073",
+		    appId: "1:843536408073:web:63d2866c99ca1d698a62d8"
+		  };
+		  // Initialize Firebase
+		  firebase.initializeApp(firebaseConfig);
+		</script>
+		<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-firestore.js"></script>
+		
+	</body>
+</html>
+	

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Ouluxx - Text Chat Room</title>
+		<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="CSS/ChatRoom.css">
+		<link rel="stylesheet" href="CSS/NavBar.css">
+
+		<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+		<!-- The core Firebase JS SDK is always required and must be listed first -->
+		<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
+		<script>
+		// Your web app's Firebase configuration
+		var firebaseConfig = {
+			apiKey: "AIzaSyA4v5zqk8PUKdX1XHUuNdLEK_TPQ33wGyw",
+			authDomain: "ouluxxfirebasetest.firebaseapp.com",
+			projectId: "ouluxxfirebasetest",
+			storageBucket: "ouluxxfirebasetest.appspot.com",
+			messagingSenderId: "843536408073",
+			appId: "1:843536408073:web:63d2866c99ca1d698a62d8"
+		  };
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+
+		</script>
+		<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-firestore.js"></script>
+
+		<script rel="javascript" src="JS/FirebaseScreenShareChatRoomHandler.js"></script>
+
+	</head>
+
+	<body>
+		<div id="navbar" class = "sticky">
+			<a href="index.html">Home</a>
+			<a href="SignUp.html">SignUp</a>
+			<a href="Login.html">Login</a>
+			<a href="Logout.html">Logout</a>
+			<a href="DashBoard.html">DashBoard</a>
+			<a href="/">Main_Site</a>
+			<a class="active" href="#">Chat Room</a>
+		</div>
+		<h1>ChatRoom</h1>
+		<div id="buttons">
+			<form action="javascript:LeaveRoom()">
+				<button class="mdc-button mdc-button--raised" type="submit" id="hangupBtn">
+					<i class="material-icons mdc-button__icon" aria-hidden="true">close</i>
+					<span class="mdc-button__label">Leave Room</span>
+				</button>
+			</form>
+			<form action="javascript:Begin()">
+				<button id="start" class="mdc-button mdc-button--raised" type="submit" id="hangupBtn">
+					<i class="material-icons mdc-button__icon" aria-hidden="true">Share Screen</i>
+					<span class="mdc-button__label">Begin ScreenShare</span>
+				</button>
+			</form>
+		</div>
+		<div id="videos">
+			<video id="localVideo" muted autoplay playsinline></video>
+			<video id="ScreenShare" autoplay playsinline></video>
+			<video id="remoteVideo" autoplay playsinline></video>
+		</div>
+
+
+	</body>
+</html>
