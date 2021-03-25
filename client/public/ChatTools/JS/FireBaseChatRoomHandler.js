@@ -24,6 +24,7 @@ let RoomOwner = false;
 let RoomSize = 1;
 let RemoteStreams = [];
 let RemoteStreamIDS = [];
+let roomType = null;
 console.log("roomID = "+roomId);
 
 function renderVideoChat()
@@ -54,12 +55,14 @@ async function init(LoggedIn) {
 
 	// determine if host
 	await getRoom();
-	await renderVideoChat()
+	await renderVideoChat();
 	await openUserMedia();
 
 	if(LoggedIn && roomHost === user.uid)
 	{
 		console.log("You are the owner of this room. ");
+		/*Remove prior startup if it exists*/
+		await cleanRoom();
 		RoomOwner = true;
 		CreateVideoRoom();
 	}
@@ -70,6 +73,20 @@ async function init(LoggedIn) {
 	}
 }
 
+async function cleanRoom()
+{
+	/*This function needs to clean up the room and remove the offers and stun servers. */
+	const db = firebase.firestore();
+	const roomRef = await db.collection('rooms').doc(roomId);
+	const room = {
+		"uid": roomHost, 
+		"roomType": roomType,
+		"RoomSize": RoomSize,
+	};
+	roomRef.set(room)
+	console.log("Room Cleaned. ");
+}
+
 async function getRoom()
 {
 	const db = firebase.firestore();
@@ -78,6 +95,7 @@ async function getRoom()
 	await roomRef.get().then((snapshot)=>{
 		roomHost = snapshot.data().uid;
 		RoomSize = snapshot.data().RoomSize;
+		roomType = snapshot.data().roomType;
 		console.log("roomRef uid "+ roomHost);
 	})
 }

@@ -71,7 +71,7 @@ function StoresNearbyContainer() {
 
     //return the fetch to return the promise
     const Get_Stores = (json_data) => {
-        return fetch("/users/test", {
+        return fetch("/store/get_all_stores", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(json_data)
@@ -91,13 +91,13 @@ function StoresNearbyContainer() {
 
     //create the promise, then work on the promise
     //all working on the response must occur in an async function like this. 
-    testing = Get_Stores(data);
-    testing.then((response) => {
+    /*testing = Get_Stores(data);*/
+    /*testing.then((response) => {
         console.log(response);
         testing = response;
         setReceivedData(testing)
 
-    });
+    });*/
     const displayStores = (x) => {
         return x.stores.map(store => (
             <img src={store.img.src} alt={store.img.alt}></img>

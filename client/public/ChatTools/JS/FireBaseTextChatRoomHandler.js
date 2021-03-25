@@ -7,6 +7,8 @@ var roomRef;
 let roomId = get("RoomID");
 let roomHost = null;
 let RoomMessages = null;
+let loadtime = new Date();
+const utcMilllisecondsSinceEpoch = loadtime.getTime() + (loadtime.getTimezoneOffset() * 60 * 1000)
 async function getRoom()
 {
 	const db = firebase.firestore();
@@ -14,16 +16,37 @@ async function getRoom()
 	await roomRef.get().then((snapshot)=>{
 		roomHost = snapshot.data().uid;
 	})
+	
+	await roomRef.collection("Messages")
+	.where('Message.timestamp', '<=', utcMilllisecondsSinceEpoch)
+	.orderBy('Message.timestamp', 'desc')
+	.limit(10)
+	.get()
+	.then((querySnapshot)=>{
+		console.log(querySnapshot.size)
+		var lst = []
+		querySnapshot.forEach((doc) => {
+			lst.push(doc);
+        });
+        lst.reverse();
+        lst.forEach((doc)=>{
+        	renderMessage(doc, doc.id);
+        });
+	});
 	RoomMessages = roomRef.collection("Messages");
 }
 
+
 async function SendMessage(Message)
 {
+	let time = new Date();
+	const utcMilllisecondsSinceEpochMessageTimestamp = time.getTime() + (time.getTimezoneOffset() * 60 * 1000)
 	const newMessage = {
 		"Message" : {
 			"Uid":user.uid,
 			"Text":Message, 
 			"TimeSent":new Date(),
+			"timestamp":utcMilllisecondsSinceEpochMessageTimestamp,
 		}
 	}
 	RoomMessages.add(newMessage);
@@ -36,18 +59,19 @@ function init()
 
 async function AwaitNewMessage()
 {
-	roomRef.collection('Messages').onSnapshot(snapshot => {
+	RoomMessages.where("Message.timestamp", ">", utcMilllisecondsSinceEpoch).onSnapshot(snapshot => {
 		snapshot.docChanges().forEach(async change => {
 			if (change.type === 'added') {
-				let Message = change.doc.data();
-				renderMessage(Message);
+				let Message = change.doc;
+				renderMessage(Message, change.doc.id);
 			}
 		});
 	});
 }
 
-function renderMessage(Message)
+function renderMessage(MessageDoc, id)
 {
+	var Message = MessageDoc.data();
 	let MainSpan = document.querySelector("#MessageSpan");
 	let OverSpan = document.createElement("span"); // span containing the message
 	let span = document.createElement("span");
@@ -56,17 +80,18 @@ function renderMessage(Message)
 	let TimeText = document.createElement("span");
 	let li = document.createElement("li");
 
-
 	name.textContent = Message.Message.Uid;
 	MessageText.textContent = " "+Message.Message.Text;
 	TimeText.textContent = " "+Message.Message.TimeSent.toDate();
 	span.appendChild(name);
 	span.appendChild(TimeText);
 	span.appendChild(MessageText);
-	OverSpan.id = "RoomID"+Message.id;
+	OverSpan.id = "RoomID"+id;
 	li.appendChild(span);
 	OverSpan.appendChild(li);
 	MainSpan.appendChild(OverSpan);
+	console.log(Message);
+
 }
 
 async function LeaveRoom()

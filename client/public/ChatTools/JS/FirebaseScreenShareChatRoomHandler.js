@@ -22,6 +22,8 @@ let remoteStream = null;
 let roomId = get("RoomID");
 let RoomOwner = false;
 let roomHost = null;
+let RoomSize = null;
+let roomType = null;
 
 async function getRoom()
 {
@@ -29,6 +31,8 @@ async function getRoom()
 	const roomRef = await db.collection('rooms').doc(roomId);
 	await roomRef.get().then((snapshot)=>{
 		roomHost = snapshot.data().uid;
+		RoomSize = snapshot.data().RoomSize;
+		roomType = snapshot.data().roomType;
 	})
 }
 
@@ -41,9 +45,9 @@ async function CreateVideoRoom() {
 
 	registerPeerConnectionListeners();
 
-	/*localStream.getTracks().forEach(track => {
+	localStream.getTracks().forEach(track => {
 		peerConnection.addTrack(track, localStream);
-	});*/
+	});
 
 	SharedScreenStream.getTracks().forEach(track => {
 		peerConnection.addTrack(track, SharedScreenStream);
@@ -119,9 +123,9 @@ async function joinVideoRoom() {
 		console.log('Create PeerConnection with configuration: ', configuration);
 		peerConnection = new RTCPeerConnection(configuration);
 		registerPeerConnectionListeners();
-		/*localStream.getTracks().forEach(track => {
+		localStream.getTracks().forEach(track => {
 			peerConnection.addTrack(track, localStream);
-		});*/
+		});
 
 		// Code for collecting ICE candidates below
 		const calleeCandidatesCollection = roomRef.collection('calleeCandidates');
@@ -139,14 +143,14 @@ async function joinVideoRoom() {
 			console.log('Got remote track:', event.streams[0]);
 			event.streams[0].getTracks().forEach(track => {
 				console.log('Add a track to the remoteStream:', track);
-				/*if(remoteStream.getTracks().length<2)
+				if(remoteStream.getTracks().length<2)
 				{
 					remoteStream.addTrack(track);
 				}
 				else
-				{*/
+				{
 					SharedScreenStream.addTrack(track);
-				/*}*/
+				}
 			});
 		});
 
@@ -206,9 +210,9 @@ async function init(Host) {
 }
 
 async function openUserMedia() {
-	/*const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
+	const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
 	document.querySelector('#localVideo').srcObject = stream;
-	localStream = stream;*/
+	localStream = stream;
 	if(RoomOwner)
 	{
 		const LocalVideo = await navigator.mediaDevices.getDisplayMedia({video: true, audio: true/*, displaySurface: "browser"*/});
@@ -246,8 +250,6 @@ async function LeaveRoom()
 			track.stop();
 		});
 	}
-	/*TODO remove the caller and callee from firebase firestore*/
-
 	if (remoteStream) {
 		remoteStream.getTracks().forEach(track => track.stop());
 	}
@@ -257,8 +259,6 @@ async function LeaveRoom()
 	}
 	if(RoomOwner)
 	{
-		// reset the caller and callees. 
-
 		window.location.replace("./DashBoard.html");
 	}
 	else
@@ -280,6 +280,7 @@ firebase.auth().onAuthStateChanged(async function(funcuser) {
 			await getRoom();
 			if(roomHost === user.uid)
 			{
+				await cleanRoom();
 				console.log("Is room owner");
 			}
 			else
@@ -290,7 +291,7 @@ firebase.auth().onAuthStateChanged(async function(funcuser) {
 		else
 		{
 			firebase.auth().signInAnonymously()
-			.then(() => {
+			.then(async () => {
 				// Signed in..
 				console.log("Signed in anonymously. ");
 				anonlogin = true;
@@ -307,6 +308,21 @@ firebase.auth().onAuthStateChanged(async function(funcuser) {
 		}
 	}
 });
+
+async function cleanRoom()
+{
+	/*This function needs to clean up the room and remove the offers and stun servers. */
+	const db = firebase.firestore();
+	const roomRef = await db.collection('rooms').doc(roomId);
+	const room = {
+		"uid": roomHost, 
+		"roomType": roomType,
+		"RoomSize": RoomSize,
+	};
+	roomRef.set(room)
+	console.log("Room Cleaned. ");
+}
+
 
 function Begin()
 {
